@@ -1,11 +1,13 @@
+package org.mboyz.holidayplanner
+
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
-
-@SpringBootApplication
-class Server {
-}
-
-fun main(args: Array<String>) {
-    SpringApplication.run(Server::class, *args)
+@SpringBootApplication(scanBasePackages = arrayOf("org.mboyz.holidayplanner"))
+open class Server {
+    companion object {
+        @JvmStatic fun main(args: Array<String>) {
+            SpringApplication.run(Server::class.java, *args)
+        }
+    }
 }
