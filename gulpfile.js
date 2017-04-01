@@ -20,9 +20,17 @@ gulp.task('clean', function() {
 	return del([paths.compiledJsDir]);
 });
 
-gulp.task('build', ['clean'], function() {
+gulp.task('build', ['clean', 'concat'], function() {
+	return browserify(paths.mainCompile)
+		.transform('babelify', {presets: ["es2015", "react"]})
+		.bundle()
+		.on('error', function (err) { console.log('Error : ' + err.message); })
+		.pipe(source('main.js'))
+		.pipe(gulp.dest(paths.compiledJsDir));
+});
+
+gulp.task('concat', function() {
 	return gulp.src(paths.es6Src)
 		.pipe(concat('main.js'))
-		.pipe(babel())
 		.pipe(gulp.dest(paths.compiledJsDir));
 });
