@@ -78,6 +78,7 @@ dependencies {
 	compile('org.springframework.session:spring-session')
 	compile('org.springframework:spring-web')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-jetty')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
 	compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -89,4 +90,9 @@ dependencies {
 
 springBoot {
 	mainClass = 'org.mboyz.holidayplanner.Server'
+}
+
+task createDB(type:Exec) {
+	workingDir 'db'
+	commandLine './create.sh'
 }
