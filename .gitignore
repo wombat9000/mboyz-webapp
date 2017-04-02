@@ -1,6 +1,8 @@
 build/
 out/
 .idea/
+.ideaDataSources/
+dataSources/
 .gradle/
 *.ipr
 *.iml
