@@ -7,12 +7,13 @@ import org.mockito.Mockito.*
 class UserControllerTest {
 
     @Test
-    fun itShouldCreateANewUser() {
+    fun itShouldPersistANewUser() {
+        val unpersistedUser = UnpersistedUser("someFirst", "someLast", "someMail", "somePW")
         val userServiceMock: UserService = mock(UserService::class.java)
         val testee = UserController(userServiceMock)
 
-        testee.create("Bastian", "Stein", "someEmail", "somePW")
+        testee.create("someFirst", "someLast", "someMail", "somePW")
 
-        verify(userServiceMock).create("Bastian", "Stein", "someEmail", "somePW")
+        verify(userServiceMock).persist(unpersistedUser)
     }
 }

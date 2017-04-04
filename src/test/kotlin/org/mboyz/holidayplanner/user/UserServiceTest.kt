@@ -1,16 +1,20 @@
 package org.mboyz.holidayplanner.user
 
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 class UserServiceTest {
 
-
     @Test
-    fun itShouldEncryptPwBeforeCallingMapper() {
-//        val testee = UserService(userMapper)
-//
-//        testee.create("someFirstName", "someLastName", "someEmail", "somePW")
-//
-//        val user = User.unpersistedUser("someFirstName", "someLastName", "someEmail", "somePWHash", "somePWSalt")
+    fun itShouldPersistAnUnpersistedUser() {
+        val userMapperMock = mock(UserMapper::class.java)
+        val testee = UserService(userMapperMock)
+
+        val unpersistedUser = UnpersistedUser("someFirst", "someLast", "someMail", "somePW")
+
+        testee.persist(unpersistedUser)
+
+        verify(userMapperMock).insert(unpersistedUser)
     }
 }

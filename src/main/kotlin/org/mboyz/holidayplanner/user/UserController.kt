@@ -13,7 +13,12 @@ class UserController(@Autowired val userService: UserService) {
     fun create(firstName: String,
                lastName: String,
                email: String,
-               password: String) {
-        userService.create(firstName, lastName, email, password)
+               password: String): String {
+
+        //TODO: move this into an argument resolver
+        val newUser = UnpersistedUser(firstName, lastName, email, password)
+        userService.persist(newUser)
+
+        return "hello"
     }
 }
