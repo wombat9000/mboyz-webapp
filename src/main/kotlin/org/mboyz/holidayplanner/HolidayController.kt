@@ -24,8 +24,7 @@ class HolidayController(@Autowired val userMapper: UserMapper) {
 
     @RequestMapping("/hello")
     fun hello(model: Model, @RequestParam(value = "name", required = false, defaultValue = "World") name: String): String {
-        println(user)
-        model.addAttribute("name", "" + user.id)
+        model.addAttribute("name", "bastian")
         return "hello"
     }
 }
