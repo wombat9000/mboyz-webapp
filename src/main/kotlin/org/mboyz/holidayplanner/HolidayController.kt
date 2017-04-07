@@ -18,15 +18,12 @@ class HolidayController(@Autowired val userMapper: UserMapper) {
 
     @RequestMapping(method = arrayOf(RequestMethod.GET), value = "/")
     fun test(): String {
-        userMapper.findById(1)
         println("test")
         return "index"
     }
 
     @RequestMapping("/hello")
     fun hello(model: Model, @RequestParam(value = "name", required = false, defaultValue = "World") name: String): String {
-        val user: User = userMapper.findById(1)
-
         println(user)
         model.addAttribute("name", "" + user.id)
         return "hello"
