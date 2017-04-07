@@ -102,3 +102,4 @@ task createDB(type:Exec) {
 }
 
 task stage(dependsOn: ['clean', 'installDist'])
+installDist.mustRunAfter clean
