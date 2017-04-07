@@ -103,7 +103,7 @@ task createDB(type:Exec) {
 
 task buildStaticResources(type: Exec) {
 	workingDir "${projectDir}"
-	commandLine = ["./node_modules/.bin/gulp", "build", "--stacktrace"]
+	commandLine = ["./node_modules/.bin/gulp", "build"]
 }
 
 jar {

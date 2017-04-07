@@ -29,7 +29,7 @@ gulp.task('build', ['clean', 'concat'], function() {
 		.pipe(gulp.dest(paths.compiledJsDir));
 });
 
-gulp.task('concat', function() {
+gulp.task('concat', ['clean'], function() {
 	return gulp.src(paths.es6Src)
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest(paths.compiledJsDir));
