@@ -1,1 +1,1 @@
-web: build/install/holidayplanner/bin/holidayplanner
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/holidayplanner-0.0.1-SNAPSHOT.jar
