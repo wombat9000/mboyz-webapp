@@ -101,6 +101,15 @@ task createDB(type:Exec) {
 	commandLine './create.sh'
 }
 
+task buildStaticResources(type: Exec) {
+	workingDir "${projectDir}"
+	commandLine = ["./node_modules/.bin/gulp", "build"]
+}
+
+jar {
+	dependsOn buildStaticResources
+}
+
 applicationName = "holidayplanner"
 
 task stage(dependsOn: ['clean', 'installDist'])
