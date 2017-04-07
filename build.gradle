@@ -112,12 +112,16 @@ task buildStaticResources(type: Exec) {
 	commandLine = ["./node_modules/.bin/gulp", "build"]
 }
 
-//jar {
-//	dependsOn buildStaticResources
-//}
+task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
+	archiveName = "static-resource.tar"
+	destinationDir = file("$buildDir/libs")
+	def staticsDir = "${projectDir}/src/main/resources/static"
+}
 
-build.dependsOn gulp_build
-jar.dependsOn gulp_build
+jar {
+	dependsOn createStaticResources
+}
+
 
 applicationName = "holidayplanner"
 
