@@ -113,13 +113,20 @@ task buildStaticResources(type: Exec) {
 }
 
 task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
-	archiveName = "static-resource.tar"
+	archiveName = "static-resources.tar"
 	destinationDir = file("$buildDir/libs")
 	def staticsDir = "${projectDir}/src/main/resources/static"
+
+	into("js") {
+		from("${staticsDir}/js/") {
+			include("*.js")
+		}
+	}
 }
 
 jar {
 	dependsOn createStaticResources
+	from "${buildDir}/libs/static-resources.tar"
 }
 
 
