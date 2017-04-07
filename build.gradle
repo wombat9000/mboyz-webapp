@@ -101,5 +101,7 @@ task createDB(type:Exec) {
 	commandLine './create.sh'
 }
 
+applicationName = "holidayplanner"
+
 task stage(dependsOn: ['clean', 'installDist'])
 installDist.mustRunAfter clean
