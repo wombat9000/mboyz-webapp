@@ -11,6 +11,7 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+		classpath("com.github.rholder:gradle-one-jar:1.0.4")
 	}
 }
 
@@ -23,6 +24,7 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'application'
+apply plugin: 'gradle-one-jar'
 
 
 
@@ -102,7 +104,7 @@ springBoot {
 	mainClass = 'org.mboyz.holidayplanner.Server'
 }
 
-task createDB(type:Exec) {
+task createDB(type: Exec) {
 	workingDir 'db'
 	commandLine './create.sh'
 }
@@ -114,7 +116,7 @@ task buildStaticResources(type: Exec) {
 
 task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
 	archiveName = "static-resources.tar"
-	destinationDir = file("$buildDir/libs")
+	destinationDir = file("${buildDir}/libs")
 	def staticsDir = "${projectDir}/src/main/resources/static"
 
 	into("js") {
