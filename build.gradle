@@ -11,7 +11,6 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-		classpath("com.github.rholder:gradle-one-jar:1.0.4")
 	}
 }
 
@@ -24,9 +23,6 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'application'
-apply plugin: 'gradle-one-jar'
-
-
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -130,7 +126,6 @@ jar {
 	dependsOn createStaticResources
 	from "${buildDir}/libs/static-resources.tar"
 }
-
 
 applicationName = "holidayplanner"
 
