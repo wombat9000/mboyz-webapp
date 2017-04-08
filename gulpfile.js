@@ -20,7 +20,7 @@ gulp.task('clean', function() {
 	return del([paths.compiledJsDir]);
 });
 
-gulp.task('build', ['clean', 'concat'], function() {
+gulp.task('build', ['concat'], function() {
 	return browserify(paths.mainCompile)
 		.transform('babelify', {presets: ["es2015", "react"]})
 		.bundle()

@@ -122,6 +122,8 @@ task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
 	}
 }
 
+processResources.dependsOn createStaticResources
+
 jar {
 	dependsOn createStaticResources
 	from "${buildDir}/libs/static-resources.tar"
