@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 
-class HolidayForm extends React.Component {
+class HolidayPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {name: ''};
@@ -35,4 +35,4 @@ class HolidayForm extends React.Component {
 	}
 }
 
-export {HolidayForm};
+export {HolidayPage};

@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HolidayForm} from './components/HolidayForm.es6';
+import {HolidayPage} from './components/HolidayPage.es6';
 
-ReactDOM.render(<HolidayForm/>, document.getElementById('root'));
+ReactDOM.render(<HolidayPage/>, document.getElementById('root'));
