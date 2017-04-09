@@ -31,5 +31,9 @@
     "react-addons-test-utils": "^15.4.2",
     "react-test-renderer": "^15.4.2",
     "sinon": "^2.1.0"
+  },
+  "jest": {
+    "transform": {".*": "<rootDir>/node_modules/babel-jest"},
+    "moduleFileExtensions": ["js", "json", "es6"]
   }
 }
