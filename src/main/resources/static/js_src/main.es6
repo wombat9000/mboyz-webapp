@@ -15,7 +15,6 @@ const addHandler = (holiday) => {
 	});
 };
 
-console.log(store);
 
 const render = () => {
 	ReactDOM.render(<HolidayPage state={store.getState()}
