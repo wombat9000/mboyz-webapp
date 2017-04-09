@@ -1,3 +1,4 @@
+'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
@@ -8,8 +9,6 @@ import holiday from './reducers/holidays';
 const store = createStore(holiday);
 
 const addHandler = (holiday) => {
-	console.log('add handler was called');
-
 	store.dispatch({
 		type: "ADD_HOLIDAY",
 		holiday: holiday
@@ -19,7 +18,6 @@ const addHandler = (holiday) => {
 console.log(store);
 
 const render = () => {
-	console.log("rendering...");
 	ReactDOM.render(<HolidayPage state={store.getState()}
 	                             addHandler={addHandler} />, document.getElementById('root'));
 };

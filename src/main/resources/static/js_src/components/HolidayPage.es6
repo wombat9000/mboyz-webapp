@@ -15,14 +15,11 @@ class HolidayPage extends React.Component {
 	}
 
 	handleSubmit(event) {
-		console.log('A holiday was submitted: ' + this.state.name);
 		this.props.addHandler(this.state.name);
 		event.preventDefault();
 	}
 
 	render() {
-		console.log(this.props.state);
-
 		const listItems = this.props.state.map((holiday) =>
 			<li>{holiday}</li>
 		);
