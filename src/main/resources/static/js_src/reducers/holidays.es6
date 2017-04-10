@@ -3,8 +3,7 @@
 const holiday = (state = [], action) => {
 	switch (action.type) {
 		case 'ADD_HOLIDAY':
-			state.push(action.holiday);
-			return state;
+			return state.concat([action.holiday]);
 		default:
 			return state;
 	}
