@@ -1,6 +1,5 @@
 import holiday from '../../../main/resources/static/js_src/reducers/holidays.es6';
 
-
 describe('holiday reducer', function () {
 	it('should add holidays', function () {
 		const action = {

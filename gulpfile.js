@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var del = require('del');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var jest = require('gulp-jest').default;
 
 var paths = {
 	es6Src: './src/main/resources/static/js_src/**/*.{es6,jsx}',
@@ -9,11 +10,28 @@ var paths = {
 	compiledJsDir: './src/main/resources/static/js/',
 	// scssFiles: './sass/**/*.scss',
 	// cssDir: './css/',
-	mainCompile: './src/main/resources/static/js/main.js'
+	mainCompile: './src/main/resources/static/js/main.js',
+	testSrc: './test/js/'
 };
 
 gulp.task('clean', function() {
 	return del([paths.compiledJsDir]);
+});
+
+gulp.task('jest', function () {
+	return gulp.src('.')
+		.pipe(jest({
+		config: {
+			"transform": {
+				".*": "<rootDir>/node_modules/babel-jest"
+			},
+			"moduleFileExtensions": [
+				"js",
+				"json",
+				"es6"
+			]
+		}
+	}));
 });
 
 gulp.task('build', ['clean'], function() {

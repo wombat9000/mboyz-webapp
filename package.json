@@ -26,14 +26,22 @@
     "babel-preset-react": "^6.23.0",
     "babelify": "^7.3.0",
     "enzyme": "^2.8.0",
+    "gulp-jest": "^1.0.0",
     "jest": "^19.0.2",
+    "jest-cli": "^19.0.2",
     "jest-enzyme": "^3.0.0",
     "react-addons-test-utils": "^15.4.2",
     "react-test-renderer": "^15.4.2",
     "sinon": "^2.1.0"
   },
   "jest": {
-    "transform": {".*": "<rootDir>/node_modules/babel-jest"},
-    "moduleFileExtensions": ["js", "json", "es6"]
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
   }
 }

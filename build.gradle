@@ -25,6 +25,7 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'application'
 
+applicationName = "holidayplanner"
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 compileKotlin {
@@ -130,7 +131,6 @@ jar {
 	from "${buildDir}/libs/static-resources.tar"
 }
 
-applicationName = "holidayplanner"
-
-task stage(dependsOn: ['clean', 'installDist'])
+check.dependsOn gulp_jest
+task stage(dependsOn: ['clean', 'installDist', 'check'])
 installDist.mustRunAfter clean
