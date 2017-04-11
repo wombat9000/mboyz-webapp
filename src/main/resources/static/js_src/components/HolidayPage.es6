@@ -20,8 +20,8 @@ class HolidayPage extends React.Component {
 	}
 
 	render() {
-		const listItems = this.props.state.map((holiday) =>
-			<li>{holiday}</li>
+		const listItems = this.props.state.map((holiday, index) =>
+			<li key={index}>{holiday}</li>
 		);
 
 		return (
