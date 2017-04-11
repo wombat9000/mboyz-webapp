@@ -25,6 +25,7 @@ gulp.task('jest', function () {
 			"transform": {
 				".*": "<rootDir>/node_modules/babel-jest"
 			},
+			"setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
 			"moduleFileExtensions": [
 				"js",
 				"json",

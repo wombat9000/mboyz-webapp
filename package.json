@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "urlaubsplanner fuer die mboyz",
   "main": "main.js",
-  "scripts": {
-    "test": "gulp tdd"
-  },
   "author": "wombat9000",
   "license": "ISC",
   "dependencies": {
