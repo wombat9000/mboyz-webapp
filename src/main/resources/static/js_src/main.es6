@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
-
 import {HolidayPage} from './components/HolidayPage.es6';
 import holiday from './reducers/holidays';
 
@@ -15,10 +14,11 @@ const addHandler = (holiday) => {
 	});
 };
 
-
 const render = () => {
-	ReactDOM.render(<HolidayPage state={store.getState()}
-	                             addHandler={addHandler} />, document.getElementById('root'));
+	ReactDOM.render(
+		<HolidayPage state={store.getState()} addHandler={addHandler} />,
+		document.getElementById('root')
+	);
 };
 
 store.subscribe(render);
@@ -28,8 +28,8 @@ function reqListener () {
 	console.log(this.responseText);
 }
 
-var oReq = new XMLHttpRequest();
-var base_url = window.location.origin;
+const oReq = new XMLHttpRequest();
+const base_url = window.location.origin;
 oReq.addEventListener("load", reqListener);
 oReq.open("POST", base_url + "/holiday/create");
 oReq.send();
