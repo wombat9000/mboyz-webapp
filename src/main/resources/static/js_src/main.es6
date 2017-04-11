@@ -29,6 +29,7 @@ function reqListener () {
 }
 
 var oReq = new XMLHttpRequest();
+var base_url = window.location.origin;
 oReq.addEventListener("load", reqListener);
-oReq.open("POST", "http://localhost:8080/holiday/create");
+oReq.open("POST", base_url + "/holiday/create");
 oReq.send();
