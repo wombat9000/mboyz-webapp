@@ -11,5 +11,15 @@ describe('HolidayPage', function () {
 		const renderedComponent = shallow(<HolidayPage {...props} />);
 		expect(renderedComponent).toContainReact(<h1>Neuen Urlaub anlegen:</h1>);
 	});
+
+	it('should render holidays', function () {
+	    const props = {
+	    	state: ["someHoliday", "anotherHoliday"]
+	    };
+
+		const renderedComponent = shallow(<HolidayPage {...props} />);
+		expect(renderedComponent).toContainReact(<li>someHoliday</li>);
+		expect(renderedComponent).toContainReact(<li>anotherHoliday</li>);
+	});
 });
 
