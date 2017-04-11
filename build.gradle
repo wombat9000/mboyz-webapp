@@ -1,5 +1,4 @@
 buildscript {
-	ext.kotlin_version = '1.1.1'
 	ext {
 		kotlinVersion = '1.1.1'
 		springBootVersion = '1.5.2.RELEASE'
@@ -29,15 +28,34 @@ applicationName = "holidayplanner"
 mainClassName = "org.mboyz.holidayplanner.Server"
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile "org.springframework.session:spring-session"
+	compile "org.springframework:spring-web"
+	compile "org.springframework.boot:spring-boot-starter-web"
+	compile "org.springframework.boot:spring-boot-starter-jetty"
+	compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+	compile "org.springframework.security:spring-security-web:4.2.2.RELEASE"
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}"
+	compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+	compile "org.hamcrest:hamcrest-all:1.3"
+	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"
+
+	runtime 'org.postgresql:postgresql'
+
+	testCompile 'org.mockito:mockito-core:2.7.21'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
 compileKotlin {
 	kotlinOptions.jvmTarget = "1.8"
 }
 compileTestKotlin {
 	kotlinOptions.jvmTarget = "1.8"
-}
-
-repositories {
-	mavenCentral()
 }
 
 idea {
@@ -81,31 +99,8 @@ sourceSets {
 	}
 }
 
-dependencies {
-	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0')
-	compile('org.springframework.session:spring-session')
-	compile('org.springframework:spring-web')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-jetty')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.security:spring-security-web:4.2.2.RELEASE')
-	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
-	compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-	compile("org.hamcrest:hamcrest-all:1.3")
-	runtime('org.postgresql:postgresql')
-	compile('org.postgresql:postgresql')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.mockito:mockito-core:2.7.21')
-	compile("org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version")
-}
-
 springBoot {
 	mainClass = 'org.mboyz.holidayplanner.Server'
-}
-
-task createDB(type: Exec) {
-	workingDir 'db'
-	commandLine './create.sh'
 }
 
 task buildStaticResources(type: Exec, dependsOn: npmInstall) {
