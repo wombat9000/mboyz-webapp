@@ -9,7 +9,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder
 import java.util.HashMap
 
 @ComponentScan
-@EnableAutoConfiguration(exclude = arrayOf(DataSourceAutoConfiguration::class))
 @SpringBootApplication
 open class Server : SpringBootServletInitializer(){
 

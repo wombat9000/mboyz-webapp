@@ -35,8 +35,9 @@ repositories {
 
 dependencies {
 	compile "org.springframework.session:spring-session"
-	compile "org.springframework:spring-web"
-	compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework:spring-web"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework.boot:spring-boot-starter-web"
 	compile "org.springframework.boot:spring-boot-starter-jetty"
 	compile "org.springframework.boot:spring-boot-starter-thymeleaf"
 	compile "org.springframework.security:spring-security-web:4.2.2.RELEASE"
@@ -118,6 +119,11 @@ task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
 			include("*.js")
 		}
 	}
+}
+
+task createDB(type: Exec) {
+    workingDir 'db'
+    commandLine './create.sh'
 }
 
 processResources.dependsOn createStaticResources

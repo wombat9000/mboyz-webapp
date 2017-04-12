@@ -1,5 +1,7 @@
 package org.mboyz.holidayplanner
 
+import org.mboyz.holidayplanner.holiday.HolidayRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 @RequestMapping("/holiday")
-class HolidayController() {
+class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
 
     @RequestMapping("/")
     fun hello(model: Model, @RequestParam(value = "name", required = false, defaultValue = "World") name: String): String {
