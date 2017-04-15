@@ -143,6 +143,6 @@ jar {
 
 gulp_jest.dependsOn buildStaticResources
 check.dependsOn gulp_jest
-task stage(dependsOn: ['clean', 'check', 'installDist'])
+task stage(dependsOn: ['clean', 'check', 'installDist', 'flywayMigrate'])
 installDist.mustRunAfter clean
 check.mustRunAfter clean
