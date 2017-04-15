@@ -27,6 +27,8 @@ class DataConfig {
         val host: String? = dbUri.host ?: "localhost"
         val dbUrl = "jdbc:postgresql://$host:$port$path"
 
+        println(dbUrl)
+
         val basicDataSource = DataSourceBuilder
                 .create()
                 .username(username)
