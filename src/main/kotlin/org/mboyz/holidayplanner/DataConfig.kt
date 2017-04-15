@@ -3,6 +3,7 @@ package org.mboyz.holidayplanner
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import java.net.URI
 import java.net.URISyntaxException
 import javax.sql.DataSource
@@ -12,13 +13,19 @@ import javax.sql.DataSource
 class DataConfig {
 
     @Bean
+    @Profile("prod")
     @Throws(URISyntaxException::class)
     fun dataSource(): DataSource {
-        val dbUri = URI(System.getenv("DATABASE_URL"))
+        val getenv: String? = System.getenv("DATABASE_URL")
+        val dbUri: URI? = URI(getenv)
 
-        val username = dbUri.getUserInfo().split(":")[0]
-        val password = dbUri.getUserInfo().split(":")[1]
-        val dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath()
+        val username: String = dbUri?.userInfo?.split(":")?.get(0)?: "mboyz_app"
+        val password = dbUri?.userInfo?.split(":")?.get(1)?: "postgres"
+
+        val port = if (dbUri?.port > 0) dbUri?.port else 5432
+        val path: Any? = dbUri?.path ?: "/mboyz"
+        val host: Any? = dbUri?.host ?: "localhost"
+        val dbUrl = "jdbc:postgresql://$host:$port$path"
 
         val basicDataSource = DataSourceBuilder
                 .create()

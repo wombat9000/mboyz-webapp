@@ -83,7 +83,13 @@ idea {
 }
 
 flyway {
-	url = 'jdbc:postgresql://localhost:5432/mboyz'
+	if (null == System.getenv("DATABASE_URL")) {
+		url = 'jdbc:postgresql://localhost:5432/mboyz'
+	} else {
+		url = new URI(System.getenv("DATABASE_URL"))
+	}
+
+
 	user = 'mboyz_app'
 	locations = ["filesystem:src/main/resources/db/migration/"]
 }
