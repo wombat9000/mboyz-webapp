@@ -22,9 +22,9 @@ class DataConfig {
         val username: String = dbUri?.userInfo?.split(":")?.get(0)?: "mboyz_app"
         val password = dbUri?.userInfo?.split(":")?.get(1)?: "postgres"
 
-        val port = if (dbUri?.port > 0) dbUri?.port else 5432
-        val path: Any? = dbUri?.path ?: "/mboyz"
-        val host: Any? = dbUri?.host ?: "localhost"
+        val port = if (dbUri?.port!! > 0) dbUri.port else 5432
+        val path: String? = dbUri.path ?: "/mboyz"
+        val host: String? = dbUri.host ?: "localhost"
         val dbUrl = "jdbc:postgresql://$host:$port$path"
 
         val basicDataSource = DataSourceBuilder
