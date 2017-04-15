@@ -16,6 +16,7 @@ buildscript {
 plugins {
 	id "com.moowork.gulp" version "1.1.1"
 	id "com.moowork.node" version "1.1.1"
+	id "org.flywaydb.flyway" version "4.1.2"
 }
 
 apply plugin: 'kotlin'
@@ -45,6 +46,7 @@ dependencies {
 	compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
 	compile "org.hamcrest:hamcrest-all:1.3"
 	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"
+	compile "org.flywaydb:flyway-core:4.1.2"
 
 	runtime 'org.postgresql:postgresql'
 
@@ -78,6 +80,12 @@ idea {
 			}
 		}
 	}
+}
+
+flyway {
+	url = 'jdbc:postgresql://localhost:5432/mboyz'
+	user = 'mboyz_app'
+	locations = ["filesystem:src/main/resources/db/migration/"]
 }
 
 sourceSets {

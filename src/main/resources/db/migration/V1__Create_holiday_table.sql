@@ -1,4 +1,4 @@
-create table HOLIDAY (
-  ID int not null,
-  NAME varchar(100) not null
+CREATE TABLE Holiday (
+  holiday_id SERIAL,
+  name varchar(100) NOT NULL
 );
