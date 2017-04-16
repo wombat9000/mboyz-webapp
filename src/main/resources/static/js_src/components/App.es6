@@ -21,7 +21,7 @@ class App extends React.Component {
 
 	render() {
 		const listItems = this.props.state.map((holiday, index) =>
-			<li key={index}>{holiday}</li>
+			<li key={index}>{holiday.name}</li>
 		);
 
 		return (

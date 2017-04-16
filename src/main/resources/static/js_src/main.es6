@@ -5,26 +5,41 @@ import {createStore} from 'redux';
 import {App} from './components/App.es6';
 import holiday from './reducers/holidays';
 
-const store = createStore(holiday);
+const base_url = window.location.origin;
 
-const addHandler = (holiday) => {
-	store.dispatch({
-		type: "ADD_HOLIDAY",
-		holiday: holiday
-	});
+const request = new XMLHttpRequest();
+request.open('GET', base_url + '/holiday/index', false);  // `false` makes the request synchronous
+request.send(null);
 
-	sendRequest(holiday)
-};
+if (request.status === 200) {
+	console.log(request.responseText);
+	const holidays = JSON.parse(request.responseText);
 
-const render = () => {
-	ReactDOM.render(
-		<App state={store.getState()} addHandler={addHandler} />,
-		document.getElementById('root')
-	);
-};
+	const store = createStore(holiday, holidays);
 
-store.subscribe(render);
-render();
+	const addHandler = (holiday) => {
+		store.dispatch({
+			type: "ADD_HOLIDAY",
+			holiday: {
+				name: holiday
+			}
+		});
+
+		sendRequest(holiday)
+	};
+
+	const render = () => {
+		ReactDOM.render(
+			<App state={store.getState()} addHandler={addHandler} />,
+			document.getElementById('root')
+		);
+	};
+
+	store.subscribe(render);
+	render();
+}
+
+
 
 function reqListener () {
 	console.log(this.responseText);
