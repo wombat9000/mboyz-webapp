@@ -1,15 +1,15 @@
-import {HolidayPage} from '../../../main/resources/static/js_src/components/HolidayPage.es6';
+import {App} from '../../../main/resources/static/js_src/components/App.es6';
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as sinon from "sinon";
 
-describe('HolidayPage', function () {
+describe('App', function () {
 	it('should render heading', function () {
 		const props = {
 			state: []
 		};
 
-		const renderedComponent = shallow(<HolidayPage {...props} />);
+		const renderedComponent = shallow(<App {...props} />);
 		expect(renderedComponent).toContainReact(<h1>Neuen Urlaub anlegen:</h1>);
 	});
 
@@ -18,7 +18,7 @@ describe('HolidayPage', function () {
 	    	state: ["someHoliday", "anotherHoliday"]
 	    };
 
-		const renderedComponent = shallow(<HolidayPage {...props} />);
+		const renderedComponent = shallow(<App {...props} />);
 		expect(renderedComponent).toContainReact(<li>someHoliday</li>);
 		expect(renderedComponent).toContainReact(<li>anotherHoliday</li>);
 	});
@@ -33,7 +33,7 @@ describe('HolidayPage', function () {
 			preventDefault: () => {}
 		};
 
-		const testee = new HolidayPage(props);
+		const testee = new App(props);
 		testee.handleSubmit(event);
 
 		expect(props.addHandler.called).toBe(true);
