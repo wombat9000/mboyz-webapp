@@ -39,20 +39,17 @@ if (request.status === 200) {
 	render();
 }
 
-
-
-function reqListener () {
-	console.log(this.responseText);
-}
-
 function sendRequest(holiday) {
 	const data = new FormData();
 	data.append("name", holiday);
 
 	const oReq = new XMLHttpRequest();
-	const base_url = window.location.origin;
 	oReq.addEventListener("load", reqListener);
 	oReq.open("POST", base_url + "/holiday/create");
 	oReq.send(data);
+}
+
+function reqListener () {
+	console.log(this.responseText);
 }
 
