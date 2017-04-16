@@ -19,11 +19,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 @AutoConfigureMockMvc
 class PageControllerTest {
     @Autowired
-    var mvc: MockMvc? = null
+    lateinit var mvc: MockMvc
 
     @Test
     fun shouldShowHomePage() {
-        mvc!!.perform(MockMvcRequestBuilders.get("/"))
+        mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("home"))
     }

@@ -21,17 +21,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 class HolidayControllerTest {
     @Autowired
-    var mvc: MockMvc? = null
+    lateinit var mvc: MockMvc
     @Autowired
-    var holidayRepository: HolidayRepository? = null
+    lateinit var holidayRepository: HolidayRepository
 
     @Test
     fun shouldCreateNewHolidays() {
-        mvc!!.perform(MockMvcRequestBuilders
+        mvc.perform(MockMvcRequestBuilders
                 .post("/holiday/create").param("name", "someHoliday"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
 
-        val actualHolidays: MutableIterable<Holiday> = holidayRepository!!.findAll()
+        val actualHolidays: MutableIterable<Holiday> = holidayRepository.findAll()
 
         assertThat(actualHolidays.first().name, `is`("someHoliday"))
     }
