@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody
 @RequestMapping("/holiday")
 class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
 
+    @RequestMapping(value = "/index", method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json; charset=UTF-8"))
+    @ResponseBody
+    fun index(): List<Holiday> {
+        val findAll: List<Holiday> = holidayRepository.findAll().toList()
+        return findAll
+    }
+
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST))
     @ResponseBody
     fun create(@RequestParam name: String): String {

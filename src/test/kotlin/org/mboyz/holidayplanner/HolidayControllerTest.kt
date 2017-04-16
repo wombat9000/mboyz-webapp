@@ -1,7 +1,10 @@
 package org.mboyz.holidayplanner
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mboyz.holidayplanner.holiday.Holiday
@@ -9,6 +12,7 @@ import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
@@ -25,6 +29,11 @@ class HolidayControllerTest {
     @Autowired
     lateinit var holidayRepository: HolidayRepository
 
+    @Before
+    fun setUp() {
+        holidayRepository.deleteAll()
+    }
+
     @Test
     fun shouldCreateNewHolidays() {
         mvc.perform(MockMvcRequestBuilders
@@ -34,5 +43,25 @@ class HolidayControllerTest {
         val actualHolidays: MutableIterable<Holiday> = holidayRepository.findAll()
 
         assertThat(actualHolidays.first().name, `is`("someHoliday"))
+    }
+
+    @Test
+    fun shouldListExistingHolidays() {
+        holidayRepository.save(listOf(Holiday(name = "someHoliday"), Holiday(name = "anotherHoliday")))
+
+        val response: MockHttpServletResponse = mvc.perform(MockMvcRequestBuilders
+                .get("/holiday/index"))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andReturn()
+                .response
+
+        val mapper = jacksonObjectMapper()
+
+
+        val holidays: List<Holiday> = mapper.readValue(response.contentAsString)
+
+        assertThat(holidays.size, `is`(2))
+        assertThat(holidays.any { it.name == "someHoliday" }, `is`(true))
+        assertThat(holidays.any { it.name == "anotherHoliday" }, `is`(true))
     }
 }
