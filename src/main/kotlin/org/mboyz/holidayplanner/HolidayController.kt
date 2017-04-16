@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner
 
+import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -22,8 +23,11 @@ class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
 
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST))
     @ResponseBody
-    fun create(): String {
-        println("got hit!")
+    fun create(@RequestParam name: String): String {
+
+        val holiday: Holiday = Holiday(name = name)
+        holidayRepository.save(holiday)
+
         return "created"
     }
 }

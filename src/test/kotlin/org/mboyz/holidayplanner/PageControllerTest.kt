@@ -27,6 +27,4 @@ class PageControllerTest {
                 .andExpect(status().isOk)
                 .andExpect(view().name("home"))
     }
-
-    // TODO: setup inMemoryDB config for tests
 }
