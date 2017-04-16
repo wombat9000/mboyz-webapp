@@ -15,7 +15,7 @@ describe('App', function () {
 
 	it('should render holidays', function () {
 	    const props = {
-	    	state: ["someHoliday", "anotherHoliday"]
+	    	state: [{name: "someHoliday"}, {name: "anotherHoliday"}]
 	    };
 
 		const renderedComponent = shallow(<App {...props} />);
