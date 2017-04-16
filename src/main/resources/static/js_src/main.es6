@@ -12,6 +12,8 @@ const addHandler = (holiday) => {
 		type: "ADD_HOLIDAY",
 		holiday: holiday
 	});
+
+	sendRequest(holiday)
 };
 
 const render = () => {
@@ -28,8 +30,14 @@ function reqListener () {
 	console.log(this.responseText);
 }
 
-const oReq = new XMLHttpRequest();
-const base_url = window.location.origin;
-oReq.addEventListener("load", reqListener);
-oReq.open("POST", base_url + "/holiday/create");
-oReq.send();
+function sendRequest(holiday) {
+	const data = new FormData();
+	data.append("name", holiday);
+
+	const oReq = new XMLHttpRequest();
+	const base_url = window.location.origin;
+	oReq.addEventListener("load", reqListener);
+	oReq.open("POST", base_url + "/holiday/create");
+	oReq.send(data);
+}
+
