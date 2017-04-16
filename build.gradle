@@ -96,7 +96,7 @@ flyway {
         def port = dbUri.getPort()
         def path = dbUri.getPath()
         def host = dbUri.getHost()
-        dbUrl = "jdbc:postgresql://"+host+":"+port+path
+        url = "jdbc:postgresql://"+host+":"+port+path
 	}
 
 	locations = ["filesystem:src/main/resources/db/migration/"]
