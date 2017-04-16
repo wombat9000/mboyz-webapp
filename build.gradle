@@ -87,12 +87,18 @@ idea {
 flyway {
 	if (null == System.getenv("DATABASE_URL")) {
 		url = 'jdbc:postgresql://localhost:5432/mboyz'
-	} else {
-		url = new URI(System.getenv("DATABASE_URL"))
+        user = 'mboyz_app'
+    } else {
+		def dbUri = new URI(System.getenv("DATABASE_URL"))
+        user = dbUri.userInfo.split(":")[0]
+        password = dbUri.userInfo.split(":")[1]
+
+        def port = dbUri.getPort()
+        def path = dbUri.getPath()
+        def host = dbUri.getHost()
+        dbUrl = "jdbc:postgresql://"+host+":"+port+path
 	}
 
-
-	user = 'mboyz_app'
 	locations = ["filesystem:src/main/resources/db/migration/"]
 }
 

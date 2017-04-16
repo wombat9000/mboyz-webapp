@@ -10,7 +10,7 @@ import javax.sql.DataSource
 
 
 @Configuration
-class DataConfig {
+class DataSourceConfig {
 
     @Bean
     @Profile("prod")
