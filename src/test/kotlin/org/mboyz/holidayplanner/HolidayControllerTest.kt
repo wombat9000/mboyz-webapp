@@ -29,6 +29,8 @@ class HolidayControllerTest {
     @Autowired
     lateinit var holidayRepository: HolidayRepository
 
+    val mapper = jacksonObjectMapper()
+
     @Before
     fun setUp() {
         holidayRepository.deleteAll()
@@ -36,13 +38,19 @@ class HolidayControllerTest {
 
     @Test
     fun shouldCreateNewHolidays() {
-        mvc.perform(MockMvcRequestBuilders
+        val response = mvc.perform(MockMvcRequestBuilders
                 .post("/holiday/create").param("name", "someHoliday"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
+                .andReturn()
+                .response
 
-        val actualHolidays: MutableIterable<Holiday> = holidayRepository.findAll()
+        val expectedHoliday = Holiday(1L, "someHoliday")
 
-        assertThat(actualHolidays.first().name, `is`("someHoliday"))
+        val holidaysInDB: MutableIterable<Holiday> = holidayRepository.findAll()
+        assertThat(holidaysInDB.first(), `is`(expectedHoliday))
+
+        val holidayInResponse: Holiday = mapper.readValue(response.contentAsString)
+        assertThat(holidayInResponse, `is`(expectedHoliday))
     }
 
     @Test
@@ -54,9 +62,6 @@ class HolidayControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andReturn()
                 .response
-
-        val mapper = jacksonObjectMapper()
-
 
         val holidays: List<Holiday> = mapper.readValue(response.contentAsString)
 
