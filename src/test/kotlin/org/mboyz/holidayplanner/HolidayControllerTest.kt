@@ -67,10 +67,12 @@ class HolidayControllerTest {
         val expectedHoliday = Holiday(1L, "someHoliday")
 
         val persistedHolidays: MutableIterable<Holiday> = holidayRepository.findAll()
-        assertThat(persistedHolidays.first(), `is`(expectedHoliday))
+        assertThat(persistedHolidays.first().name, `is`(expectedHoliday.name))
+        assertThat(persistedHolidays.first().location, `is`(expectedHoliday.location))
 
         val holidayInResponse: Holiday = mapper.readValue(response.contentAsString)
-        assertThat(holidayInResponse, `is`(expectedHoliday))
+        assertThat(holidayInResponse.name, `is`(expectedHoliday.name))
+        assertThat(holidayInResponse.location, `is`(expectedHoliday.location))
     }
 
     @Test
