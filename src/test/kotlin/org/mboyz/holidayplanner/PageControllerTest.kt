@@ -13,11 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 
-@RunWith(SpringRunner::class)
-@SpringBootTest
-@ActiveProfiles(profiles = arrayOf("local"))
-@AutoConfigureMockMvc
-class PageControllerTest {
+class PageControllerTest: AbstractSpringTest() {
     @Autowired
     lateinit var mvc: MockMvc
 
