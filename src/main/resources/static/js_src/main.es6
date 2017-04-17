@@ -23,10 +23,8 @@ if (request.status === 200) {
 
 		const oReq = new XMLHttpRequest();
 		oReq.onreadystatechange = () => {
-			if(oReq.readyState == XMLHttpRequest.DONE && oReq.status == 200) {
+			if(oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
 				const json = oReq.responseText;
-				console.log(json);
-				console.log(JSON.parse(json));
 
 				store.dispatch({
 					type: "ADD_HOLIDAY",
