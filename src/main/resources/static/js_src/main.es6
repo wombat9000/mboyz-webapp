@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
 import {App} from './components/App.es6';
 import holiday from './reducers/holidays';
+import moment from "moment";
 
 const base_url = window.location.origin;
 const store = createStore(holiday);
@@ -26,8 +27,16 @@ const addHandler = (holiday) => {
 	const data = new FormData();
 
 	Object.keys(holiday).forEach(function (key) {
-		data.append(""+key, holiday[key])
+		data.set(""+key, holiday[key])
 	});
+
+	if (moment.isMoment(holiday.startDate)) {
+		data.set("startDate", holiday.startDate.format("YYYY-MM-DD"));
+
+	}
+	if (moment.isMoment(holiday.endDate)) {
+		data.set("endDate", holiday.endDate.format("YYYY-MM-DD"));
+	}
 
 	const oReq = new XMLHttpRequest();
 	oReq.onreadystatechange = () => {

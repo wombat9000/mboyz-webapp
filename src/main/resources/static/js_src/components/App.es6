@@ -1,7 +1,6 @@
 'use strict';
 import React from 'react';
 import DatePicker from "react-datepicker";
-import moment from 'moment';
 
 class App extends React.Component {
 	constructor(props) {
@@ -30,7 +29,7 @@ class App extends React.Component {
 	}
 
 	handleStartDateChange(date) {
-		console.log(date);
+		console.log(date.format('YYYY-MM-DD'));
 		this.setState({
 			startDate: date
 		});

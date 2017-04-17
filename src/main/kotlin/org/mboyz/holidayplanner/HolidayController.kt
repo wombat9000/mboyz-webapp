@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.LocalDate
 
 @Controller
 @RequestMapping("/holiday")
@@ -23,7 +24,13 @@ class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST), produces = arrayOf("application/json; charset=UTF-8"))
     @ResponseBody
     fun create(@RequestParam name: String,
-               @RequestParam(required = false) location: String?): Holiday {
+               @RequestParam(required = false) location: String?,
+               @RequestParam(required = false) startDate: String?): Holiday {
+
+        val startDate: LocalDate = LocalDate.parse(startDate)
+
+        println(startDate)
+
         return holidayRepository.save(Holiday(name = name, location = location ?: ""))
     }
 }
