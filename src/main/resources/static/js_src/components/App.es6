@@ -49,7 +49,12 @@ class App extends React.Component {
 
 	render() {
 		const rows = this.props.state.map((holiday, index) =>
-			<tr key={holiday.id}><td>{holiday.name}</td><td>{holiday.location}</td></tr>
+			<tr key={holiday.id}>
+				<td>{holiday.name}</td>
+				<td>{holiday.location}</td>
+				<td>{holiday.startDate}</td>
+				<td>{holiday.endDate}</td>
+			</tr>
 		);
 
 		return (
@@ -95,6 +100,8 @@ class App extends React.Component {
 					<thead><tr>
 						<th>Name</th>
 						<th>Ort</th>
+						<th>Start</th>
+						<th>Ende</th>
 					</tr></thead>
 				<tbody>
 					{rows}
