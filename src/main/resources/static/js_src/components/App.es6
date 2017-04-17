@@ -68,15 +68,25 @@ class App extends React.Component {
 					<label>
 						Von:
 						<DatePicker
+							dateFormat="DD.MM.YYYY"
 							selected={this.state.startDate}
+							selectsStart
+							startDate={this.state.startDate}
+							endDate={this.state.endDate}
 							onChange={this.handleStartDateChange}
+							isClearable={true}
 						/>
 					</label>
 					<label>
 						Bis:
 						<DatePicker
+							dateFormat="DD.MM.YYYY"
 							selected={this.state.endDate}
+							selectsEnd
+							startDate={this.state.startDate}
+							endDate={this.state.endDate}
 							onChange={this.handleEndDateChange}
+							isClearable={true}
 						/>
 					</label>
 
