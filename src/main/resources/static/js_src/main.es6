@@ -20,7 +20,7 @@ request.onreadystatechange = () => {
 };
 
 request.open('GET', base_url + '/holiday/index');
-request.send(null);
+request.send();
 
 const addHandler = (holiday) => {
 	const data = new FormData();

@@ -22,7 +22,8 @@ class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
 
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST), produces = arrayOf("application/json; charset=UTF-8"))
     @ResponseBody
-    fun create(@RequestParam name: String): Holiday {
-        return holidayRepository.save(Holiday(name = name))
+    fun create(@RequestParam name: String,
+               @RequestParam(required = false) location: String?): Holiday {
+        return holidayRepository.save(Holiday(name = name, location = location ?: ""))
     }
 }

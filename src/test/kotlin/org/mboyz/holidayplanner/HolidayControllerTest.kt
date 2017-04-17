@@ -39,7 +39,27 @@ class HolidayControllerTest {
     @Test
     fun shouldCreateNewHolidays() {
         val response = mvc.perform(MockMvcRequestBuilders
-                .post("/holiday/create").param("name", "someHoliday"))
+                .post("/holiday/create")
+                    .param("name", "someHoliday")
+                    .param("location", "someLocation"))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andReturn()
+                .response
+
+        val expectedHoliday = Holiday(1L, "someHoliday", "someLocation")
+
+        val holidaysInDB: MutableIterable<Holiday> = holidayRepository.findAll()
+        assertThat(holidaysInDB.first(), `is`(expectedHoliday))
+
+        val holidayInResponse: Holiday = mapper.readValue(response.contentAsString)
+        assertThat(holidayInResponse, `is`(expectedHoliday))
+    }
+
+    @Test
+    fun shouldCreateHolidayWithUndefinedLocation() {
+        val response = mvc.perform(MockMvcRequestBuilders
+                .post("/holiday/create")
+                    .param("name", "someHoliday"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andReturn()
                 .response
