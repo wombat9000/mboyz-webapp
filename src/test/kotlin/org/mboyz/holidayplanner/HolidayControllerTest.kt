@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner
 
+import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -7,8 +8,7 @@ import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations.initMocks
 import java.time.LocalDate
 
@@ -36,5 +36,14 @@ class HolidayControllerTest {
 
         verify(holidayRepository).save(expectedHoliday)
         assertThat(createdHoliday, `is`(expectedHoliday))
+    }
+
+    @Test
+    fun shouldNotPersistWhenEnddateIsBeforeStartdate() {
+        val createdHoliday: Holiday? = testee.create("someName", "someLocation", "1990-12-02", "1990-12-01")
+
+        verifyZeroInteractions(holidayRepository)
+
+        assertTrue(createdHoliday == null)
     }
 }
