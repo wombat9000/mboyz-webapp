@@ -7,42 +7,51 @@ import holiday from './reducers/holidays';
 
 const base_url = window.location.origin;
 
+const store = createStore(holiday);
+
+
 const request = new XMLHttpRequest();
-request.open('GET', base_url + '/holiday/index', false);  // `false` makes the request synchronous
+request.onreadystatechange = () => {
+	if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+		const json = request.responseText;
+		console.log(request.responseText);
+
+		store.dispatch({
+			type: "ADD_HOLIDAYS",
+			holidays: JSON.parse(json)
+		});
+	}
+};
+request.open('GET', base_url + '/holiday/index');
 request.send(null);
 
-if (request.status === 200) {
-	console.log(request.responseText);
-	const holidays = JSON.parse(request.responseText);
+const addHandler = (holiday) => {
+	const data = new FormData();
+	data.append("name", holiday);
 
-	const store = createStore(holiday, holidays);
+	const oReq = new XMLHttpRequest();
+	oReq.onreadystatechange = () => {
+		if(oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
+			const json = oReq.responseText;
 
-	const addHandler = (holiday) => {
-		const data = new FormData();
-		data.append("name", holiday);
-
-		const oReq = new XMLHttpRequest();
-		oReq.onreadystatechange = () => {
-			if(oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
-				const json = oReq.responseText;
-
-				store.dispatch({
-					type: "ADD_HOLIDAY",
-					holiday: JSON.parse(json)
-				});
-			}
-		};
-		oReq.open("POST", base_url + "/holiday/create");
-		oReq.send(data);
+			store.dispatch({
+				type: "ADD_HOLIDAY",
+				holiday: JSON.parse(json)
+			});
+		}
 	};
+	oReq.open("POST", base_url + "/holiday/create");
+	oReq.send(data);
+};
 
-	const render = () => {
-		ReactDOM.render(
-			<App state={store.getState()} addHandler={addHandler} />,
-			document.getElementById('root')
-		);
-	};
+const render = () => {
+	ReactDOM.render(
+		<App state={store.getState()} addHandler={addHandler} />,
+		document.getElementById('root')
+	);
+};
 
-	store.subscribe(render);
-	render();
-}
+store.subscribe(render);
+render();
+
+
