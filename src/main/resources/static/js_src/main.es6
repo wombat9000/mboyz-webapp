@@ -24,8 +24,10 @@ request.send();
 
 const addHandler = (holiday) => {
 	const data = new FormData();
-	data.append("name", holiday.name);
-	data.append("location", holiday.location);
+
+	Object.keys(holiday).forEach(function (key) {
+		data.append(""+key, holiday[key])
+	});
 
 	const oReq = new XMLHttpRequest();
 	oReq.onreadystatechange = () => {
@@ -50,5 +52,3 @@ const render = () => {
 
 store.subscribe(render);
 render();
-
-

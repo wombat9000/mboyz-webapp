@@ -1,15 +1,21 @@
 'use strict';
 import React from 'react';
+import DatePicker from "react-datepicker";
+import moment from 'moment';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			name: '',
-			location: ''
+			location: '',
+			startDate: '',
+			endDate: ''
 		};
 
 		this.handleChange = this.handleChange.bind(this);
+		this.handleStartDateChange = this.handleStartDateChange.bind(this);
+		this.handleEndDateChange = this.handleEndDateChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
@@ -20,6 +26,20 @@ class App extends React.Component {
 
 		this.setState({
 			[name]: value
+		});
+	}
+
+	handleStartDateChange(date) {
+		console.log(date);
+		this.setState({
+			startDate: date
+		});
+	}
+
+	handleEndDateChange(date) {
+		console.log(date);
+		this.setState({
+			endDate: date
 		});
 	}
 
@@ -45,6 +65,21 @@ class App extends React.Component {
 						Ort:
 						<input name="location" type="text" value={this.state.location} onChange={this.handleChange}/>
 					</label>
+					<label>
+						Von:
+						<DatePicker
+							selected={this.state.startDate}
+							onChange={this.handleStartDateChange}
+						/>
+					</label>
+					<label>
+						Bis:
+						<DatePicker
+							selected={this.state.endDate}
+							onChange={this.handleEndDateChange}
+						/>
+					</label>
+
 					<input type="submit" value="Submit" />
 				</form>
 				<table>
