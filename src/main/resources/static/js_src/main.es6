@@ -40,7 +40,7 @@ const addHandler = (holiday) => {
 
 	const oReq = new XMLHttpRequest();
 	oReq.onreadystatechange = () => {
-		if(oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
+		if(oReq.readyState === XMLHttpRequest.DONE && oReq.status === 201) {
 			const json = oReq.responseText;
 			store.dispatch({
 				type: "ADD_HOLIDAY",
