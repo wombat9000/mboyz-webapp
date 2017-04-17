@@ -9,17 +9,18 @@ class App extends React.Component {
 			location: ''
 		};
 
-		this.handleChangeName = this.handleChangeName.bind(this);
-		this.handleChangeLocation = this.handleChangeLocation.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	handleChangeName(event) {
-		this.setState({name: event.target.value});
-	}
+	handleChange(event) {
+		const target = event.target;
+		const value = target.value;
+		const name = target.name;
 
-	handleChangeLocation(event) {
-		this.setState({location: event.target.value});
+		this.setState({
+			[name]: value
+		});
 	}
 
 	handleSubmit(event) {
@@ -38,8 +39,11 @@ class App extends React.Component {
 				<form onSubmit={this.handleSubmit}>
 					<label>
 						Name:
-						<input name="name" type="text" value={this.state.name} onChange={this.handleChangeName}/>
-						<input name="location" type="text" value={this.state.location} onChange={this.handleChangeLocation}/>
+						<input name="name" type="text" value={this.state.name} onChange={this.handleChange}/>
+					</label>
+					<label>
+						Ort:
+						<input name="location" type="text" value={this.state.location} onChange={this.handleChange}/>
 					</label>
 					<input type="submit" value="Submit" />
 				</form>
