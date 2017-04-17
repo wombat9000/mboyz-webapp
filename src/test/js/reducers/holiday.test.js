@@ -1,6 +1,17 @@
 import holiday from '../../../main/resources/static/js_src/reducers/holidays.es6';
 
 describe('holiday reducer', function () {
+	it('should default to [] as initial state', function () {
+		const unknownAction = {
+			type: "unknown",
+			holiday: "someHoliday"
+		};
+
+		const state = holiday(undefined, unknownAction);
+
+		expect(state).toEqual([]);
+	});
+
 	it('should add holidays', function () {
 		const action = {
 			type: "ADD_HOLIDAY",
@@ -13,15 +24,17 @@ describe('holiday reducer', function () {
 		expect(state[0]).toBe("someHoliday");
 	});
 
-	it('should default to [] as initial state', function () {
-	    const unknownAction = {
-	    	type: "unknown",
-		    holiday: "someHoliday"
+	it('should add multiple holidays', function () {
+	    const action = {
+	    	type: "ADD_HOLIDAYS",
+		    holidays: ["someHoliday", "anotherHoliday"]
 	    };
 
-		const state = holiday(undefined, unknownAction);
+		const state = holiday([], action);
 
-		expect(state).toEqual([]);
+		expect(state.length).toBe(2);
+		expect(state[0]).toBe("someHoliday");
+		expect(state[1]).toBe("anotherHoliday");
 	});
 });
 
