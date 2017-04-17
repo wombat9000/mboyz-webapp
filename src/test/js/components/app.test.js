@@ -15,12 +15,22 @@ describe('App', function () {
 
 	it('should render holidays', function () {
 	    const props = {
-	    	state: [{name: "someHoliday"}, {name: "anotherHoliday"}]
+	    	state: [
+	    		{
+	    			id: 1,
+	    			name: "someHoliday"
+			    },
+			    {
+			    	id: 2,
+			    	name: "anotherHoliday",
+				    location: "someLocation"
+			    }
+		    ]
 	    };
 
 		const renderedComponent = shallow(<App {...props} />);
-		expect(renderedComponent).toContainReact(<li>someHoliday</li>);
-		expect(renderedComponent).toContainReact(<li>anotherHoliday</li>);
+		expect(renderedComponent).toContainReact(<td>someHoliday</td>);
+		expect(renderedComponent).toContainReact(<tr><td>anotherHoliday</td><td>someLocation</td></tr>);
 	});
 
 	it('should fire addHandler on submit', function () {

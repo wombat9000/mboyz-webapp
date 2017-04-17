@@ -24,7 +24,8 @@ request.send();
 
 const addHandler = (holiday) => {
 	const data = new FormData();
-	data.append("name", holiday);
+	data.append("name", holiday.name);
+	data.append("location", holiday.location);
 
 	const oReq = new XMLHttpRequest();
 	oReq.onreadystatechange = () => {
