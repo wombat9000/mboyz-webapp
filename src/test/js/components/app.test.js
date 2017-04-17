@@ -23,14 +23,21 @@ describe('App', function () {
 			    {
 			    	id: 2,
 			    	name: "anotherHoliday",
-				    location: "someLocation"
+				    location: "someLocation",
+				    startDate: "2017-04-12",
+				    endDate: "2017-04-13"
 			    }
 		    ]
 	    };
 
 		const renderedComponent = shallow(<App {...props} />);
 		expect(renderedComponent).toContainReact(<td>someHoliday</td>);
-		expect(renderedComponent).toContainReact(<tr><td>anotherHoliday</td><td>someLocation</td></tr>);
+		expect(renderedComponent).toContainReact(<tr>
+			<td>anotherHoliday</td>
+			<td>someLocation</td>
+			<td>2017-04-12</td>
+			<td>2017-04-13</td>
+		</tr>);
 	});
 
 	it('should fire addHandler on submit', function () {
