@@ -13,6 +13,7 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.time.LocalDate
 
 class HolidayControllerTest: AbstractSpringTest() {
     @Autowired
@@ -32,12 +33,14 @@ class HolidayControllerTest: AbstractSpringTest() {
         val response = mvc.perform(MockMvcRequestBuilders
                 .post("/holiday/create")
                     .param("name", "someHoliday")
-                    .param("location", "someLocation"))
+                    .param("location", "someLocation")
+                    .param("startDate", "2007-12-12")
+                    .param("endDate", "2007-12-13"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andReturn()
                 .response
 
-        val expectedHoliday = Holiday(1L, "someHoliday", "someLocation")
+        val expectedHoliday = Holiday(1L, "someHoliday", "someLocation", LocalDate.parse("2007-12-12"), LocalDate.parse("2007-12-13"))
 
         val persistedHolidays: MutableIterable<Holiday> = holidayRepository.findAll()
         assertThat(persistedHolidays.first(), `is`(expectedHoliday))
@@ -47,7 +50,7 @@ class HolidayControllerTest: AbstractSpringTest() {
     }
 
     @Test
-    fun shouldCreateHolidayWithUndefinedLocation() {
+    fun shouldCreateHolidayWithUndefinedOptionalFields() {
         val response = mvc.perform(MockMvcRequestBuilders
                 .post("/holiday/create")
                     .param("name", "someHoliday"))

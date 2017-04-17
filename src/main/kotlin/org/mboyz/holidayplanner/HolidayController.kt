@@ -25,12 +25,16 @@ class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
     @ResponseBody
     fun create(@RequestParam name: String,
                @RequestParam(required = false) location: String?,
-               @RequestParam(required = false) startDate: String?): Holiday {
+               @RequestParam(required = false) startDate: String?,
+               @RequestParam(required = false) endDate: String?): Holiday {
 
-        val startDate: LocalDate = LocalDate.parse(startDate)
+        val startDate: LocalDate? = if(startDate.isNullOrEmpty()) null else LocalDate.parse(startDate)
+        val endDate: LocalDate? = if(endDate.isNullOrEmpty()) null else LocalDate.parse(endDate)
 
-        println(startDate)
-
-        return holidayRepository.save(Holiday(name = name, location = location ?: ""))
+        return holidayRepository.save(Holiday(
+                name = name,
+                location = location ?: "",
+                startDate = startDate,
+                endDate = endDate))
     }
 }
