@@ -6,22 +6,19 @@ import {App} from './components/App.es6';
 import holiday from './reducers/holidays';
 
 const base_url = window.location.origin;
-
 const store = createStore(holiday);
-
 
 const request = new XMLHttpRequest();
 request.onreadystatechange = () => {
 	if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
 		const json = request.responseText;
-		console.log(request.responseText);
-
 		store.dispatch({
 			type: "ADD_HOLIDAYS",
 			holidays: JSON.parse(json)
 		});
 	}
 };
+
 request.open('GET', base_url + '/holiday/index');
 request.send(null);
 
@@ -33,7 +30,6 @@ const addHandler = (holiday) => {
 	oReq.onreadystatechange = () => {
 		if(oReq.readyState === XMLHttpRequest.DONE && oReq.status === 200) {
 			const json = oReq.responseText;
-
 			store.dispatch({
 				type: "ADD_HOLIDAY",
 				holiday: JSON.parse(json)
