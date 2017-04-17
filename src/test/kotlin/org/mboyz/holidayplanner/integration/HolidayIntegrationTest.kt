@@ -4,9 +4,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.mboyz.holidayplanner.integration.AbstractSpringTest
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,7 +37,7 @@ class HolidayIntegrationTest : AbstractSpringTest() {
                     .param("location", "someLocation")
                     .param("startDate", "2007-12-12")
                     .param("endDate", "2007-12-13"))
-                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.status().isCreated)
                 .andReturn()
                 .response
 
@@ -55,7 +55,7 @@ class HolidayIntegrationTest : AbstractSpringTest() {
         val response = mvc.perform(MockMvcRequestBuilders
                 .post("/holiday/create")
                     .param("name", "someHoliday"))
-                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.status().isCreated)
                 .andReturn()
                 .response
 
@@ -68,6 +68,20 @@ class HolidayIntegrationTest : AbstractSpringTest() {
         val holidayInResponse: Holiday = mapper.readValue(response.contentAsString)
         assertThat(holidayInResponse.name, `is`(expectedHoliday.name))
         assertThat(holidayInResponse.location, `is`(expectedHoliday.location))
+    }
+
+    @Test
+    fun shouldNotCreateHolidayIfDatesAreInvalid() {
+        mvc.perform(MockMvcRequestBuilders
+                .post("/holiday/create")
+                .param("name", "someHoliday")
+                .param("location", "someLocation")
+                .param("startDate", "2007-12-12")
+                .param("endDate", "2007-12-11"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest)
+
+        val persistedHolidays = holidayRepository.findAll().toList()
+        assertTrue(persistedHolidays.isEmpty())
     }
 
     @Test
