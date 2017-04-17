@@ -1,4 +1,4 @@
-package org.mboyz.holidayplanner
+package org.mboyz.holidayplanner.integration
 
 import org.flywaydb.core.Flyway
 import org.junit.BeforeClass

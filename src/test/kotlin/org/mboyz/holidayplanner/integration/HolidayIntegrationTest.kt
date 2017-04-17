@@ -1,4 +1,4 @@
-package org.mboyz.holidayplanner
+package org.mboyz.holidayplanner.integration
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -6,6 +6,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.mboyz.holidayplanner.integration.AbstractSpringTest
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,7 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.time.LocalDate
 
-class HolidayControllerTest: AbstractSpringTest() {
+class HolidayIntegrationTest : AbstractSpringTest() {
     @Autowired
     lateinit var mvc: MockMvc
     @Autowired
