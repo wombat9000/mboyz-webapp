@@ -48,8 +48,8 @@ class HolidayControllerTest {
 
         val expectedHoliday = Holiday(1L, "someHoliday", "someLocation")
 
-        val holidaysInDB: MutableIterable<Holiday> = holidayRepository.findAll()
-        assertThat(holidaysInDB.first(), `is`(expectedHoliday))
+        val persistedHolidays: MutableIterable<Holiday> = holidayRepository.findAll()
+        assertThat(persistedHolidays.first(), `is`(expectedHoliday))
 
         val holidayInResponse: Holiday = mapper.readValue(response.contentAsString)
         assertThat(holidayInResponse, `is`(expectedHoliday))
@@ -66,8 +66,8 @@ class HolidayControllerTest {
 
         val expectedHoliday = Holiday(1L, "someHoliday")
 
-        val holidaysInDB: MutableIterable<Holiday> = holidayRepository.findAll()
-        assertThat(holidaysInDB.first(), `is`(expectedHoliday))
+        val persistedHolidays: MutableIterable<Holiday> = holidayRepository.findAll()
+        assertThat(persistedHolidays.first(), `is`(expectedHoliday))
 
         val holidayInResponse: Holiday = mapper.readValue(response.contentAsString)
         assertThat(holidayInResponse, `is`(expectedHoliday))
@@ -75,7 +75,7 @@ class HolidayControllerTest {
 
     @Test
     fun shouldListExistingHolidays() {
-        holidayRepository.save(listOf(Holiday(name = "someHoliday"), Holiday(name = "anotherHoliday")))
+        holidayRepository.save(listOf(Holiday(name = "someHoliday"), Holiday(name = "anotherHoliday", location = "someLocation")))
 
         val response: MockHttpServletResponse = mvc.perform(MockMvcRequestBuilders
                 .get("/holiday/index"))
@@ -87,6 +87,6 @@ class HolidayControllerTest {
 
         assertThat(holidays.size, `is`(2))
         assertThat(holidays.any { it.name == "someHoliday" }, `is`(true))
-        assertThat(holidays.any { it.name == "anotherHoliday" }, `is`(true))
+        assertThat(holidays.any { it.name == "anotherHoliday" && it.location == "someLocation"}, `is`(true))
     }
 }
