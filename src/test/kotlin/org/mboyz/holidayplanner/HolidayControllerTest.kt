@@ -34,7 +34,6 @@ class HolidayControllerTest {
         val expectedHoliday = Holiday(0L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03"))
         `when`(holidayRepository.save(expectedHoliday)).thenReturn(expectedHoliday)
 
-
         val createdHoliday = testee.create("someName", "someLocation", "1990-12-02", "2100-12-03", httpServletResponse)
 
         verify(holidayRepository).save(expectedHoliday)
