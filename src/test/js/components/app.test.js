@@ -1,15 +1,15 @@
-import {App} from '../../../main/resources/static/js_src/components/App.es6';
+import {Application} from '../../../main/resources/static/js_src/components/Application.es6';
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as sinon from "sinon";
 
-describe('App', function () {
+describe('Application', function () {
 	it('should render heading', function () {
 		const props = {
 			state: []
 		};
 
-		const renderedComponent = shallow(<App {...props} />);
+		const renderedComponent = shallow(<Application {...props} />);
 		expect(renderedComponent).toContainReact(<h1>Neuen Urlaub anlegen:</h1>);
 	});
 
@@ -30,7 +30,7 @@ describe('App', function () {
 		    ]
 	    };
 
-		const renderedComponent = shallow(<App {...props} />);
+		const renderedComponent = shallow(<Application {...props} />);
 		expect(renderedComponent).toContainReact(<td>someHoliday</td>);
 		expect(renderedComponent).toContainReact(<tr>
 			<td>anotherHoliday</td>
@@ -50,7 +50,7 @@ describe('App', function () {
 			preventDefault: () => {}
 		};
 
-		const testee = new App(props);
+		const testee = new Application(props);
 		testee.handleSubmit(event);
 
 		expect(props.addHandler.called).toBe(true);

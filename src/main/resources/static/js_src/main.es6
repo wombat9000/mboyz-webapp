@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
-import {App} from './components/App.es6';
+import {Application} from './components/Application.es6';
 import holiday from './reducers/holidays';
 import moment from "moment";
 
@@ -54,7 +54,7 @@ const addHandler = (holiday) => {
 
 const render = () => {
 	ReactDOM.render(
-		<App state={store.getState()} addHandler={addHandler} />,
+		<Application state={store.getState()} addHandler={addHandler} />,
 		document.getElementById('root')
 	);
 };

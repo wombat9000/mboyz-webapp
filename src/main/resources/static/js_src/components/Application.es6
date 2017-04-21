@@ -2,7 +2,7 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 
-class App extends React.Component {
+class Application extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -112,4 +112,4 @@ class App extends React.Component {
 	}
 }
 
-export {App};
+export {Application};
