@@ -13,6 +13,6 @@ class LocalDateAttributeConverter : AttributeConverter<LocalDate, Date> {
     }
 
     override fun convertToEntityAttribute(sqlDate: Date?): LocalDate? {
-        return if (sqlDate == null) null else sqlDate!!.toLocalDate()
+        return sqlDate?.toLocalDate()
     }
 }

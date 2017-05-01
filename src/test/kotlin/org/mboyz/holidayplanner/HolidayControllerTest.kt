@@ -1,6 +1,6 @@
 package org.mboyz.holidayplanner
 
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before

@@ -32,10 +32,11 @@ class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
                @RequestParam(required = false) endDate: String?,
                response: HttpServletResponse): Holiday? {
 
-        val startDate: LocalDate? = if(startDate.isNullOrEmpty()) null else LocalDate.parse(startDate)
-        val endDate: LocalDate? = if(endDate.isNullOrEmpty()) null else LocalDate.parse(endDate)
 
-        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+        val parsedStartDate: LocalDate? = startDate?.toLocalDate()
+        val parsedEndDate: LocalDate? = endDate?.toLocalDate()
+
+        if (invalidTimeFrame(parsedEndDate, parsedStartDate)) {
             response.status = SC_BAD_REQUEST
             return null
         }
@@ -44,7 +45,15 @@ class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
         return holidayRepository.save(Holiday(
                 name = name,
                 location = location ?: "",
-                startDate = startDate,
-                endDate = endDate))
+                startDate = parsedStartDate,
+                endDate = parsedEndDate))
     }
+
+    private fun invalidTimeFrame(endDate: LocalDate?, startDate: LocalDate?): Boolean {
+        return startDate != null && endDate != null && startDate.isAfter(endDate)
+    }
+}
+
+private fun String.toLocalDate(): LocalDate? {
+    return if(this.isNullOrEmpty()) null else LocalDate.parse(this)
 }
