@@ -1,6 +1,7 @@
 'use strict';
 
 const OK = 200;
+const CREATED = 201;
 const baseURL = window.location.origin;
 
 class HttpClient {
@@ -20,7 +21,7 @@ class HttpClient {
 		request.send();
 	}
 
-	static postNewHoliday(holiday) {
+	static postNewHoliday(holiday, store) {
 		const data = new FormData();
 
 		Object.keys(holiday).forEach(function (key) {
@@ -29,7 +30,12 @@ class HttpClient {
 
 		const request = new XMLHttpRequest();
 		request.onreadystatechange = () => {
-			if(request.readyState === XMLHttpRequest.DONE && request.status === OK) {
+			if(request.readyState === XMLHttpRequest.DONE && request.status === CREATED) {
+				const json = request.responseText;
+				store.dispatch({
+					type: "ADD_HOLIDAY",
+					holiday: JSON.parse(json)
+				});
 			}
 		};
 
