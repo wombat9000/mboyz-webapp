@@ -3,25 +3,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
 import {Application} from './components/Application.es6';
+import {HttpClient} from './HttpClient.es6';
 import holiday from './reducers/holidays';
 import moment from "moment";
 
 const base_url = window.location.origin;
 const store = createStore(holiday);
 
-const request = new XMLHttpRequest();
-request.onreadystatechange = () => {
-	if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
-		const json = request.responseText;
-		store.dispatch({
-			type: "ADD_HOLIDAYS",
-			holidays: JSON.parse(json)
-		});
-	}
-};
-
-request.open('GET', base_url + '/holiday/index');
-request.send();
+HttpClient.fetchInitialState(store);
 
 const addHandler = (holiday) => {
 	const data = new FormData();
