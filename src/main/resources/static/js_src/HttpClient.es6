@@ -1,12 +1,13 @@
 'use strict';
 
-class HttpClient {
+const OK = 200;
+const baseURL = window.location.origin;
 
+class HttpClient {
 	static fetchInitialState(store) {
-		const base_url = window.location.origin;
 		const request = new XMLHttpRequest();
 		request.onreadystatechange = () => {
-			if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+			if(request.readyState === XMLHttpRequest.DONE && request.status === OK) {
 				const json = request.responseText;
 				store.dispatch({
 					type: "ADD_HOLIDAYS",
@@ -15,7 +16,7 @@ class HttpClient {
 			}
 		};
 
-		request.open('GET', base_url + '/holiday/index');
+		request.open('GET', baseURL + '/holiday/index');
 		request.send();
 	}
 }

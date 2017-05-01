@@ -27,13 +27,18 @@ describe('HttpClient', function () {
 			};
 		});
 
-		//TODO: it should go against correct URL, have correct request parameters
+		it('should fetch from /holiday/index', function () {
+			HttpClient.fetchInitialState(store);
+			const URL = requests[0].url;
+			expect(URL).toContain('/holiday/index');
+		});
 
         it('should not dispatch to store if response is unsuccessful', function () {
         	HttpClient.fetchInitialState(store);
-        	expect(requests.length).toBe(1);
 
-        	requests[0].respond(503);
+        	expect(requests.length).toBe(1);
+	        const error = 503;
+	        requests[0].respond(error);
 
         	expect(store.dispatch.called).toBe(false);
         });
