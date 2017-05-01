@@ -6,8 +6,13 @@ const OK = 200;
 
 describe('HttpClient', function () {
 	let requests;
+	let store;
 
 	beforeEach(() => {
+		store = {
+			dispatch: sinon.spy()
+		};
+
 		this.xhr = sinon.useFakeXMLHttpRequest();
 		requests = [];
 
@@ -21,17 +26,13 @@ describe('HttpClient', function () {
 	});
 
 	describe('fetching initial state', function () {
-		let store;
-		beforeEach(() => {
-			store = {
-				dispatch: sinon.spy()
-			};
-		});
-
-		it('should fetch from /holiday/index', function () {
+		it('should get from /holiday/index', function () {
 			HttpClient.fetchInitialState(store);
 			const URL = requests[0].url;
+			const method = requests[0].method;
 			expect(URL).toContain('/holiday/index');
+			expect(method).toBe('GET');
+
 		});
 
         it('should not dispatch to store if response is unsuccessful', function () {
@@ -62,4 +63,15 @@ describe('HttpClient', function () {
 	        })).toBe(true);
         });
    });
+
+	describe('create new holiday', function () {
+		it('should post to /holiday/create', function () {
+			HttpClient.postNewHoliday();
+
+			const URL = requests[0].url;
+			const method = requests[0].method;
+			expect(URL).toContain('/holiday/create');
+			expect(method).toBe('POST');
+		});
+	});
 });

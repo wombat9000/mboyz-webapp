@@ -19,6 +19,17 @@ class HttpClient {
 		request.open('GET', baseURL + '/holiday/index');
 		request.send();
 	}
+
+	static postNewHoliday() {
+		const request = new XMLHttpRequest();
+		request.onreadystatechange = () => {
+			if(request.readyState === XMLHttpRequest.DONE && request.status === OK) {
+			}
+		};
+
+		request.open('POST', baseURL + '/holiday/create');
+		request.send();
+	}
 }
 
 export {HttpClient};
