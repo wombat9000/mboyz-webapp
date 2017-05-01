@@ -65,13 +65,33 @@ describe('HttpClient', function () {
    });
 
 	describe('create new holiday', function () {
+		let someHoliday = {
+			name: "someHoliday",
+			location: "someLocation"
+		};
+
 		it('should post to /holiday/create', function () {
-			HttpClient.postNewHoliday();
+			HttpClient.postNewHoliday(someHoliday);
 
 			const URL = requests[0].url;
 			const method = requests[0].method;
 			expect(URL).toContain('/holiday/create');
 			expect(method).toBe('POST');
+		});
+
+		it('should not dispatch to store if response is unsuccessful', function () {
+			HttpClient.postNewHoliday(someHoliday);
+			requests[0].respond(ERROR);
+
+			expect(store.dispatch.called).toBe(false);
+		});
+
+		it('should post holiday data', function () {
+			HttpClient.postNewHoliday(someHoliday);
+
+			const holidayData = requests[0].requestBody;
+			expect(holidayData.get("name")).toBe("someHoliday");
+			expect(holidayData.get("location")).toBe("someLocation");
 		});
 	});
 });

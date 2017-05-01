@@ -20,7 +20,13 @@ class HttpClient {
 		request.send();
 	}
 
-	static postNewHoliday() {
+	static postNewHoliday(holiday) {
+		const data = new FormData();
+
+		Object.keys(holiday).forEach(function (key) {
+			data.set(""+key, holiday[key])
+		});
+
 		const request = new XMLHttpRequest();
 		request.onreadystatechange = () => {
 			if(request.readyState === XMLHttpRequest.DONE && request.status === OK) {
@@ -28,7 +34,7 @@ class HttpClient {
 		};
 
 		request.open('POST', baseURL + '/holiday/create');
-		request.send();
+		request.send(data);
 	}
 }
 
