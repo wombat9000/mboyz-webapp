@@ -1,9 +1,10 @@
 import {HttpClient} from '../../main/resources/static/js_src/HttpClient.es6';
 import * as sinon from "sinon";
 
+const ERROR = 503;
+const OK = 200;
 
 describe('HttpClient', function () {
-
 	let requests;
 
 	beforeEach(() => {
@@ -36,29 +37,28 @@ describe('HttpClient', function () {
         it('should not dispatch to store if response is unsuccessful', function () {
         	HttpClient.fetchInitialState(store);
 
-        	expect(requests.length).toBe(1);
-	        const error = 503;
-	        requests[0].respond(error);
+	        requests[0].respond(ERROR);
 
         	expect(store.dispatch.called).toBe(false);
         });
 
-        it('should dispatch to store if response is successful', function () {
-	        const someHoliday = {
-	        	id: 1,
-		        name: "someHoliday"
-	        };
+        it('should dispatch retrieved holidays to store if response is successful', function () {
+	        const holidays = [
+		        {id: 1, name: "someHoliday"},
+		        {id: 2, name: "anotherHoliday"}
+	        ];
 
 	        HttpClient.fetchInitialState(store);
-	        expect(requests.length).toBe(1);
 
-	        requests[0].respond(200, { "Content-Type": "application/json" },
-		        '[{ "id": 1, "name": "someHoliday" }]');
+	        requests[0].respond(
+	        	OK,
+		        { "Content-Type": "application/json" },
+		        JSON.stringify(holidays)
+	        );
 
-	        expect(store.dispatch.called).toBe(true);
 	        expect(store.dispatch.calledWith({
 		        type: "ADD_HOLIDAYS",
-		        holidays: [someHoliday]
+		        holidays: holidays
 	        })).toBe(true);
         });
    });
