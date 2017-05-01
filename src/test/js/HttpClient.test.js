@@ -20,13 +20,16 @@ describe('HttpClient', function () {
 	});
 
 	describe('fetching initial state', function () {
+		let store;
+		beforeEach(() => {
+			store = {
+				dispatch: sinon.spy()
+			};
+		});
+
 		//TODO: it should go against correct URL, have correct request parameters
 
         it('should not dispatch to store if response is unsuccessful', function () {
-			const store = {
-		        dispatch: sinon.spy()
-	        };
-
         	HttpClient.fetchInitialState(store);
         	expect(requests.length).toBe(1);
 
@@ -36,10 +39,6 @@ describe('HttpClient', function () {
         });
 
         it('should dispatch to store if response is successful', function () {
-	        const store = {
-		        dispatch: sinon.spy()
-	        };
-
 	        const someHoliday = {
 	        	id: 1,
 		        name: "someHoliday"
