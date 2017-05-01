@@ -135,6 +135,7 @@ node {
 	version = "6.2.0"
 	npmVersion = '4.0.5'
 	download = true
+	npmWorkDir = file("${project.buildDir}/npm")
 }
 
 task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
