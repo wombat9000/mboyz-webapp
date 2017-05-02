@@ -23,5 +23,6 @@ deploy:
   provider: heroku
   api_key:
     secure: $HEROKU-API
+    app: mboyz-webapp-staging
 notifications:
   email: false
