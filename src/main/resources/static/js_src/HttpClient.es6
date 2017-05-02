@@ -8,6 +8,10 @@ const baseURL = window.location.origin;
 
 
 class HttpClient {
+	//TODO:
+	// - introduce holiday class
+	// - watch further tutorials on how to move some of this logic to reducers
+		// - store dispatch gets called from elsewhere, and reducer fires the requests
 	static fetchInitialState(store) {
 		const request = new XMLHttpRequest();
 
