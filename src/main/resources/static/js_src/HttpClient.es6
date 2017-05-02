@@ -1,5 +1,7 @@
 'use strict';
 
+import moment from "moment";
+
 const OK = 200;
 const CREATED = 201;
 const baseURL = window.location.origin;
@@ -27,6 +29,14 @@ class HttpClient {
 		Object.keys(holiday).forEach(function (key) {
 			data.set(""+key, holiday[key])
 		});
+
+		if (moment.isMoment(holiday.startDate)) {
+			data.set("startDate", holiday.startDate.format("YYYY-MM-DD"));
+		}
+
+		if (moment.isMoment(holiday.endDate)) {
+			data.set("endDate", holiday.endDate.format("YYYY-MM-DD"));
+		}
 
 		const request = new XMLHttpRequest();
 		request.onreadystatechange = () => {

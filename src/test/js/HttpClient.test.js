@@ -71,7 +71,8 @@ describe('HttpClient', function () {
 		let someHoliday = {
 			name: "someHoliday",
 			location: "someLocation",
-			startDate: moment.
+			startDate: moment(),
+			endDate: moment(),
 		};
 
 		it('should post to /holiday/create', function () {
@@ -96,6 +97,8 @@ describe('HttpClient', function () {
 			const holidayData = requests[0].requestBody;
 			expect(holidayData.get("name")).toBe("someHoliday");
 			expect(holidayData.get("location")).toBe("someLocation");
+			expect(holidayData.get("startDate")).toBe(someHoliday.startDate.format("YYYY-MM-DD"));
+			expect(holidayData.get("endDate")).toBe(someHoliday.endDate.format("YYYY-MM-DD"));
 		});
 
 		it('should dispatch created holiday to store if response is created', function () {
