@@ -1,8 +1,4 @@
 before_install:
-  - "npm install -g npm"
-  - "npm cache clean -f"
-  - "npm install -g n"
-  - "sudo n stable"
   - "node -v"
   - "npm -v"
 language: java
@@ -10,6 +6,12 @@ jdk:
   - oraclejdk8
 env:
   - TRAVIS_NODE_VERSION="6"
+
+install:
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION"
+  - npm install
+  - node -v
+  - npm -v
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
