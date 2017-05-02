@@ -7,7 +7,6 @@ import {HttpClient} from './HttpClient.es6';
 import holiday from './reducers/holidays';
 
 const store = createStore(holiday);
-
 HttpClient.fetchInitialState(store);
 
 const addHandler = (holiday) => {
