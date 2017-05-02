@@ -131,14 +131,6 @@ task buildStaticResources(type: Exec, dependsOn: npmInstall) {
 	commandLine = ["./node_modules/.bin/gulp", "build"]
 }
 
-node {
-	version = "6.2.0"
-	npmVersion = '4.0.5'
-	download = true
-	workDir = file("${project.buildDir}/nodejs")
-	npmWorkDir = file("${project.buildDir}/npm")
-}
-
 task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
 	archiveName = "static-resources.tar"
 	destinationDir = file("${buildDir}/libs")
