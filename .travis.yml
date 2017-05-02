@@ -1,3 +1,6 @@
+before_install:
+  - "node -v"
+  - "npm -v"
 language: java
 jdk:
   - oraclejdk8
