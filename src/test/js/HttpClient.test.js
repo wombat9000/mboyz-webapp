@@ -1,9 +1,11 @@
 import {HttpClient} from '../../main/resources/static/js_src/HttpClient.es6';
 import * as sinon from "sinon";
+import moment from "moment";
 
-const ERROR = 503;
+
 const OK = 200;
 const CREATED = 201;
+const ERROR = 503;
 
 describe('HttpClient', function () {
 	let requests;
@@ -68,7 +70,8 @@ describe('HttpClient', function () {
 	describe('create new holiday', function () {
 		let someHoliday = {
 			name: "someHoliday",
-			location: "someLocation"
+			location: "someLocation",
+			startDate: moment.
 		};
 
 		it('should post to /holiday/create', function () {
