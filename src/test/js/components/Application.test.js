@@ -4,15 +4,6 @@ import {shallow} from 'enzyme';
 import * as sinon from "sinon";
 
 describe('Application', function () {
-	it('should render heading', function () {
-		const props = {
-			state: []
-		};
-
-		const renderedComponent = shallow(<Application {...props} />);
-		expect(renderedComponent).toContainReact(<h1>Neuen Urlaub anlegen:</h1>);
-	});
-
 	it('should render holidays', function () {
 	    const props = {
 	    	state: [
@@ -38,22 +29,6 @@ describe('Application', function () {
 			<td>2017-04-12</td>
 			<td>2017-04-13</td>
 		</tr>);
-	});
-
-	it('should fire addHandler on submit', function () {
-		const props = {
-			state: [],
-			addHandler: sinon.spy()
-		};
-
-		const event = {
-			preventDefault: () => {}
-		};
-
-		const testee = new Application(props);
-		testee.handleSubmit(event);
-
-		expect(props.addHandler.called).toBe(true);
 	});
 });
 
