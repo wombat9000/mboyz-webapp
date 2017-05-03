@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST
 import javax.servlet.http.HttpServletResponse.SC_CREATED
 
 @Controller
-@RequestMapping("/holiday")
+@RequestMapping("/api/holiday")
 class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
 
     @RequestMapping(value = "/index", method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json; charset=UTF-8"))

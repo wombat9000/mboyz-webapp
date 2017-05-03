@@ -25,7 +25,7 @@ class HttpClient {
 			}
 		};
 
-		request.open('GET', baseURL + '/holiday/index');
+		request.open('GET', baseURL + '/api/holiday/index');
 		request.send();
 	}
 
@@ -43,7 +43,7 @@ class HttpClient {
 			}
 		};
 
-		request.open('POST', baseURL + '/holiday/create');
+		request.open('POST', baseURL + '/api/holiday/create');
 		request.send(formData);
 	}
 }

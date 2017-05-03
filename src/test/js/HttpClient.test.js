@@ -33,7 +33,7 @@ describe('HttpClient', function () {
 			HttpClient.fetchInitialState(store);
 			const URL = requests[0].url;
 			const method = requests[0].method;
-			expect(URL).toContain('/holiday/index');
+			expect(URL).toContain('/api/holiday/index');
 			expect(method).toBe('GET');
 
 		});
@@ -75,12 +75,12 @@ describe('HttpClient', function () {
 			endDate: moment(),
 		};
 
-		it('should post to /holiday/create', function () {
+		it('should post to /api/holiday/create', function () {
 			HttpClient.postNewHoliday(someHoliday, store);
 
 			const URL = requests[0].url;
 			const method = requests[0].method;
-			expect(URL).toContain('/holiday/create');
+			expect(URL).toContain('/api/holiday/create');
 			expect(method).toBe('POST');
 		});
 

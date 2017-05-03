@@ -32,7 +32,7 @@ class HolidayIntegrationTest : AbstractSpringTest() {
     @Test
     fun shouldCreateNewHolidays() {
         val response = mvc.perform(MockMvcRequestBuilders
-                .post("/holiday/create")
+                .post("/api/holiday/create")
                     .param("name", "someHoliday")
                     .param("location", "someLocation")
                     .param("startDate", "2007-12-12")
@@ -53,7 +53,7 @@ class HolidayIntegrationTest : AbstractSpringTest() {
     @Test
     fun shouldCreateHolidayWithUndefinedOptionalFields() {
         val response = mvc.perform(MockMvcRequestBuilders
-                .post("/holiday/create")
+                .post("/api/holiday/create")
                     .param("name", "someHoliday"))
                 .andExpect(MockMvcResultMatchers.status().isCreated)
                 .andReturn()
@@ -73,7 +73,7 @@ class HolidayIntegrationTest : AbstractSpringTest() {
     @Test
     fun shouldNotCreateHolidayIfDatesAreInvalid() {
         mvc.perform(MockMvcRequestBuilders
-                .post("/holiday/create")
+                .post("/api/holiday/create")
                 .param("name", "someHoliday")
                 .param("location", "someLocation")
                 .param("startDate", "2007-12-12")
@@ -89,7 +89,7 @@ class HolidayIntegrationTest : AbstractSpringTest() {
         holidayRepository.save(listOf(Holiday(name = "someHoliday"), Holiday(name = "anotherHoliday", location = "someLocation")))
 
         val response: MockHttpServletResponse = mvc.perform(MockMvcRequestBuilders
-                .get("/holiday/index"))
+                .get("/api/holiday/index"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andReturn()
                 .response
