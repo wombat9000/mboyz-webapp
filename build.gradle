@@ -102,25 +102,10 @@ flyway {
 	locations = ["filesystem:src/main/resources/db/migration/"]
 }
 
-sourceSets {
-	main {
-		kotlin {
-			srcDirs = ['src/main/kotlin']
-		}
-		resources {
-			srcDirs = ['src/main/resources']
-		}
-	}
-
-	test {
-		kotlin {
-			srcDirs = ['src/test/kotlin']
-		}
-		resources {
-			srcDirs = ['src/test/resources']
-		}
-	}
-}
+sourceSets.main.kotlin.srcDirs = ['src/main/kotlin']
+sourceSets.main.resources.srcDirs = ['src/main/resources']
+sourceSets.test.kotlin.srcDirs = ['src/test/kotlin']
+sourceSets.test.resources.srcDirs = ['src/test/resources']
 
 springBoot {
 	mainClass = 'org.mboyz.holidayplanner.Server'
