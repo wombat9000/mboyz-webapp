@@ -34,7 +34,13 @@ class HolidayControllerTest {
         val expectedHoliday = Holiday(0L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03"))
         `when`(holidayRepository.save(expectedHoliday)).thenReturn(expectedHoliday)
 
-        val createdHoliday = testee.create("someName", "someLocation", "1990-12-02", "2100-12-03", httpServletResponse)
+        val someHoliday = Holiday(
+                name = "someName",
+                location = "someLocation",
+                startDate = LocalDate.parse("1990-12-02"),
+                endDate = LocalDate.parse("2100-12-03"))
+
+        val createdHoliday = testee.create(someHoliday, httpServletResponse)
 
         verify(holidayRepository).save(expectedHoliday)
         assertThat(createdHoliday, `is`(expectedHoliday))
@@ -42,7 +48,13 @@ class HolidayControllerTest {
 
     @Test
     fun shouldNotPersistWhenEnddateIsBeforeStartdate() {
-        val createdHoliday: Holiday? = testee.create("someName", "someLocation", "1990-12-02", "1990-12-01", httpServletResponse)
+        val someHoliday = Holiday(
+                name = "someName",
+                location = "someLocation",
+                startDate = LocalDate.parse("1990-12-02"),
+                endDate = LocalDate.parse("1990-12-01"))
+
+        val createdHoliday: Holiday? = testee.create(someHoliday, httpServletResponse)
 
         verifyZeroInteractions(holidayRepository)
 
