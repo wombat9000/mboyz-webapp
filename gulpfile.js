@@ -1,15 +1,12 @@
-var gulp = require('gulp');
-var del = require('del');
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var jest = require('gulp-jest').default;
+const gulp = require('gulp');
+const del = require('del');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const jest = require('gulp-jest').default;
 
-var paths = {
-	es6Src: './src/main/js/**/*.{es6,jsx}',
+const paths = {
 	mainSrc: './src/main/js/main.es6',
-	compiledJsDir: './src/main/resources/static/js/',
-	mainCompile: './src/main/resources/static/js/main.js',
-	testSrc: './test/js/'
+	compiledJsDir: './src/main/resources/static/js/'
 };
 
 gulp.task('clean', function() {
