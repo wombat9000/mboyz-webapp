@@ -5,11 +5,9 @@ var source = require('vinyl-source-stream');
 var jest = require('gulp-jest').default;
 
 var paths = {
-	es6Src: './src/main/resources/static/js_src/**/*.{es6,jsx}',
-	mainSrc: './src/main/resources/static/js_src/main.es6',
+	es6Src: './src/main/js/**/*.{es6,jsx}',
+	mainSrc: './src/main/js/main.es6',
 	compiledJsDir: './src/main/resources/static/js/',
-	// scssFiles: './sass/**/*.scss',
-	// cssDir: './css/',
 	mainCompile: './src/main/resources/static/js/main.js',
 	testSrc: './test/js/'
 };

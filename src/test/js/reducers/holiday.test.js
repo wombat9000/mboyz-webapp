@@ -1,4 +1,4 @@
-import holiday from '../../../main/resources/static/js_src/reducers/holidays.es6';
+import holiday from '../../../main/js/reducers/holidays.es6';
 
 describe('holiday reducer', function () {
 	it('should default to [] as initial state', function () {

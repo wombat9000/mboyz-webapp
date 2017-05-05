@@ -1,4 +1,4 @@
-import {HttpClient} from '../../main/resources/static/js_src/HttpClient.es6';
+import {HttpClient} from '../../main/js/HttpClient.es6';
 import * as sinon from "sinon";
 import moment from "moment";
 

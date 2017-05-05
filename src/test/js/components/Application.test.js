@@ -1,4 +1,4 @@
-import {Application} from '../../../main/resources/static/js_src/components/Application.es6';
+import {Application} from '../../../main/js/components/Application.es6';
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as sinon from "sinon";
