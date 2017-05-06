@@ -1,6 +1,9 @@
 'use strict';
 import React from 'react';
-import {HolidayForm} from './HolidayForm.es6';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {HolidayOverview} from './HolidayOverview.es6';
+
+const Test = () => <div>test</div>;
 
 class Application extends React.Component {
 	constructor(props) {
@@ -8,30 +11,13 @@ class Application extends React.Component {
 	}
 
 	render() {
-		const rows = this.props.state.map((holiday, index) =>
-			<tr key={holiday.id}>
-				<td>{holiday.name}</td>
-				<td>{holiday.location}</td>
-				<td>{holiday.startDate}</td>
-				<td>{holiday.endDate}</td>
-			</tr>
-		);
-
 		return (
-			<div>
-				<HolidayForm addHandler={this.props.addHandler} />
-				<table>
-					<thead><tr>
-						<th>Name</th>
-						<th>Ort</th>
-						<th>Start</th>
-						<th>Ende</th>
-					</tr></thead>
-				<tbody>
-					{rows}
-				</tbody>
-				</table>
-			</div>
+			<Router>
+				<div>
+				<Route exact path="/" render={props => <HolidayOverview  state={this.props.state} addHandler={this.props.addHandler} />} />
+				<Route path="/test" component={Test} />
+				</div>
+			</Router>
 		);
 	}
 }
