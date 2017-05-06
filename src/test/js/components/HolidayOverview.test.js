@@ -1,9 +1,9 @@
-import {Application} from '../../../main/js/components/Application.es6';
+import {HolidayOverview} from '../../../main/js/components/HolidayOverview.es6';
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as sinon from "sinon";
 
-describe('Application', function () {
+describe('HolidayOverview', function () {
 	it('should render holidays', function () {
 	    const props = {
 	    	state: [
@@ -21,7 +21,7 @@ describe('Application', function () {
 		    ]
 	    };
 
-		const renderedComponent = shallow(<Application {...props} />);
+		const renderedComponent = shallow(<HolidayOverview {...props} />);
 		expect(renderedComponent).toContainReact(<td>someHoliday</td>);
 		expect(renderedComponent).toContainReact(<tr>
 			<td>anotherHoliday</td>
