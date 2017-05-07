@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {HolidayForm} from "./HolidayForm";
-import {Grid} from "react-bootstrap";
+import {Grid, Table} from "react-bootstrap";
 
 class HolidayOverview extends React.Component {
 	constructor(props) {
@@ -23,7 +23,8 @@ class HolidayOverview extends React.Component {
 			<div>
 			<Grid>
 			<HolidayForm addHandler={this.props.addHandler} />
-			<table>
+			<h2>Alle Urlaube</h2>
+			<Table striped bordered hover>
 				<thead>
 					<tr>
 					<th>Name</th>
@@ -35,7 +36,7 @@ class HolidayOverview extends React.Component {
 				<tbody>
 					{rows}
 				</tbody>
-			</table>
+			</Table>
 			</Grid>
 			</div>
 		);
