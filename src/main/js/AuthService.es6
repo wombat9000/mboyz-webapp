@@ -1,7 +1,14 @@
 'use strict';
 
 import Auth0Lock from 'auth0-lock'
-import { browserHistory } from 'react-router'
+import createHistory from 'history/createBrowserHistory'
+const history = createHistory({
+	basename: '',             // The base URL of the app (see below)
+	forceRefresh: true,      // Set true to force full page refreshes
+	keyLength: 6,             // The length of location.key
+	// A function to use to confirm navigation with the user (see below)
+	getUserConfirmation: (message, callback) => callback(window.confirm(message))
+});
 
 const baseURL = window.location.origin;
 
@@ -22,9 +29,9 @@ export default class AuthService {
 
 	_doAuthentication(authResult) {
 		// Saves the user token
-		this.setToken(authResult.idToken)
+		this.setToken(authResult.idToken);
 		// navigate to the home route
-		browserHistory.replace('/home')
+		history.replace('/');
 	}
 
 	login() {
