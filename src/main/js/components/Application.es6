@@ -40,7 +40,8 @@ class Application extends React.Component {
 	render() {
 		const holidaysProps = {
 			state: this.props.state,
-			addHandler: this.props.addHandler
+			addHandler: this.props.addHandler,
+			auth: auth
 		};
 
 		return (

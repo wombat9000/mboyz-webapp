@@ -2,7 +2,7 @@
 
 import Auth0Lock from 'auth0-lock'
 import createHistory from 'history/createBrowserHistory'
-import {isTokenExpired} from './jwtHelper';
+import {isTokenExpired} from './jwtExpiration';
 
 const history = createHistory({
 	basename: '',             // The base URL of the app (see below)
