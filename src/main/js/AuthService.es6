@@ -2,6 +2,8 @@
 
 import Auth0Lock from 'auth0-lock'
 import createHistory from 'history/createBrowserHistory'
+import {isTokenExpired} from './jwtHelper';
+
 const history = createHistory({
 	basename: '',             // The base URL of the app (see below)
 	forceRefresh: true,      // Set true to force full page refreshes
@@ -41,7 +43,8 @@ export default class AuthService {
 
 	loggedIn() {
 		// Checks if there is a saved token and it's still valid
-		return !!this.getToken();
+		const token = this.getToken();
+		return !!token && !isTokenExpired(token);
 	}
 
 	setToken(idToken) {
