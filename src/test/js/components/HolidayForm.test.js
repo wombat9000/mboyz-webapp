@@ -1,4 +1,4 @@
-import {HolidayForm} from '../../../main/js/components/HolidayForm.es6';
+import HolidayForm from '../../../main/js/components/HolidayForm.es6';
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as sinon from "sinon";
@@ -11,7 +11,7 @@ describe('HolidayForm', function () {
 		};
 
 		const renderedComponent = shallow(<HolidayForm {...props} />);
-		expect(renderedComponent).toContainReact(<h1>Neuen Urlaub anlegen:</h1>);
+		expect(renderedComponent).toContainReact(<h2>Neuen Urlaub anlegen:</h2>);
 	});
 
 	it('should fire addHandler on submit', function () {

@@ -113,4 +113,4 @@ class HolidayForm extends React.Component {
 	}
 }
 
-export {HolidayForm};
+export default HolidayForm;

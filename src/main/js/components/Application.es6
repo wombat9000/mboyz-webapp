@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
-import {HolidayOverview} from './HolidayOverview.es6';
+import HolidayOverview from './HolidayOverview.es6';
 import AuthService from '../AuthService.es6';
 import Login from './Login.es6'
 
