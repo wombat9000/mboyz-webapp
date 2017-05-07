@@ -1,6 +1,8 @@
 'use strict';
 import React from 'react';
 import DatePicker from "react-datepicker";
+import {Button, FormGroup, Form, Col, ControlLabel, FormControl} from 'react-bootstrap'
+
 
 class HolidayForm extends React.Component {
 	constructor(props) {
@@ -48,43 +50,64 @@ class HolidayForm extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Neuen Urlaub anlegen:</h1>
-				<form onSubmit={this.handleSubmit}>
-					<label>
-						Name:
-						<input name="name" type="text" value={this.state.name} onChange={this.handleChange}/>
-					</label>
-					<label>
-						Ort:
-						<input name="location" type="text" value={this.state.location} onChange={this.handleChange}/>
-					</label>
-					<label>
-						Von:
-						<DatePicker
-							dateFormat="DD.MM.YYYY"
-							selected={this.state.startDate}
-							selectsStart
-							startDate={this.state.startDate}
-							endDate={this.state.endDate}
-							onChange={this.handleStartDateChange}
-							isClearable={true}
-						/>
-					</label>
-					<label>
-						Bis:
-						<DatePicker
-							dateFormat="DD.MM.YYYY"
-							selected={this.state.endDate}
-							selectsEnd
-							startDate={this.state.startDate}
-							endDate={this.state.endDate}
-							onChange={this.handleEndDateChange}
-							isClearable={true}
-						/>
-					</label>
-
-					<input type="submit" value="Submit" />
-				</form>
+				<h2>Neuen Urlaub anlegen:</h2>
+				<Form horizontal onSubmit={this.handleSubmit}>
+					<FormGroup controlId="name">
+						<Col componentClass={ControlLabel} sm={2}>
+							Name:
+						</Col>
+						<Col sm={10}>
+							<FormControl name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+						</Col>
+					</FormGroup>
+					<FormGroup controlId="name">
+						<Col componentClass={ControlLabel} sm={2}>
+							Ort:
+						</Col>
+						<Col sm={10}>
+							<FormControl name="location" type="text" value={this.state.location} onChange={this.handleChange} />
+						</Col>
+					</FormGroup>
+					<FormGroup controlId="startDate">
+						<Col componentClass={ControlLabel} sm={2}>
+							Von:
+						</Col>
+						<Col sm={10}>
+							<DatePicker
+								dateFormat="DD.MM.YYYY"
+								selected={this.state.startDate}
+								selectsStart
+								startDate={this.state.startDate}
+								endDate={this.state.endDate}
+								onChange={this.handleStartDateChange}
+								isClearable={true}
+							/>
+						</Col>
+					</FormGroup>
+					<FormGroup controlId="endDate">
+						<Col componentClass={ControlLabel} sm={2}>
+							Bis:
+						</Col>
+						<Col sm={10}>
+							<DatePicker
+								dateFormat="DD.MM.YYYY"
+								selected={this.state.endDate}
+								selectsEnd
+								startDate={this.state.startDate}
+								endDate={this.state.endDate}
+								onChange={this.handleEndDateChange}
+								isClearable={true}
+							/>
+						</Col>
+					</FormGroup>
+					<FormGroup>
+						<Col smOffset={2} sm={10}>
+							<Button type="submit">
+								Submit
+							</Button>
+						</Col>
+					</FormGroup>
+				</Form>
 			</div>
 		)
 	}
