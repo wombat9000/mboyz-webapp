@@ -10,4 +10,9 @@ class PageController {
     fun home(): String {
         return "home"
     }
+
+    @RequestMapping("/holidays/*")
+    fun holidays(): String {
+        return "home"
+    }
 }

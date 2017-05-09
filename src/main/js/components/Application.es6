@@ -26,6 +26,7 @@ class Application extends React.Component {
 					<Navigation auth={auth} />
 					<Route exact path="/" component={Home}/>
 					<PrivateRoute exact path="/holidays" auth={auth} component={HolidayOverview} componentProps={holidaysProps}/>
+					<Route path="/holidays/:id" component={HolidaySingle} />
 				</div>
 			</BrowserRouter>
 		);
@@ -37,5 +38,14 @@ const Home = () => (
 		<h2>Home</h2>
 	</div>
 );
+
+const HolidaySingle = (props) => {
+	console.log(props);
+	return (
+		<div>
+			<h2>Urlaub: {props.match.params.id}</h2>
+		</div>
+	);
+};
 
 export {Application};
