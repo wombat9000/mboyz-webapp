@@ -1,9 +1,10 @@
 'use strict';
 import React from 'react';
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import HolidayOverview from './HolidayOverview.es6';
 import AuthService from '../AuthService.es6';
 import Login from './Login.es6'
+import Navigation from "./Navigation";
 
 const auth = new AuthService('czRO1jls_01h49xVXcxmtMdLvCrtOAyW', 'wombat9000.eu.auth0.com');
 
@@ -45,12 +46,13 @@ class Application extends React.Component {
 		};
 
 		return (
-			<Router>
+			<BrowserRouter>
 				<div>
+					<Navigation/>
 					<PrivateRoute exact path="/" component={HolidayOverview} componentProps={holidaysProps}/>
 					<Route path="/login" render={() => <Login auth={auth} />} />
 				</div>
-			</Router>
+			</BrowserRouter>
 		);
 	}
 }
