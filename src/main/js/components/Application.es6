@@ -22,10 +22,7 @@ class PrivateRoute extends React.Component {
 			auth.loggedIn() ? (
 				<Component {...this.props.componentProps}/>
 			) : (
-				<Redirect to={{
-					pathname: '/login',
-					state: { from: this.props.location }
-				}}/>
+				<h2>Du musst einloggen, um diese Seite zu sehen.</h2>
 			)
 		)}/>
 		)
