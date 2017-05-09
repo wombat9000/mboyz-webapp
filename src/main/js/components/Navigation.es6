@@ -23,7 +23,9 @@ export class Navigation extends React.Component {
 							<NavItem href="/holidays">Urlaube</NavItem>
 						</Nav>
 						<Nav pullRight>
-							<NavItem href="#">Login/Logout</NavItem>
+							{this.props.auth.loggedIn() ?
+								<NavItem onClick={this.props.auth.logout}>Logout</NavItem> :
+								<NavItem onClick={this.props.auth.login}>Login</NavItem>}
 						</Nav>
 					</Navbar.Collapse>
 				</Navbar>

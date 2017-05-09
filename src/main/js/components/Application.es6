@@ -3,7 +3,6 @@ import React from 'react';
 import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import HolidayOverview from './HolidayOverview.es6';
 import AuthService from '../AuthService.es6';
-import Login from './Login.es6'
 import Navigation from "./Navigation";
 
 const auth = new AuthService('czRO1jls_01h49xVXcxmtMdLvCrtOAyW', 'wombat9000.eu.auth0.com');
@@ -48,9 +47,8 @@ class Application extends React.Component {
 		return (
 			<BrowserRouter>
 				<div>
-					<Navigation/>
+					<Navigation auth={auth} />
 					<PrivateRoute exact path="/" component={HolidayOverview} componentProps={holidaysProps}/>
-					<Route path="/login" render={() => <Login auth={auth} />} />
 				</div>
 			</BrowserRouter>
 		);
