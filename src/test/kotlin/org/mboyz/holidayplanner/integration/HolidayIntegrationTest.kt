@@ -100,4 +100,28 @@ class HolidayIntegrationTest : AbstractSpringTest() {
         assertThat(holidays.any { it.name == "someHoliday" }, `is`(true))
         assertThat(holidays.any { it.name == "anotherHoliday" && it.location == "someLocation"}, `is`(true))
     }
+
+    @Test
+    fun shouldGetHoliday() {
+        val expectedHoliday = holidayRepository.save(Holiday(name = "someHoliday"))
+        val id = expectedHoliday.id
+
+        val response: MockHttpServletResponse = mvc.perform(MockMvcRequestBuilders
+                .get("/api/holiday/$id"))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andReturn()
+                .response
+
+        val actualHoliday: Holiday = mapper.readValue(response.contentAsString)
+
+        assertThat(actualHoliday, `is`(expectedHoliday))
+    }
+
+    @Test
+    fun shouldReturnNoContentIfNoHolidayCanBeFoundForId() {
+        mvc.perform(MockMvcRequestBuilders
+                .get("/api/holiday/1"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent)
+                .andReturn()
+    }
 }

@@ -7,6 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations.initMocks
@@ -60,5 +61,31 @@ class HolidayControllerTest {
 
         verify(httpServletResponse).status = HttpServletResponse.SC_BAD_REQUEST
         assertTrue(createdHoliday == null)
+    }
+
+    @Test
+    fun shouldGetHolidayById() {
+        val someId: Long = 1L
+        val expectedHoliday = Holiday(
+                name = "someName",
+                location = "someLocation",
+                startDate = LocalDate.parse("1990-12-02"),
+                endDate = LocalDate.parse("2100-12-03"))
+
+        `when`(holidayRepository.findOne(someId)).thenReturn(expectedHoliday)
+
+        val actualHoliday = testee.get(someId, httpServletResponse)
+
+        assertThat(actualHoliday, `is`(expectedHoliday))
+    }
+
+    @Test
+    fun shouldSetContentWhenHolidayNotFound() {
+        `when`(holidayRepository.findOne(ArgumentMatchers.any())).thenReturn(null)
+
+        val actualHoliday = testee.get(1L, httpServletResponse)
+
+        assertTrue(actualHoliday == null)
+        verify(httpServletResponse).status = HttpServletResponse.SC_NO_CONTENT
     }
 }

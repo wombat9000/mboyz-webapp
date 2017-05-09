@@ -4,14 +4,10 @@ import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 import javax.servlet.http.HttpServletResponse
-import javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST
-import javax.servlet.http.HttpServletResponse.SC_CREATED
+import javax.servlet.http.HttpServletResponse.*
 
 @Controller
 @RequestMapping("/api/holiday")
@@ -21,6 +17,21 @@ class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
     @ResponseBody
     fun index(): List<Holiday> {
         return holidayRepository.findAll().toList()
+    }
+
+    @RequestMapping(value = "/{holidayId}", method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json; charset=UTF-8"))
+    @ResponseBody
+    fun get(@PathVariable holidayId: Long,
+            response: HttpServletResponse): Holiday? {
+
+
+        val holiday: Holiday? = holidayRepository.findOne(holidayId)
+
+        if (holiday == null) {
+            response.status = SC_NO_CONTENT
+        }
+
+        return holiday
     }
 
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST), produces = arrayOf("application/json; charset=UTF-8"))
