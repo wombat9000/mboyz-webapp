@@ -12,9 +12,9 @@ class PrivateRoute extends React.Component {
 		delete propsWithoutComponent.component;
 
 		return (
-			<Route {...propsWithoutComponent} render={() => (
+			<Route {...propsWithoutComponent} render={(props) => (
 				this.props.auth.loggedIn() ? (
-					<Component {...this.props.componentProps}/>
+					<Component {...props} {...this.props.componentProps}/>
 				) : (
 					<h2>Du musst einloggen, um diese Seite zu sehen.</h2>
 				)

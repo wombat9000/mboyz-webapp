@@ -26,7 +26,7 @@ class Application extends React.Component {
 					<Navigation auth={auth} />
 					<Route exact path="/" component={Home}/>
 					<PrivateRoute exact path="/holidays" auth={auth} component={HolidayOverview} componentProps={holidaysProps}/>
-					<Route path="/holidays/:id" component={HolidaySingle} />
+					<PrivateRoute path="/holidays/:id" auth={auth} component={HolidaySingle} componentProps={holidaysProps}/>
 				</div>
 			</BrowserRouter>
 		);
