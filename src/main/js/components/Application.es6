@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import HolidayOverview from './HolidayOverview.es6';
 import AuthService from '../AuthService.es6';
 import Navigation from "./Navigation";
@@ -45,11 +45,18 @@ class Application extends React.Component {
 			<BrowserRouter>
 				<div>
 					<Navigation auth={auth} />
-					<PrivateRoute exact path="/" component={HolidayOverview} componentProps={holidaysProps}/>
+					<Route exact path="/" component={Home}/>
+					<PrivateRoute exact path="/holidays" component={HolidayOverview} componentProps={holidaysProps}/>
 				</div>
 			</BrowserRouter>
 		);
 	}
 }
+
+const Home = () => (
+	<div>
+		<h2>Home</h2>
+	</div>
+);
 
 export {Application};

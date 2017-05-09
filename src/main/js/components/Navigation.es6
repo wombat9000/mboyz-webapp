@@ -2,6 +2,7 @@
 
 import React from 'react'
 import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {LinkContainer} from "react-router-bootstrap";
 
 
 export class Navigation extends React.Component {
@@ -14,13 +15,17 @@ export class Navigation extends React.Component {
 				<Navbar inverse collapseOnSelect>
 					<Navbar.Header>
 						<Navbar.Brand>
-							<a href="/">Mboyz</a>
+							<LinkContainer to="/">
+								<a href="/">Mboyz</a>
+							</LinkContainer>
 						</Navbar.Brand>
 						<Navbar.Toggle />
 					</Navbar.Header>
 					<Navbar.Collapse>
 						<Nav>
-							<NavItem href="/holidays">Urlaube</NavItem>
+							<LinkContainer to="/holidays">
+								<NavItem eventKey={1} href="/holidays">Urlaube</NavItem>
+							</LinkContainer>
 						</Nav>
 						<Nav pullRight>
 							{this.props.auth.loggedIn() ?
