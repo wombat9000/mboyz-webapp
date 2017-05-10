@@ -5,6 +5,7 @@ import HolidayOverview from './HolidayOverview.es6';
 import AuthService from '../AuthService.es6';
 import Navigation from "./Navigation";
 import PrivateRoute from "./PrivateRoute";
+import HolidayDetailPage from "./HolidayDetailPage";
 
 const auth = new AuthService('czRO1jls_01h49xVXcxmtMdLvCrtOAyW', 'wombat9000.eu.auth0.com');
 
@@ -26,7 +27,7 @@ class Application extends React.Component {
 					<Navigation auth={auth} />
 					<Route exact path="/" component={Home}/>
 					<PrivateRoute exact path="/holidays" auth={auth} component={HolidayOverview} componentProps={holidaysProps}/>
-					<PrivateRoute path="/holidays/:id" auth={auth} component={HolidaySingle} componentProps={holidaysProps}/>
+					<PrivateRoute path="/holidays/:id" auth={auth} component={HolidayDetailPage} componentProps={holidaysProps}/>
 				</div>
 			</BrowserRouter>
 		);
@@ -38,14 +39,5 @@ const Home = () => (
 		<h2>Home</h2>
 	</div>
 );
-
-const HolidaySingle = (props) => {
-	console.log(props);
-	return (
-		<div>
-			<h2>Urlaub: {props.match.params.id}</h2>
-		</div>
-	);
-};
 
 export {Application};

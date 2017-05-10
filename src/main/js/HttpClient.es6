@@ -6,7 +6,6 @@ const OK = 200;
 const CREATED = 201;
 const baseURL = window.location.origin;
 
-
 class HttpClient {
 	//TODO:
 	// - introduce holiday class
