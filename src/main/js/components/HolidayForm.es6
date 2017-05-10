@@ -52,22 +52,8 @@ class HolidayForm extends React.Component {
 			<div>
 				<h2>Neuen Urlaub anlegen:</h2>
 				<Form horizontal onSubmit={this.handleSubmit}>
-					<FormGroup controlId="name">
-						<Col componentClass={ControlLabel} sm={2}>
-							Name:
-						</Col>
-						<Col sm={10}>
-							<FormControl name="name" type="text" value={this.state.name} onChange={this.handleChange} />
-						</Col>
-					</FormGroup>
-					<FormGroup controlId="name">
-						<Col componentClass={ControlLabel} sm={2}>
-							Ort:
-						</Col>
-						<Col sm={10}>
-							<FormControl name="location" type="text" value={this.state.location} onChange={this.handleChange} />
-						</Col>
-					</FormGroup>
+					<NameField name={this.state.name} onChange={this.handleChange} />
+					<LocationField location={this.state.location} onChange={this.handleChange} />
 					<FormGroup controlId="startDate">
 						<Col componentClass={ControlLabel} sm={2}>
 							Von:
@@ -112,5 +98,26 @@ class HolidayForm extends React.Component {
 		)
 	}
 }
+
+const NameField = (props) => (
+	<FormGroup controlId="name">
+		<Col componentClass={ControlLabel} sm={2}>
+			Name:
+		</Col>
+		<Col sm={10}>
+			<FormControl name="name" type="text" value={props.name} onChange={props.onChange} />
+		</Col>
+	</FormGroup>);
+
+const LocationField = (props) => (
+	<FormGroup controlId="location">
+		<Col componentClass={ControlLabel} sm={2}>
+			Ort:
+		</Col>
+		<Col sm={10}>
+			<FormControl name="location" type="text" value={props.location} onChange={props.onChange} />
+		</Col>
+	</FormGroup>
+);
 
 export default HolidayForm;
