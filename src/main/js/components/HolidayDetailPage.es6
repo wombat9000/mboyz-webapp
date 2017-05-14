@@ -34,7 +34,7 @@ class HolidayDetailPage extends React.Component {
 			request.send(); //send the request
 		});
 
-		myPromise.then(val => this.setState(val))
+		myPromise.then(decodedJSONResponse => this.setState(decodedJSONResponse))
 	}
 
 	render () {
