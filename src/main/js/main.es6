@@ -1,6 +1,8 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+
 import {createStore, combineReducers} from 'redux';
 import AuthService from './AuthService.es6';
 import {Application} from './components/Application.es6';
@@ -23,7 +25,9 @@ const auth = new AuthService('czRO1jls_01h49xVXcxmtMdLvCrtOAyW', 'wombat9000.eu.
 
 const render = () => {
 	ReactDOM.render(
-		<Application state={store.getState()} addHandler={addHandler} auth={auth}/>,
+		<Provider store={store} >
+			<Application addHandler={addHandler} auth={auth}/>
+		</Provider>,
 		document.getElementById('root')
 	);
 };

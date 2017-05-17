@@ -6,19 +6,21 @@ import * as sinon from "sinon";
 describe('HolidayTable', function () {
 	it('should render holidays', function () {
 	    const props = {
-	    	state: [
-	    		{
-	    			id: 1,
-	    			name: "someHoliday"
-			    },
-			    {
-			    	id: 2,
-			    	name: "anotherHoliday",
-				    location: "someLocation",
-				    startDate: "2017-04-12",
-				    endDate: "2017-04-13"
-			    }
-		    ]
+	    	state: {
+	    		holidays: [
+	    			{
+						id: 1,
+						name: "someHoliday"
+					},
+					{
+						id: 2,
+						name: "anotherHoliday",
+						location: "someLocation",
+						startDate: "2017-04-12",
+						endDate: "2017-04-13"
+					}
+				]
+			}
 	    };
 
 		const renderedComponent = shallow(<HolidayTable {...props} />);

@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import PropTypes from 'prop-types'
 import {BrowserRouter, Route} from 'react-router-dom';
 import HolidayOverview from './HolidayOverview.es6';
 import Navigation from "./Navigation";
@@ -14,9 +15,7 @@ class Application extends React.Component {
 
 	render() {
 		const holidaysProps = {
-			state: this.props.state,
 			addHandler: this.props.addHandler,
-			auth: this.props.auth
 		};
 
 		return (
@@ -31,6 +30,9 @@ class Application extends React.Component {
 		);
 	}
 }
+Application.contextTypes = {
+	store: PropTypes.object,
+};
 
 
 export {Application};
