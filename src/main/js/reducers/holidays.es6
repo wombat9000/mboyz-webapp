@@ -1,6 +1,6 @@
 'use strict';
 
-const holiday = (state = [], action) => {
+const holidays = (state = [], action) => {
 	switch (action.type) {
 		case 'ADD_HOLIDAY':
 			return state.concat([action.holiday]);
@@ -11,4 +11,4 @@ const holiday = (state = [], action) => {
 	}
 };
 
-export default holiday
+export default holidays

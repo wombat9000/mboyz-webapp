@@ -1,4 +1,4 @@
-import holiday from '../../../main/js/reducers/holidays.es6';
+import holidays from '../../../main/js/reducers/holidays.es6';
 
 describe('holiday reducer', function () {
 	it('should default to [] as initial state', function () {
@@ -7,7 +7,7 @@ describe('holiday reducer', function () {
 			holiday: "someHoliday"
 		};
 
-		const state = holiday(undefined, unknownAction);
+		const state = holidays(undefined, unknownAction);
 
 		expect(state).toEqual([]);
 	});
@@ -18,7 +18,7 @@ describe('holiday reducer', function () {
 			holiday: "someHoliday"
 		};
 
-		const state = holiday([], action);
+		const state = holidays([], action);
 
 		expect(state.length).toBe(1);
 		expect(state[0]).toBe("someHoliday");
@@ -30,7 +30,7 @@ describe('holiday reducer', function () {
 		    holidays: ["someHoliday", "anotherHoliday"]
 	    };
 
-		const state = holiday([], action);
+		const state = holidays([], action);
 
 		expect(state.length).toBe(2);
 		expect(state[0]).toBe("someHoliday");

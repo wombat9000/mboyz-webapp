@@ -10,7 +10,7 @@ class HolidayTable extends React.Component {
 	}
 
 	render() {
-		const rows = this.props.state.map((holiday, index) =>
+		const rows = this.props.state.holidays.map((holiday, index) =>
 		<LinkContainer key={holiday.id} to={"/holidays/" + holiday.id}>
 			<tr key={holiday.id}>
 				<td>{holiday.name}</td>

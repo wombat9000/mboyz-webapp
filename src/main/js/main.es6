@@ -1,13 +1,18 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import {createStore, combineReducers} from 'redux';
 import AuthService from './AuthService.es6';
 import {Application} from './components/Application.es6';
 import {HttpClient} from './HttpClient.es6';
-import holiday from './reducers/holidays';
+import holidays from './reducers/holidays';
 
-const store = createStore(holiday);
+
+const reducers = combineReducers({
+	holidays
+});
+
+const store = createStore(reducers);
 HttpClient.fetchInitialState(store);
 
 const addHandler = (holiday) => {

@@ -7,7 +7,6 @@ import PrivateRoute from "./PrivateRoute";
 import HolidayDetailPage from "./HolidayDetailPage";
 import {Home} from "./Home";
 
-
 class Application extends React.Component {
 	constructor(props) {
 		super(props);
@@ -24,9 +23,9 @@ class Application extends React.Component {
 			<BrowserRouter>
 				<div>
 					<Navigation auth={this.props.auth} />
-					<Route exact path="/" component={Home}/>
-					<PrivateRoute exact path="/holidays" auth={this.props.auth} component={HolidayOverview} componentProps={holidaysProps}/>
-					<PrivateRoute path="/holidays/:id" auth={this.props.auth} component={HolidayDetailPage} componentProps={holidaysProps}/>
+					<Route exact path="/" component={Home} />
+					<PrivateRoute exact path="/holidays" auth={this.props.auth} component={HolidayOverview} componentProps={holidaysProps} />
+					<PrivateRoute path="/holidays/:id" auth={this.props.auth} component={HolidayDetailPage} componentProps={holidaysProps} />
 				</div>
 			</BrowserRouter>
 		);
