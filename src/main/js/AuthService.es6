@@ -1,6 +1,5 @@
 'use strict';
 
-import Auth0Lock from 'auth0-lock'
 import createHistory from 'history/createBrowserHistory'
 import {isTokenExpired} from './jwtExpiration';
 
@@ -12,26 +11,19 @@ const history = createHistory({
 	getUserConfirmation: (message, callback) => callback(window.confirm(message))
 });
 
-const baseURL = window.location.origin;
 
 export default class AuthService {
-	constructor(clientId, domain) {
-		// Configure Auth0
-		this.lock = new Auth0Lock(clientId, domain, {
-			auth: {
-				redirectUrl: baseURL + '/login',
-				responseType: 'token'
-			}
-		});
+	constructor(lock) {
+		this.lock = lock;
 		// Add callback for lock `authenticated` event
-		this.lock.on('authenticated', this._doAuthentication.bind(this));
+		this.lock.on('authenticated', AuthService.authenticate);
 		// binds login functions to keep this context
 		this.login = this.login.bind(this);
 	}
 
-	_doAuthentication(authResult) {
+	static authenticate(authResult) {
 		// Saves the user token
-		this.setToken(authResult.idToken);
+		AuthService.setToken(authResult.idToken);
 		// navigate to the home route
 		history.replace('/');
 	}
@@ -43,7 +35,7 @@ export default class AuthService {
 
 	loggedIn() {
 		// Checks if there is a saved token and it's still valid
-		const token = this.getToken();
+		const token = AuthService.getToken();
 		return !!token && !isTokenExpired(token);
 	}
 
@@ -57,7 +49,7 @@ export default class AuthService {
 		return localStorage.getItem('id_token');
 	}
 
-	static logout() {
+	logout() {
 		// Clear user token and profile data from local storage
 		localStorage.removeItem('id_token');
 		history.replace('/');
