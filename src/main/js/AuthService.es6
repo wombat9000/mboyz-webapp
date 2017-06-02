@@ -11,7 +11,6 @@ const history = createHistory({
 	getUserConfirmation: (message, callback) => callback(window.confirm(message))
 });
 
-
 export default class AuthService {
 	constructor(lock) {
 		this.lock = lock;
@@ -33,6 +32,12 @@ export default class AuthService {
 		this.lock.show();
 	}
 
+	logout() {
+		// Clear user token and profile data from local storage
+		localStorage.removeItem('id_token');
+		history.replace('/');
+	}
+
 	loggedIn() {
 		// Checks if there is a saved token and it's still valid
 		const token = AuthService.getToken();
@@ -47,11 +52,5 @@ export default class AuthService {
 	static getToken() {
 		// Retrieves the user token from local storage
 		return localStorage.getItem('id_token');
-	}
-
-	logout() {
-		// Clear user token and profile data from local storage
-		localStorage.removeItem('id_token');
-		history.replace('/');
 	}
 }
