@@ -47,17 +47,17 @@ export default class AuthService {
 		return !!token && !isTokenExpired(token);
 	}
 
-	setToken(idToken) {
+	static setToken(idToken) {
 		// Saves user token to local storage
 		localStorage.setItem('id_token', idToken);
 	}
 
-	getToken() {
+	static getToken() {
 		// Retrieves the user token from local storage
 		return localStorage.getItem('id_token');
 	}
 
-	logout() {
+	static logout() {
 		// Clear user token and profile data from local storage
 		localStorage.removeItem('id_token');
 		history.replace('/');
