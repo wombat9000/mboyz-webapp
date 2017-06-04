@@ -11,6 +11,10 @@ const history = createHistory({
 	getUserConfirmation: (message, callback) => callback(window.confirm(message))
 });
 
+const navigateToHome = () => {
+	history.replace('/');
+};
+
 export default class AuthService {
 	constructor(lock) {
 		this.lock = lock;
@@ -23,12 +27,11 @@ export default class AuthService {
 	static authenticate(authResult) {
 		// Saves the user token
 		AuthService.setToken(authResult.idToken);
-		// navigate to the home route
-		history.replace('/');
+		navigateToHome();
 	}
 
 	login() {
-		// Call the show method to display the widget.
+		// display the widget.
 		this.lock.show();
 	}
 
