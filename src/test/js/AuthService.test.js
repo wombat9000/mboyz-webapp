@@ -16,7 +16,7 @@ describe('AuthService', function () {
 
 	describe('when initialising', function () {
 		it('should register authentication callback', function () {
-			sinon.assert.calledWith(lockMock.on, 'authenticated', testee.authenticate);
+			sinon.assert.calledWith(lockMock.on, 'authenticated', AuthService.authenticate);
 		});
 	});
 });
