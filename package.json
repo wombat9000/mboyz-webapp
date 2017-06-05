@@ -49,6 +49,7 @@
       ".*": "<rootDir>/node_modules/babel-jest"
     },
     "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
+    "setupFiles": ["./src/test/js/stubs/LocalStorageStub.js"],
     "moduleFileExtensions": [
       "js",
       "json",
