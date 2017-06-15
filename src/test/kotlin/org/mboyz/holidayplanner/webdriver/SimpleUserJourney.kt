@@ -12,6 +12,7 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         // visits home
         webDriver.get("http://localhost:$port")
 
+        println(webDriver.pageSource)
         // not logged in user
         val loginButtonText = webDriver.findElement(By.cssSelector("ul.navbar-right li a")).getAttribute("text")
         assertThat(loginButtonText, `is`("Login"))
