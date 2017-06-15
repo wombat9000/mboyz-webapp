@@ -63,6 +63,13 @@ compileTestKotlin {
 	kotlinOptions.jvmTarget = "1.8"
 }
 
+test {
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
+}
+
 idea {
 	module {
 		name = 'holidayplanner'
