@@ -9,6 +9,7 @@ dataSources/
 *.iws
 node_modules/
 src/main/resources/static/js/
+phantomjsdriver.log
 :::term
 .env
 target
