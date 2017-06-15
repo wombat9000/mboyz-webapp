@@ -15,9 +15,9 @@
     "browserify": "^14.1.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
-    "gulp-jest": "^1.0.0",
+    "gulp-jest": "^2.0.0",
     "history": "^4.6.1",
-    "jest-cli": "^19.0.2",
+    "jest-cli": "^20.0.4",
     "jwt-decode": "^2.2.0",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
@@ -38,8 +38,8 @@
     "babel-preset-react": "^6.23.0",
     "babelify": "^7.3.0",
     "enzyme": "^2.8.0",
-    "jest": "^19.0.2",
-    "jest-enzyme": "^3.0.0",
+    "jest": "^20.0.4",
+    "jest-enzyme": "^3.2.0",
     "react-addons-test-utils": "^15.4.2",
     "react-test-renderer": "^15.4.2",
     "sinon": "^2.1.0"
@@ -49,7 +49,9 @@
       ".*": "<rootDir>/node_modules/babel-jest"
     },
     "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
-    "setupFiles": ["./src/test/js/stubs/LocalStorageStub.js"],
+    "setupFiles": [
+      "./src/test/js/stubs/LocalStorageStub.js"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",
