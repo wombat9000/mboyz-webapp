@@ -13,3 +13,4 @@ phantomjsdriver.log
 :::term
 .env
 target
+src/test/resources/secret.properties

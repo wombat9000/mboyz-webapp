@@ -3,8 +3,16 @@ package org.mboyz.holidayplanner.webdriver
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.junit.Test
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.PropertySource
 
+@PropertySource("classpath:secret.properties")
 class SimpleUserJourney : AbstractWebdriverTest(){
+
+    @Suppress("unused")
+    val secretFromEnv: String? = System.getenv("AUTH0_SECRET")
+    @Value("\${auth0.secret:secretFromEnv}")
+    lateinit var AUTH0_SECRET: String
 
     @Test
     fun simpleUserJourney() {
@@ -37,9 +45,7 @@ class SimpleUserJourney : AbstractWebdriverTest(){
     }
 
     fun generateToken(): String {
-        val secret: String = System.getenv("AUTH0_SECRET")
-
-        val algorithmHS = Algorithm.HMAC256(secret)
+        val algorithmHS = Algorithm.HMAC256(AUTH0_SECRET)
 
         return JWT.create()
                 .withIssuer("https://wombat9000.eu.auth0.com/")
