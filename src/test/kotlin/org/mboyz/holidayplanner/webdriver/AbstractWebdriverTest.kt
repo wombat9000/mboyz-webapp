@@ -58,6 +58,11 @@ class UserApi(val webDriver: WebDriver) {
         webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holidays']")).click()
         return this
     }
+
+    fun clicksLogin(): UserApi {
+        webDriver.findElement(By.cssSelector("ul.navbar-right li a")).click()
+        return this
+    }
 }
 
 class ScreenApi(val webDriver: WebDriver) {
@@ -70,6 +75,11 @@ class ScreenApi(val webDriver: WebDriver) {
     fun showsUnauthInfo(): ScreenApi {
         val unauthenticatedInfo = webDriver.findElement(By.tagName("h2")).text
         MatcherAssert.assertThat(unauthenticatedInfo, CoreMatchers.`is`("Du musst einloggen, um diese Seite zu sehen."))
+        return this
+    }
+
+    fun showsAuthModal(): ScreenApi {
+        webDriver.findElement(By.cssSelector("div.auth0-lock-opened")).getAttribute("text")
         return this
     }
 }

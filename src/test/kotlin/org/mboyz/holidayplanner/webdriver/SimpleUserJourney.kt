@@ -17,6 +17,10 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 .navigateToHolidaysPage()
         screen
                 .showsUnauthInfo()
+        user
+                .clicksLogin()
+        screen
+                .showsAuthModal()
 
         // clicks login
 
