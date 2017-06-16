@@ -22,7 +22,7 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
             val caps = DesiredCapabilities()
             caps.isJavascriptEnabled = true
-            caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/usr/local/bin/phantomjs")
+            caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "node_modules/phantomjs-prebuilt/bin/phantomjs")
 
             webDriver = PhantomJSDriver(caps)
         }
