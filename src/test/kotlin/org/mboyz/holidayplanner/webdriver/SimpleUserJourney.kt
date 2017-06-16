@@ -19,9 +19,9 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         val BASE_URL = "http://$contextPath:$port"
         val HOME = BASE_URL
 
-        user    .visit(HOME)
+        user    .visits(HOME)
         screen  .showsLoginButton()
-        user    .navigateToHolidaysPage()
+        user    .navigatesToHolidaysPage()
         screen  .showsUnauthInfo()
         user    .clicksLogin()
         screen  .showsAuthModal()
@@ -30,12 +30,9 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         val token: String = generateToken()
         js      .setLocalStorage("id_token", token)
 
-        user    .navigateToHolidaysPage()
+        user    .navigatesToHolidaysPage()
         screen  .showsHolidayOverview()
-
-        // visits urlaub page
-
-        // sees no urlaube
+                .showsNoHolidays()
 
         // creates one urlaub
 

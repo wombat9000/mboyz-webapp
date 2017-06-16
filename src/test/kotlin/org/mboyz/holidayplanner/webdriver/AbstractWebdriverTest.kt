@@ -1,8 +1,6 @@
 package org.mboyz.holidayplanner.webdriver
 
-import org.apache.catalina.filters.WebdavFixFilter
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.AfterClass
@@ -78,12 +76,12 @@ class JsApi(val js: JavascriptExecutor) {
 
 class UserApi(val webDriver: WebDriver) {
 
-    fun visit(url: String): UserApi {
+    fun visits(url: String): UserApi {
         webDriver.navigate().to(url)
         return this
     }
 
-    fun navigateToHolidaysPage(): UserApi {
+    fun navigatesToHolidaysPage(): UserApi {
         webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holidays']")).click()
         return this
     }
@@ -97,13 +95,13 @@ class UserApi(val webDriver: WebDriver) {
 class ScreenApi(val webDriver: WebDriver) {
     fun showsLoginButton(): ScreenApi {
         val loginButtonText = webDriver.findElement(By.cssSelector("ul.navbar-right li a")).getAttribute("text")
-        assertThat(loginButtonText, CoreMatchers.`is`("Login"))
+        assertThat(loginButtonText, `is`("Login"))
         return this
     }
 
     fun showsUnauthInfo(): ScreenApi {
         val unauthenticatedInfo = webDriver.findElement(By.tagName("h2")).text
-        assertThat(unauthenticatedInfo, CoreMatchers.`is`("Du musst einloggen, um diese Seite zu sehen."))
+        assertThat(unauthenticatedInfo, `is`("Du musst einloggen, um diese Seite zu sehen."))
         return this
     }
 
@@ -114,7 +112,13 @@ class ScreenApi(val webDriver: WebDriver) {
 
     fun showsHolidayOverview():ScreenApi {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
-        assertThat(pageHeading, CoreMatchers.`is`("Neuen Urlaub anlegen:"))
+        assertThat(pageHeading, `is`("Neuen Urlaub anlegen:"))
+        return this
+    }
+
+    fun showsNoHolidays(): ScreenApi {
+        val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
+        assertThat(rows.isEmpty(), `is`(true))
         return this
     }
 }
