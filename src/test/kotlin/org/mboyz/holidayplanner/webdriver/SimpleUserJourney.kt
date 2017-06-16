@@ -9,16 +9,22 @@ class SimpleUserJourney : AbstractWebdriverTest(){
 
     @Test
     fun simpleUserJourney() {
+        val BASE_URL = "http://$contextPath:$port"
+        val HOME = BASE_URL
+
         // visits home
-        webDriver.get("http://$contextPath:$port")
+        webDriver.navigate().to(HOME)
 
         // not logged in user
         val loginButtonText = webDriver.findElement(By.cssSelector("ul.navbar-right li a")).getAttribute("text")
         assertThat(loginButtonText, `is`("Login"))
 
         // tries to visit urlaub
+        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holidays']")).click()
 
         // gets redirected to failed auth page
+        val unauthenticatedInfo = webDriver.findElement(By.tagName("h2")).text
+        assertThat(unauthenticatedInfo, `is`("Du musst einloggen, um diese Seite zu sehen."))
 
         // clicks login
 
