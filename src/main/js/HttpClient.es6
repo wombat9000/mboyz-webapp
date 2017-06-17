@@ -50,16 +50,12 @@ class HttpClient {
 function extractFormData (holiday) {
 	const data = new FormData();
 	Object.keys(holiday).forEach(function (key) {
-		data.set("" + key, holiday[key])
+		if(moment.isMoment(holiday[key])) {
+			data.append("" + key, holiday[key].format("YYYY-MM-DD"))
+		} else {
+			data.append("" + key, holiday[key])
+		}
 	});
-
-	if (moment.isMoment(holiday.startDate)) {
-		data.set("startDate", holiday.startDate.format("YYYY-MM-DD"));
-	}
-
-	if (moment.isMoment(holiday.endDate)) {
-		data.set("endDate", holiday.endDate.format("YYYY-MM-DD"));
-	}
 	return data;
 }
 
