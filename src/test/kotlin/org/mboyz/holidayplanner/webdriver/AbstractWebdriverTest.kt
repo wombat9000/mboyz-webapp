@@ -136,7 +136,8 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 
     fun showsOneHoliday(): ScreenApi {
-        TODO()
+        val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
+        assertThat(rows.size, `is`(1))
         return this
     }
 

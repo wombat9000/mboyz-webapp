@@ -28,28 +28,25 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         screen  .showsAuthModal()
 
         // "login" by generating valid token, as opposed to retrieving one through Auth0
-        val token: String = generateToken()
-        js      .setLocalStorage("id_token", token)
+        js      .setLocalStorage("id_token", generateSignedToken())
 
         user    .navigatesToHolidaysPage()
         screen  .showsHolidayOverview()
                 .showsNoHolidays()
 
-        // creates one urlaub
         user    .createsOneHoliday()
-        // sees one urlaub
-//        screen  .showsOneHoliday()
+        screen  .showsOneHoliday()
+
+        // TODO: visits holiday detail page
 
         user    .clicksLogout()
         screen  .showsHome()
                 .showsLoginButton()
     }
 
-    fun generateToken(): String {
-        val algorithmHS = Algorithm.HMAC256(AUTH0_SECRET)
-
+    fun generateSignedToken(): String {
         return JWT.create()
                 .withIssuer("https://wombat9000.eu.auth0.com/")
-                .sign(algorithmHS)
+                .sign(Algorithm.HMAC256(AUTH0_SECRET))
     }
 }
