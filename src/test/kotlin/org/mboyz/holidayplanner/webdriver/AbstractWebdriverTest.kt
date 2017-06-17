@@ -90,6 +90,19 @@ class UserApi(val webDriver: WebDriver) {
         webDriver.findElement(By.cssSelector("ul.navbar-right li a")).click()
         return this
     }
+
+    fun createsOneHoliday(): UserApi {
+        webDriver.findElement(By.name("name")).sendKeys("someHoliday")
+        webDriver.findElement(By.name("location")).sendKeys("someLocation")
+        webDriver.findElement(By.cssSelector("form div.form-group button")).click()
+
+        return this
+    }
+
+    fun clicksLogout(): UserApi {
+        webDriver.findElement(By.cssSelector("ul.navbar-right li a")).click()
+        return this
+    }
 }
 
 class ScreenApi(val webDriver: WebDriver) {
@@ -119,6 +132,17 @@ class ScreenApi(val webDriver: WebDriver) {
     fun showsNoHolidays(): ScreenApi {
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
         assertThat(rows.isEmpty(), `is`(true))
+        return this
+    }
+
+    fun showsOneHoliday(): ScreenApi {
+        TODO()
+        return this
+    }
+
+    fun showsHome(): ScreenApi {
+        val pageHeading = webDriver.findElement(By.tagName("h2")).text
+        assertThat(pageHeading, `is`("Home"))
         return this
     }
 }

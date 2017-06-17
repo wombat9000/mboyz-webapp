@@ -20,7 +20,8 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         val HOME = BASE_URL
 
         user    .visits(HOME)
-        screen  .showsLoginButton()
+        screen  .showsHome()
+                .showsLoginButton()
         user    .navigatesToHolidaysPage()
         screen  .showsUnauthInfo()
         user    .clicksLogin()
@@ -35,10 +36,13 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 .showsNoHolidays()
 
         // creates one urlaub
-
+        user    .createsOneHoliday()
         // sees one urlaub
+//        screen  .showsOneHoliday()
 
-        // logs out
+        user    .clicksLogout()
+        screen  .showsHome()
+                .showsLoginButton()
     }
 
     fun generateToken(): String {
