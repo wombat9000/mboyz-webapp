@@ -6,7 +6,7 @@ import org.junit.Test
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.PropertySource
 
-@PropertySource("classpath:secret.properties")
+@PropertySource("classpath:secret.properties", ignoreResourceNotFound = true)
 class SimpleUserJourney : AbstractWebdriverTest(){
 
     @Suppress("unused")
