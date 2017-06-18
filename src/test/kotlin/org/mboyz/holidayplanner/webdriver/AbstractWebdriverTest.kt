@@ -15,6 +15,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.springframework.boot.context.embedded.LocalServerPort
 import java.net.InetAddress
+import java.util.concurrent.TimeUnit
 
 abstract class AbstractWebdriverTest : AbstractSpringTest() {
     companion object {
@@ -28,11 +29,10 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
             val caps = DesiredCapabilities()
             caps.isJavascriptEnabled = true
             caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "node_modules/phantomjs-prebuilt/bin/phantomjs")
-//            caps.setCapability("webStorageEnabled", true)
 
             webDriver = PhantomJSDriver(caps)
-
             webDriver.manage().window().size = Dimension(1920, 1080)
+            webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)
 
             screen = ScreenApi(webDriver)
             user = UserApi(webDriver)
@@ -95,7 +95,6 @@ class UserApi(val webDriver: WebDriver) {
         webDriver.findElement(By.name("name")).sendKeys("someHoliday")
         webDriver.findElement(By.name("location")).sendKeys("someLocation")
         webDriver.findElement(By.cssSelector("form div.form-group button")).click()
-
         return this
     }
 
