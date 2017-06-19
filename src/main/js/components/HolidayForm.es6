@@ -67,6 +67,7 @@ class HolidayForm extends React.Component {
 								endDate={this.state.endDate}
 								onChange={this.handleStartDateChange}
 								isClearable={true}
+							    className="start-date-field"
 							/>
 						</Col>
 					</FormGroup>
@@ -83,6 +84,7 @@ class HolidayForm extends React.Component {
 								endDate={this.state.endDate}
 								onChange={this.handleEndDateChange}
 								isClearable={true}
+								className="end-date-field"
 							/>
 						</Col>
 					</FormGroup>

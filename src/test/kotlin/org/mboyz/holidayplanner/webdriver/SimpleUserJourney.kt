@@ -34,7 +34,11 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         screen  .showsHolidayOverview()
                 .showsNoHolidays()
 
+        // TODO: create holiday via admin
         user    .createsOneHoliday()
+
+        // TODO: create holiday with invalid date
+
         screen  .showsOneHoliday()
 
         // TODO: visits holiday detail page

@@ -94,6 +94,10 @@ class UserApi(val webDriver: WebDriver) {
     fun createsOneHoliday(): UserApi {
         webDriver.findElement(By.name("name")).sendKeys("someHoliday")
         webDriver.findElement(By.name("location")).sendKeys("someLocation")
+        webDriver.findElement(By.className("start-date-field")).sendKeys("28.05.2017")
+        webDriver.findElement(By.className("end-date-field")).sendKeys("30.05.2017")
+
+        // submit form
         webDriver.findElement(By.cssSelector("form div.form-group button")).click()
         return this
     }
@@ -137,6 +141,7 @@ class ScreenApi(val webDriver: WebDriver) {
     fun showsOneHoliday(): ScreenApi {
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
         assertThat(rows.size, `is`(1))
+        assertThat(rows.get(0).text, `is`("someHoliday someLocation 2017-05-28 2017-05-30"))
         return this
     }
 
