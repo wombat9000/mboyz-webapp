@@ -3,8 +3,10 @@ package org.mboyz.holidayplanner.webdriver
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.junit.Test
+import org.mboyz.holidayplanner.holiday.Holiday
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.PropertySource
+import java.time.LocalDate
 
 @PropertySource("classpath:secret.properties", ignoreResourceNotFound = true)
 class SimpleUserJourney : AbstractWebdriverTest(){
@@ -18,6 +20,13 @@ class SimpleUserJourney : AbstractWebdriverTest(){
     fun simpleUserJourney() {
         val BASE_URL = "http://$contextPath:$port"
         val HOME = BASE_URL
+
+        val someHoliday = Holiday(
+                1L,
+                "Surfurlaub",
+                "Frankreich",
+                LocalDate.parse("2017-05-28"),
+                LocalDate.parse("2017-05-30"))
 
         user    .visits(HOME)
         screen  .showsHome()
@@ -35,11 +44,13 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 .showsNoHolidays()
 
         // TODO: create holiday via admin
-        user    .createsOneHoliday()
+
+        // TODO: it shows initially existing holidays
+        user    .createsHoliday(someHoliday)
 
         // TODO: create holiday with invalid date
 
-        screen  .showsOneHoliday()
+        screen  .showsHoliday(someHoliday)
 
         // TODO: visits holiday detail page
 

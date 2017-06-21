@@ -5,6 +5,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
+import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.integration.AbstractSpringTest
 import org.openqa.selenium.By
 import org.openqa.selenium.Dimension
@@ -15,6 +16,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.springframework.boot.context.embedded.LocalServerPort
 import java.net.InetAddress
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 abstract class AbstractWebdriverTest : AbstractSpringTest() {
@@ -91,11 +93,11 @@ class UserApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun createsOneHoliday(): UserApi {
-        webDriver.findElement(By.name("name")).sendKeys("someHoliday")
-        webDriver.findElement(By.name("location")).sendKeys("someLocation")
-        webDriver.findElement(By.className("start-date-field")).sendKeys("28.05.2017")
-        webDriver.findElement(By.className("end-date-field")).sendKeys("30.05.2017")
+    fun createsHoliday(holiday: Holiday): UserApi {
+        webDriver.findElement(By.name("name")).sendKeys(holiday.name)
+        webDriver.findElement(By.name("location")).sendKeys(holiday.location)
+        webDriver.findElement(By.className("start-date-field")).sendKeys(holiday.startDate!!.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"))).toString()
+        webDriver.findElement(By.className("end-date-field")).sendKeys(holiday.endDate!!.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"))).toString()
 
         // submit form
         webDriver.findElement(By.cssSelector("form div.form-group button")).click()
@@ -138,10 +140,10 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun showsOneHoliday(): ScreenApi {
+    fun showsHoliday(holiday: Holiday): ScreenApi {
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
         assertThat(rows.size, `is`(1))
-        assertThat(rows.get(0).text, `is`("someHoliday someLocation 2017-05-28 2017-05-30"))
+        assertThat(rows[0].text, `is`("${holiday.name} ${holiday.location} ${holiday.startDate} ${holiday.endDate}"))
         return this
     }
 
