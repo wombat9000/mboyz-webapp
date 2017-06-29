@@ -11,6 +11,26 @@ import java.time.LocalDate
 @PropertySource("classpath:secret.properties", ignoreResourceNotFound = true)
 class SimpleUserJourney : AbstractWebdriverTest(){
 
+    companion object {
+        val SURF_HOLIDAY = Holiday(
+                name = "Surfurlaub",
+                location = "Frankreich",
+                startDate = LocalDate.parse("2017-05-28"),
+                endDate = LocalDate.parse("2017-05-30"))
+
+        val SKI_HOLIDAY = Holiday(
+                name = "Skiurlaub",
+                location = "Portes du Soleil",
+                startDate = LocalDate.parse("2017-03-28"),
+                endDate = LocalDate.parse("2017-04-05"))
+
+        val HOLIDAY_WITH_INVALID_DATE = Holiday(
+                name = "Some Name",
+                location = "Some Location",
+                startDate = LocalDate.parse("2017-04-05"),
+                endDate = LocalDate.parse("2017-03-28"))
+    }
+
     @Suppress("unused")
     val secretFromEnv: String? = System.getenv("AUTH0_SECRET")
     @Value("\${auth0.secret:secretFromEnv}")
@@ -20,13 +40,6 @@ class SimpleUserJourney : AbstractWebdriverTest(){
     fun simpleUserJourney() {
         val BASE_URL = "http://$contextPath:$port"
         val HOME = BASE_URL
-
-        val someHoliday = Holiday(
-                1L,
-                "Surfurlaub",
-                "Frankreich",
-                LocalDate.parse("2017-05-28"),
-                LocalDate.parse("2017-05-30"))
 
         user    .visits(HOME)
         screen  .showsHome()
@@ -43,14 +56,17 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         screen  .showsHolidayOverview()
                 .showsNoHolidays()
 
-        // TODO: create holiday via admin
+        app     .createHoliday(SKI_HOLIDAY)
 
-        // TODO: it shows initially existing holidays
-        user    .createsHoliday(someHoliday)
+        user    .visits(HOME)
+                .navigatesToHolidaysPage()
+        screen  .showsHoliday(SKI_HOLIDAY)
 
-        // TODO: create holiday with invalid date
+        user    .createsHoliday(SURF_HOLIDAY)
+        screen  .showsHoliday(SURF_HOLIDAY)
 
-        screen  .showsHoliday(someHoliday)
+        user    .createsHoliday(HOLIDAY_WITH_INVALID_DATE)
+        screen  .doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)
 
         // TODO: visits holiday detail page
 

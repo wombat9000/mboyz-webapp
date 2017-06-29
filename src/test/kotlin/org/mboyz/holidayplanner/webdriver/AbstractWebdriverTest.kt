@@ -6,6 +6,7 @@ import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.mboyz.holidayplanner.integration.AbstractSpringTest
 import org.openqa.selenium.By
 import org.openqa.selenium.Dimension
@@ -14,17 +15,24 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.phantomjs.PhantomJSDriver
 import org.openqa.selenium.phantomjs.PhantomJSDriverService
 import org.openqa.selenium.remote.DesiredCapabilities
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.embedded.LocalServerPort
 import java.net.InetAddress
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 abstract class AbstractWebdriverTest : AbstractSpringTest() {
+    @Autowired
+    fun initHolidayRepository(holidayRepository: HolidayRepository) {
+        app = AppApi(holidayRepository)
+    }
+
     companion object {
         lateinit var webDriver: WebDriver
         lateinit var screen: ScreenApi
         lateinit var user: UserApi
         lateinit var js: JsApi
+        lateinit var app: AppApi
 
         @BeforeClass @JvmStatic fun setUp() {
 //            System.setProperty("webdriver.chrome.driver", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
@@ -52,6 +60,14 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
     @LocalServerPort var port: Int? = null
     var contextPath: String? = InetAddress.getLocalHost().hostAddress
+}
+
+class AppApi (val holidayRepository: HolidayRepository){
+    fun createHoliday(holiday: Holiday): AppApi {
+        holidayRepository.save(holiday)
+        return this
+    }
+
 }
 
 class JsApi(val js: JavascriptExecutor) {
@@ -141,15 +157,38 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 
     fun showsHoliday(holiday: Holiday): ScreenApi {
+        // TODO:
+        // this does not work, because it will always immediately find the table,
+        // and not wait for rows to appear asynchronously.
+        // As a workaround, we sleep 200millis to give the application time to render the rows,
+        // before the webdriver attempts to fetch them.
+        Thread.sleep(200)
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
-        assertThat(rows.size, `is`(1))
-        assertThat(rows[0].text, `is`("${holiday.name} ${holiday.location} ${holiday.startDate} ${holiday.endDate}"))
+        val rowsAsText: List<String> = rows.map { row -> row.text }
+
+        val expectedRow = "${holiday.name} ${holiday.location} ${holiday.startDate} ${holiday.endDate}"
+        assertThat("row contains $expectedRow", rowsAsText.contains(expectedRow), `is`(true))
         return this
     }
 
     fun showsHome(): ScreenApi {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
         assertThat(pageHeading, `is`("Home"))
+        return this
+    }
+
+    fun doesNotShowHoliday(holiday: Holiday): ScreenApi {
+        // TODO:
+        // this does not work, because it will always immediately find the table,
+        // and not wait for rows to appear asynchronously.
+        // As a workaround, we sleep 200millis to give the application time to render the rows,
+        // before the webdriver attempts to fetch them.
+        Thread.sleep(200)
+        val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
+        val rowsAsText: List<String> = rows.map { row -> row.text }
+
+        val expectedRow = "${holiday.name} ${holiday.location} ${holiday.startDate} ${holiday.endDate}"
+        assertThat("row contains $expectedRow", rowsAsText.contains(expectedRow), `is`(false))
         return this
     }
 }
