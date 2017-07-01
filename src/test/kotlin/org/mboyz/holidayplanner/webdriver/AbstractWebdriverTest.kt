@@ -12,6 +12,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.phantomjs.PhantomJSDriver
 import org.openqa.selenium.phantomjs.PhantomJSDriverService
 import org.openqa.selenium.remote.DesiredCapabilities
@@ -35,18 +36,29 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
         lateinit var app: AppApi
 
         @BeforeClass @JvmStatic fun setUp() {
-//            System.setProperty("webdriver.chrome.driver", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
-            val caps = DesiredCapabilities()
-            caps.isJavascriptEnabled = true
-            caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "node_modules/phantomjs-prebuilt/bin/phantomjs")
-
-            webDriver = PhantomJSDriver(caps)
-            webDriver.manage().window().size = Dimension(1920, 1080)
-            webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)
+//            webDriver = setupChromeDriver()
+            webDriver = setupPhantomJSDriver()
 
             screen = ScreenApi(webDriver)
             user = UserApi(webDriver)
             js = JsApi(webDriver as JavascriptExecutor)
+        }
+
+        private fun setupChromeDriver(): WebDriver {
+            System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver")
+            return ChromeDriver()
+        }
+
+        private fun setupPhantomJSDriver(): WebDriver {
+            val caps = DesiredCapabilities()
+            caps.isJavascriptEnabled = true
+            caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "node_modules/phantomjs-prebuilt/bin/phantomjs")
+
+            val driver = PhantomJSDriver(caps)
+            driver.manage().window().size = Dimension(1920, 1080)
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)
+
+            return driver
         }
 
         @After fun after() {
@@ -141,6 +153,7 @@ class ScreenApi(val webDriver: WebDriver) {
 
     fun showsAuthModal(): ScreenApi {
         webDriver.findElement(By.cssSelector("div.auth0-lock-opened"))
+        // TODO add assertion once modal is not dependant on internet connection
         return this
     }
 

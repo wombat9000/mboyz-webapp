@@ -44,12 +44,17 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         user    .visits(HOME)
         screen  .showsHome()
                 .showsLoginButton()
+
         user    .navigatesToHolidaysPage()
         screen  .showsUnauthInfo()
         user    .clicksLogin()
+        // TODO:
+        // authentication is dependent on internet connection
+        // use own auth0 lock implementation
         screen  .showsAuthModal()
 
         // "login" by generating valid token, as opposed to retrieving one through Auth0
+        // TODO: evaluate if i can provide token myself
         js      .setLocalStorage("id_token", generateSignedToken())
 
         user    .navigatesToHolidaysPage()
@@ -76,6 +81,9 @@ class SimpleUserJourney : AbstractWebdriverTest(){
     }
 
     fun generateSignedToken(): String {
+        // TODO
+        // explore possibility of using symmetrical encryption for tests to avoid using
+        // the real secret
         return JWT.create()
                 .withIssuer("https://wombat9000.eu.auth0.com/")
                 .sign(Algorithm.HMAC256(AUTH0_SECRET))
