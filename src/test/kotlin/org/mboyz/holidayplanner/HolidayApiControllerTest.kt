@@ -6,6 +6,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.holiday.HolidayApiController
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
@@ -15,9 +16,9 @@ import java.time.LocalDate
 import javax.servlet.http.HttpServletResponse
 
 
-class HolidayControllerTest {
+class HolidayApiControllerTest {
 
-    lateinit var testee: HolidayController
+    lateinit var testee: HolidayApiController
 
     @Mock
     lateinit var holidayRepository: HolidayRepository
@@ -27,7 +28,7 @@ class HolidayControllerTest {
     @Before
     fun setUp() {
         initMocks(this)
-        testee = HolidayController(holidayRepository)
+        testee = HolidayApiController(holidayRepository)
     }
 
     @Test

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Mboyz</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar(holidays)"></div>
+
+<div class="container">
+    <h2>Alle Urlaube</h2>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Ort</th>
+            <th>Start</th>
+            <th>Ende</th>
+        </tr>
+        </thead>
+        <!--/*@thymesVar id="allHolidays" type="java.util.List"*/-->
+        <!--/*@thymesVar id="holiday" type="org.mboyz.holidayplanner.holiday.Holiday"*/-->
+        <tr th:each="holiday : ${allHolidays}" th:class="${holiday.id}">
+            <td th:text="${holiday.name}"></td>
+            <td th:text="${holiday.location}"></td>
+            <td th:text="${holiday.startDate}"></td>
+            <td th:text="${holiday.endDate}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,7 +1,5 @@
-package org.mboyz.holidayplanner
+package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -11,7 +9,7 @@ import javax.servlet.http.HttpServletResponse.*
 
 @Controller
 @RequestMapping("/api/holiday")
-class HolidayController(@Autowired val holidayRepository: HolidayRepository) {
+class HolidayApiController(@Autowired val holidayRepository: HolidayRepository) {
 
     @RequestMapping(value = "/index", method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json; charset=UTF-8"))
     @ResponseBody

@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner
 
+import org.mboyz.holidayplanner.holiday.HolidayArgumentResolver
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
