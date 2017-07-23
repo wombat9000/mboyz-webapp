@@ -24,8 +24,8 @@
         </thead>
         <!--/*@thymesVar id="allHolidays" type="java.util.List"*/-->
         <!--/*@thymesVar id="holiday" type="org.mboyz.holidayplanner.holiday.Holiday"*/-->
-        <tr th:each="holiday : ${allHolidays}" th:class="${holiday.id}">
-            <td th:text="${holiday.name}"></td>
+        <tr th:each="holiday : ${allHolidays}" >
+            <td><a th:href="'/holiday/' + ${holiday.id}" th:text="${holiday.name}"></a></td>
             <td th:text="${holiday.location}"></td>
             <td th:text="${holiday.startDate}"></td>
             <td th:text="${holiday.endDate}"></td>
