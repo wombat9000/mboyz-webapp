@@ -7,12 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 class PageController {
 
     @RequestMapping("/*")
+    fun homeReact(): String {
+        return "homeReact"
+    }
+
+    @RequestMapping("/start")
     fun home(): String {
         return "home"
     }
 
     @RequestMapping("/holidays/*")
     fun holidays(): String {
-        return "home"
+        return "homeReact"
     }
 }

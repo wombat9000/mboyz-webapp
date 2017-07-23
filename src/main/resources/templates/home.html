@@ -3,31 +3,13 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Mboyz</title>
-    <link rel="stylesheet" href="../css/react-datepicker.css" />
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
-
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<script>
-	window.fbAsyncInit = function() {
-		FB.init({
-			appId      : '2316605928565229',
-			cookie     : true,
-			xfbml      : true,
-			version    : 'v2.8'
-		});
-		FB.AppEvents.logPageView();
-	};
 
-	(function(d, s, id){
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) {return;}
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/sdk.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-</script>
-<div id="root"></div>
+<div th:replace="fragments/navbar :: navbar"></div>
+
 </body>
-<script src="../js/main.js" charset="utf-8"></script>
 </html>
