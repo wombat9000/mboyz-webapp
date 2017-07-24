@@ -1,4 +1,4 @@
-package org.mboyz.holidayplanner
+package org.mboyz.holidayplanner.web
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping

@@ -73,6 +73,6 @@ class HolidayPagesControllerTest {
                 .param("name", someHoliday.name)
                 .param("location", someHoliday.location))
                 .andExpect(view().name("redirect:/holiday/1"))
-                .andExpect(status().isCreated)
+                .andExpect(status().isFound)
     }
 }

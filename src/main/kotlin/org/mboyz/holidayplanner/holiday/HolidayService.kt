@@ -2,6 +2,7 @@ package org.mboyz.holidayplanner.holiday
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 
 @Component
 class HolidayService(@Autowired val holidayRepository: HolidayRepository) {
@@ -14,7 +15,18 @@ class HolidayService(@Autowired val holidayRepository: HolidayRepository) {
     }
 
     fun save(holiday: Holiday): Holiday? {
+        val parsedStartDate: LocalDate? = holiday.startDate
+        val parsedEndDate: LocalDate? = holiday.endDate
+
+        if (invalidTimeFrame(parsedEndDate, parsedStartDate)) {
+            // todo throws exception
+            return null
+        }
+
         return holidayRepository.save(holiday)
     }
 
+    private fun invalidTimeFrame(endDate: LocalDate?, startDate: LocalDate?): Boolean {
+        return startDate != null && endDate != null && startDate.isAfter(endDate)
+    }
 }

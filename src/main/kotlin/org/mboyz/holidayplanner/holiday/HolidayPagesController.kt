@@ -33,7 +33,7 @@ class HolidayPagesController(@Autowired val holidayService: HolidayService) {
         return "holiday/form"
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.FOUND)
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST))
     fun save(holiday: Holiday): String {
         val savedHoliday = holidayService.save(holiday)
