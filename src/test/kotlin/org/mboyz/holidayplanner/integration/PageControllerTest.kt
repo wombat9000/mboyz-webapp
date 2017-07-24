@@ -13,15 +13,8 @@ class PageControllerTest: AbstractSpringTest() {
 
     @Test
     fun shouldShowHomePage() {
-        mvc.perform(MockMvcRequestBuilders.get("/start"))
-                .andExpect(status().isOk)
-                .andExpect(view().name("home"))
-    }
-
-    @Test
-    fun shouldShowReactHomePage() {
         mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(status().isOk)
-                .andExpect(view().name("homeReact"))
+                .andExpect(view().name("home"))
     }
 }
