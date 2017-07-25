@@ -19,8 +19,7 @@ class HolidayService(@Autowired val holidayRepository: HolidayRepository) {
         val parsedEndDate: LocalDate? = holiday.endDate
 
         if (invalidTimeFrame(parsedEndDate, parsedStartDate)) {
-            // todo throws exception
-            return null
+            throw InvalidDateRangeException()
         }
 
         return holidayRepository.save(holiday)

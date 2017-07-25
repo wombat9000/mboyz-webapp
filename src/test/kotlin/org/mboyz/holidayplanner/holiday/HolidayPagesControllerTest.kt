@@ -1,8 +1,6 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.hamcrest.CoreMatchers.hasItem
 import org.hamcrest.CoreMatchers.instanceOf
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -13,7 +11,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
-import org.springframework.util.MultiValueMap
 import java.time.LocalDate
 
 class HolidayPagesControllerTest {
