@@ -41,6 +41,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
 	compile "org.springframework.boot:spring-boot-starter-jetty"
 	compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}"
 	compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
 	compile "org.hamcrest:hamcrest-all:1.3"
@@ -50,7 +51,8 @@ dependencies {
 	compile "org.webjars:bootstrap:3.3.7-1"
 	compile "org.webjars:webjars-locator"
 	compile 'org.webjars:jquery:1.11.1'
-    runtime 'org.postgresql:postgresql'
+	compile 'com.auth0:mvc-auth-commons:1.+'
+	runtime 'org.postgresql:postgresql'
 
 	testCompile 'org.seleniumhq.selenium:selenium-java:3.4.0'
 	testCompile 'com.github.detro:ghostdriver:2.1.0'
