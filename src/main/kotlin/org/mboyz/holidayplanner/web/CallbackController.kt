@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Controller
-class CallbackController(@Autowired val controller: AuthenticationController) {
+class CallbackController(@Autowired val authenticationController: AuthenticationController) {
 
     private val redirectOnFail: String = "/login"
-    private val redirectOnSuccess: String = "/portal/home"
+    private val redirectOnSuccess: String = "/"
 
     @RequestMapping(value = "/callback", method = arrayOf(RequestMethod.GET))
     @Throws(ServletException::class, IOException::class)
@@ -37,7 +37,7 @@ class CallbackController(@Autowired val controller: AuthenticationController) {
     @Throws(IOException::class)
     private fun handle(req: HttpServletRequest, res: HttpServletResponse) {
         try {
-            val tokens = controller.handle(req)
+            val tokens = authenticationController.handle(req)
             val tokenAuth = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
             res.sendRedirect(redirectOnSuccess)

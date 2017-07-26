@@ -32,7 +32,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers("/callback", "/login", "/", "/webjars/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
-                .logout().permitAll()
+                .logout().logoutSuccessUrl("/").permitAll()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
     }
 

@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 class LoginController(@Autowired val authenticationController: AuthenticationController) {
 
-
     @RequestMapping(value = "/login", method = arrayOf(RequestMethod.GET))
-    protected fun login(req: HttpServletRequest): String {
+    fun login(req: HttpServletRequest): String {
         val redirectUri = req.scheme + "://" + req.serverName + ":" + req.serverPort + "/callback"
         val authorizeUrl = authenticationController.buildAuthorizeUrl(req, redirectUri)
         return "redirect:" + authorizeUrl.build()
     }
+
 }
