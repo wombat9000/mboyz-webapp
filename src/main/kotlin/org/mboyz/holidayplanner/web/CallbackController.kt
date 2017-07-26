@@ -24,13 +24,13 @@ class CallbackController(@Autowired val controller: AuthenticationController) {
 
     @RequestMapping(value = "/callback", method = arrayOf(RequestMethod.GET))
     @Throws(ServletException::class, IOException::class)
-    protected fun getCallback(req: HttpServletRequest, res: HttpServletResponse) {
+    fun getCallback(req: HttpServletRequest, res: HttpServletResponse) {
         handle(req, res)
     }
 
     @RequestMapping(value = "/callback", method = arrayOf(RequestMethod.POST), consumes = arrayOf(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
     @Throws(ServletException::class, IOException::class)
-    protected fun postCallback(req: HttpServletRequest, res: HttpServletResponse) {
+    fun postCallback(req: HttpServletRequest, res: HttpServletResponse) {
         handle(req, res)
     }
 
@@ -40,7 +40,6 @@ class CallbackController(@Autowired val controller: AuthenticationController) {
             val tokens = controller.handle(req)
             val tokenAuth = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
-            println("SUCCESS!!!")
             res.sendRedirect(redirectOnSuccess)
         } catch (e: AuthenticationException) {
             e.printStackTrace()
@@ -53,5 +52,4 @@ class CallbackController(@Autowired val controller: AuthenticationController) {
         }
 
     }
-
 }

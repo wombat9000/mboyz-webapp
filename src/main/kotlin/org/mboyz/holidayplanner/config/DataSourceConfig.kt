@@ -1,4 +1,4 @@
-package org.mboyz.holidayplanner
+package org.mboyz.holidayplanner.config
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
