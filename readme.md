@@ -1,5 +1,5 @@
 ## Introduction
-This project is for me to experiment with Kotlin and Spring.
+This project is for me to experiment with Kotlin+Spring and share my learnings along the way.
 
 ## Tech & Tools
 - Heroku
@@ -22,7 +22,8 @@ Mockito matchers any() and nonNull() don't work with nonNullable Kotlin types. I
 ```kotlin
 	`when`(auth0Mock.buildAuthorizeUrl(any(), any())).thenReturn("someUrl")
 ```
-I would have to change the method arguments to be nullables, which is undesirable:
+I would have to change the method arguments to be nullables, 
+which defeats the purpose of having non-nullables in the first place:
 ```kotlin
 	fun buildAuthorizeUrl(req: HttpServletRequest?, redirectUri: String?): String {
 		return auth0.buildAuthorizeUrl(req, redirectUri).build()
@@ -34,7 +35,7 @@ TBC: Solution / Workarounds
 related reading: https://medium.com/elye.project/befriending-kotlin-and-mockito-1c2e7b0ef791
 
 ## Auth0 & Testing
-#### Mocking
+#### Mocking the AuthenticationController
 When authenticating your requests with Auth0 in Java, it is convenient to use the Auth0 AuthenticationController.
 
 One of the methods you are going to be using for this, returns an AuthorizeUrl instance, which you will be redirecting your requests to.
@@ -64,3 +65,4 @@ class Auth0Wrapper(@Autowired val auth0: AuthenticationController) {
 	}
 }
 ```
+The functionality of these methods is simple enough, that I can live with them not being tested.
