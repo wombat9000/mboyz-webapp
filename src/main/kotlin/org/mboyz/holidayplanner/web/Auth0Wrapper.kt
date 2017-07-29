@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest
 
 @Component
 class Auth0Wrapper(@Autowired val auth0: AuthenticationController) {
-
     fun handle(req: HttpServletRequest): Tokens {
         return auth0.handle(req)
     }
