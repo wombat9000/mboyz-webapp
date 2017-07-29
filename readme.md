@@ -16,5 +16,7 @@ This project is for me to experiment with Kotlin and Spring.
 	- Thymeleaf
 	
 ## Future topics:
+- Mockito Any Matcher and Kotlin nullsafety
+- Auth0 package private constructors and mocking
 - Integration with Auth0
 - KotlinJS and KotlinJVM

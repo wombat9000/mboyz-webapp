@@ -17,25 +17,28 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Controller
-class AuthController(@Autowired val auth0: AuthenticationController) {
+class AuthController(@Autowired val auth0: Auth0Wrapper) {
 
-    @RequestMapping(value = "/login", method = arrayOf(RequestMethod.GET))
-    fun login(req: HttpServletRequest): String {
-        val redirectUri = req.scheme + "://" + req.serverName + ":" + req.serverPort + "/callback"
-        val authorizeUrl = auth0.buildAuthorizeUrl(req, redirectUri)
-        return "redirect:" + authorizeUrl.build()
+    companion object {
+        const private val HOME: String = "/"
+        const private val LOGIN: String = "/login"
+        const private val CALLBACK: String = "/callback"
     }
 
-    private val redirectOnFail: String = "/login"
-    private val redirectOnSuccess: String = "/"
+    @RequestMapping(value = LOGIN, method = arrayOf(RequestMethod.GET))
+    fun login(req: HttpServletRequest): String {
+        val redirectUri = req.scheme + "://" + req.serverName + ":" + req.serverPort + CALLBACK
+        val authorizeUrl = auth0.buildAuthorizeUrl(req, redirectUri)
+        return "redirect:" + authorizeUrl
+    }
 
-    @RequestMapping(value = "/callback", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = CALLBACK, method = arrayOf(RequestMethod.GET))
     @Throws(ServletException::class, IOException::class)
     fun getCallback(req: HttpServletRequest, res: HttpServletResponse) {
         handle(req, res)
     }
 
-    @RequestMapping(value = "/callback", method = arrayOf(RequestMethod.POST), consumes = arrayOf(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+    @RequestMapping(value = CALLBACK, method = arrayOf(RequestMethod.POST), consumes = arrayOf(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
     @Throws(ServletException::class, IOException::class)
     fun postCallback(req: HttpServletRequest, res: HttpServletResponse) {
         handle(req, res)
@@ -47,15 +50,15 @@ class AuthController(@Autowired val auth0: AuthenticationController) {
             val tokens = auth0.handle(req)
             val tokenAuth = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
-            res.sendRedirect(redirectOnSuccess)
+            res.sendRedirect(HOME)
         } catch (e: AuthenticationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            res.sendRedirect(redirectOnFail)
+            res.sendRedirect(LOGIN)
         } catch (e: IdentityVerificationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            res.sendRedirect(redirectOnFail)
+            res.sendRedirect(LOGIN)
         }
 
     }
