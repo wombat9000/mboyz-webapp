@@ -51,7 +51,7 @@ However, this class' constructor and its builder are package private; preventing
 outside of the auth0 library, and effectively preventing the controller to be mocked, as it is not possible
 to specify a return value for the buildAuthorizeUrl method.
 
-I ended up creating a component to encapsulate the AuthenticationController, with methods I can mock:
+As a workaround, I ended up creating a component to encapsulate the AuthenticationController, with methods I can mock:
 ```kotlin
 @Component
 class Auth0Wrapper(@Autowired val auth0: AuthenticationController) {
