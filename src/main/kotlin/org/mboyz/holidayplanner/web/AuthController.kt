@@ -17,7 +17,14 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Controller
-class CallbackController(@Autowired val authenticationController: AuthenticationController) {
+class AuthController(@Autowired val auth0: AuthenticationController) {
+
+    @RequestMapping(value = "/login", method = arrayOf(RequestMethod.GET))
+    fun login(req: HttpServletRequest): String {
+        val redirectUri = req.scheme + "://" + req.serverName + ":" + req.serverPort + "/callback"
+        val authorizeUrl = auth0.buildAuthorizeUrl(req, redirectUri)
+        return "redirect:" + authorizeUrl.build()
+    }
 
     private val redirectOnFail: String = "/login"
     private val redirectOnSuccess: String = "/"
@@ -37,7 +44,7 @@ class CallbackController(@Autowired val authenticationController: Authentication
     @Throws(IOException::class)
     private fun handle(req: HttpServletRequest, res: HttpServletResponse) {
         try {
-            val tokens = authenticationController.handle(req)
+            val tokens = auth0.handle(req)
             val tokenAuth = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
             res.sendRedirect(redirectOnSuccess)

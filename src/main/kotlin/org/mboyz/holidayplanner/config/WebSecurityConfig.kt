@@ -38,7 +38,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     @Throws(UnsupportedEncodingException::class)
-    fun authenticationController(): AuthenticationController {
+    fun auth0Controller(): AuthenticationController {
         return AuthenticationController.newBuilder(domain, clientId, AUTH0_SECRET)
                 .withResponseType("code")
                 .build()
