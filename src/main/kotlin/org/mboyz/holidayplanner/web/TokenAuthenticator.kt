@@ -1,4 +1,4 @@
-package com.auth0.example.security
+package org.mboyz.holidayplanner.web
 
 import com.auth0.jwt.interfaces.DecodedJWT
 import org.springframework.security.authentication.AbstractAuthenticationToken
@@ -31,7 +31,6 @@ class TokenAuthentication(private val jwt: DecodedJWT) : AbstractAuthenticationT
     private fun hasExpired(): Boolean {
         return jwt.expiresAt.before(Date())
     }
-
 
     override fun getCredentials(): String {
         return jwt.token
