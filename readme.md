@@ -17,22 +17,27 @@ This project is for me to experiment with Kotlin+Spring and share my learnings a
 	
 	
 ## Mockito ArgumentMatchers and Kotlin nullsafety
-Mockito matchers any() and nonNull() don't work with nonNullable Kotlin types. In order to make the following work:
+Mockito matchers such as any() and nonNull() don't work with nonNullable Kotlin types. In order to make the following work:
 
 ```kotlin
-	`when`(auth0Mock.buildAuthorizeUrl(any(), any())).thenReturn("someUrl")
+given(auth0Mock.buildAuthorizeUrl(any(), any())).willReturn("someUrl")
 ```
 I would have to change the method arguments to be nullables, 
 which defeats the purpose of having non-nullables in the first place:
 ```kotlin
-	fun buildAuthorizeUrl(req: HttpServletRequest?, redirectUri: String?): String {
-		return auth0.buildAuthorizeUrl(req, redirectUri).build()
-	}
+fun buildAuthorizeUrl(req: HttpServletRequest?, redirectUri: String?): String {
+	return auth0.buildAuthorizeUrl(req, redirectUri).build()
+}
 ```
 
-TBC: Solution / Workarounds
-
-related reading: https://medium.com/elye.project/befriending-kotlin-and-mockito-1c2e7b0ef791
+A google search led me to this [article](https://medium.com/elye.project/befriending-kotlin-and-mockito-1c2e7b0ef791)
+by Elye. I followed the advice and introduced a helper function, allowing me to use the any() matcher with non-nullable argument types:
+```kotlin
+fun <T> any(): T {
+    Mockito.any<T>()
+    return null as T
+}
+```
 
 ## Auth0 & Testing
 #### Mocking the AuthenticationController
@@ -41,12 +46,12 @@ When authenticating your requests with Auth0 in Java, it is convenient to use th
 One of the methods you are going to be using for this, returns an AuthorizeUrl instance, which you will be redirecting your requests to.
 
 ```kotlin
-	@RequestMapping(value = LOGIN, method = arrayOf(RequestMethod.GET))
-	fun login(req: HttpServletRequest): String {
-		val redirectUri = req.scheme + "://" + req.serverName + ":" + req.serverPort + CALLBACK
-		val authorizeUrl = auth0.buildAuthorizeUrl(req, redirectUri).build()
-		return "redirect:" + authorizeUrl
-	}
+@RequestMapping(value = LOGIN, method = arrayOf(RequestMethod.GET))
+fun login(req: HttpServletRequest): String {
+	val redirectUri = req.scheme + "://" + req.serverName + ":" + req.serverPort + CALLBACK
+	val authorizeUrl = auth0.buildAuthorizeUrl(req, redirectUri).build()
+	return "redirect:" + authorizeUrl
+}
 ```
 However, this class' constructor and its builder are package private; preventing it from being instantiated
 outside of the auth0 library, and effectively preventing the controller to be mocked, as it is not possible

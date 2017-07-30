@@ -12,7 +12,7 @@ class Auth0Wrapper(@Autowired val auth0: AuthenticationController) {
         return auth0.handle(req)
     }
 
-    fun buildAuthorizeUrl(req: HttpServletRequest?, redirectUri: String?): String {
+    fun buildAuthorizeUrl(req: HttpServletRequest, redirectUri: String): String {
         return auth0.buildAuthorizeUrl(req, redirectUri).build()
     }
 }
