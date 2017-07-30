@@ -35,7 +35,7 @@ class AuthController(@Autowired val auth0: Auth0Wrapper,
             val tokens: Tokens = auth0.handle(req)
             val tokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
-            userService.findOrCreate(tokenAuth.name)
+            userService.createOrUpdate(tokenAuth.name, tokens.accessToken)
             return "redirect:$HOME"
         } catch (e: AuthenticationException) {
             e.printStackTrace()

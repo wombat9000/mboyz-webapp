@@ -11,5 +11,14 @@ data class User @JvmOverloads constructor(
         var id: Long = 0,
 
         @Column(name = "fb_id")
-        var fbId: String = ""
+        var fbId: String = "",
+
+        @Column(name = "given_name")
+        var givenName: String = "",
+
+        @Column(name = "family_name")
+        var familyName: String = "",
+
+        @Column(name = "image_url")
+        var imageUrl: String = ""
 )

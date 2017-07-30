@@ -48,15 +48,16 @@ class AuthControllerTest {
     fun callbackShouldCreateUserInDb() {
         val home = "/"
 
-        val token: Tokens = Tokens("", generateToken(), "", "", 60L)
+        val accessToken = "someAccessToken"
+        val token: Tokens = Tokens(accessToken, generateToken(), "", "", 60L)
         given(auth0Mock.handle(any())).willReturn(token)
-        given(userServiceMock.findOrCreate("someSubject")).willReturn(User())
+        given(userServiceMock.createOrUpdate("someSubject", accessToken)).willReturn(User())
 
         mockMvc.perform(MockMvcRequestBuilders.get("/callback"))
                 .andExpect(MockMvcResultMatchers.redirectedUrl(home))
                 .andExpect(MockMvcResultMatchers.status().isFound)
 
-        verify(userServiceMock).findOrCreate("someSubject")
+        verify(userServiceMock).createOrUpdate("someSubject", accessToken)
     }
 
     fun generateToken(): String {

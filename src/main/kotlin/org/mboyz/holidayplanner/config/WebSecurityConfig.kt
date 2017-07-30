@@ -1,6 +1,7 @@
 package org.mboyz.holidayplanner.config
 
 import com.auth0.AuthenticationController
+import com.auth0.client.auth.AuthAPI
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -42,5 +43,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         return AuthenticationController.newBuilder(domain, clientId, AUTH0_SECRET)
                 .withResponseType("code")
                 .build()
+    }
+
+    @Bean
+    fun auth0Api(): AuthAPI {
+        return AuthAPI(domain, clientId, AUTH0_SECRET)
     }
 }
