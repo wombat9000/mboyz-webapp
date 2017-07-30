@@ -33,18 +33,10 @@ class AuthController(@Autowired val auth0: Auth0Wrapper) {
     }
 
     @RequestMapping(value = CALLBACK, method = arrayOf(RequestMethod.GET))
-    @Throws(ServletException::class, IOException::class)
     fun getCallback(req: HttpServletRequest, res: HttpServletResponse) {
         handle(req, res)
     }
 
-    @RequestMapping(value = CALLBACK, method = arrayOf(RequestMethod.POST), consumes = arrayOf(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
-    @Throws(ServletException::class, IOException::class)
-    fun postCallback(req: HttpServletRequest, res: HttpServletResponse) {
-        handle(req, res)
-    }
-
-    @Throws(IOException::class)
     private fun handle(req: HttpServletRequest, res: HttpServletResponse) {
         try {
             val tokens = auth0.handle(req)
@@ -60,6 +52,5 @@ class AuthController(@Autowired val auth0: Auth0Wrapper) {
             SecurityContextHolder.clearContext()
             res.sendRedirect(LOGIN)
         }
-
     }
 }
