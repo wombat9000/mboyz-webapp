@@ -23,4 +23,12 @@ class UserService (@Autowired val userRepository: UserRepository,
         )
         return userRepository.save(userToCreate)
     }
+
+    fun findAll(): Iterable<User> {
+        return userRepository.findAll()
+    }
+
+    fun findOne(id: Long): User? {
+        return userRepository.findOne(id)
+    }
 }

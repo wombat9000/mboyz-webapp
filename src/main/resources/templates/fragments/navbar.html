@@ -21,6 +21,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li th:class="${activeTab == 'holidays'}? 'active' : null"><a href="/holiday">Urlaube</a></li>
+                <li th:class="${activeTab == 'users'}? 'active' : null"><a href="/user">User</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li sec:authorize="isAnonymous()"><a href="/login">Login</a></li>
