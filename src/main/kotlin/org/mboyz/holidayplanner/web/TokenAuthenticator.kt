@@ -16,12 +16,10 @@ class TokenAuthentication(private val jwt: DecodedJWT) : AbstractAuthenticationT
             }
             val authorities = ArrayList<GrantedAuthority>()
             val scopes = rolesClaim.asArray(String::class.java)
-            for (s in scopes) {
-                val a = SimpleGrantedAuthority(s)
-                if (!authorities.contains(a)) {
-                    authorities.add(a)
-                }
-            }
+            scopes
+                    .map { SimpleGrantedAuthority(it) }
+                    .filterNot { authorities.contains(it) }
+                    .forEach { authorities.add(it) }
             return authorities
         }
     }

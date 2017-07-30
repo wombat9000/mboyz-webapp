@@ -1,7 +1,9 @@
 package org.mboyz.holidayplanner.web
 
 import com.auth0.IdentityVerificationException
+import com.auth0.Tokens
 import com.auth0.jwt.JWT
+import org.mboyz.holidayplanner.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -11,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod
 import javax.servlet.http.HttpServletRequest
 
 @Controller
-class AuthController(@Autowired val auth0: Auth0Wrapper) {
+class AuthController(@Autowired val auth0: Auth0Wrapper,
+                     @Autowired val userService: UserService) {
 
     companion object {
         const private val HOME: String = "/"
@@ -29,9 +32,10 @@ class AuthController(@Autowired val auth0: Auth0Wrapper) {
     @RequestMapping(value = CALLBACK, method = arrayOf(RequestMethod.GET))
     fun getCallback(req: HttpServletRequest): String {
         try {
-            val tokens = auth0.handle(req)
-            val tokenAuth = TokenAuthentication(JWT.decode(tokens.idToken))
+            val tokens: Tokens = auth0.handle(req)
+            val tokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
+            userService.findOrCreate(tokenAuth.name)
             return "redirect:$HOME"
         } catch (e: AuthenticationException) {
             e.printStackTrace()
