@@ -17,7 +17,7 @@ class UserService (@Autowired val userRepository: UserRepository,
         val userInfo = auth0Client.getUserInfo(accessToken)
         val userToCreate = User(
                 fbId = fbId,
-//                givenName = userInfo["given_name"] as String,
+                givenName = userInfo["given_name"] as String,
                 familyName = userInfo["family_name"] as String,
                 imageUrl = userInfo["picture"] as String
         )
