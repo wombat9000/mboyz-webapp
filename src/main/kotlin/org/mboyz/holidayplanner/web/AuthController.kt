@@ -26,6 +26,7 @@ class AuthController(@Autowired val auth0: Auth0Wrapper,
     fun login(req: HttpServletRequest): String {
         var redirectUri = req.scheme + "://" + req.serverName
 
+        // Localhost requires port in URL because it does not run on default 80 / 443
         if (req.serverPort == 8080) {
             redirectUri += ":" + req.serverPort
         }
