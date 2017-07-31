@@ -126,12 +126,7 @@ springBoot {
 	mainClass = 'org.mboyz.holidayplanner.Server'
 }
 
-task buildStaticResources(type: Exec, dependsOn: npmInstall) {
-	workingDir "${projectDir}"
-	commandLine = ["./node_modules/.bin/gulp", "build"]
-}
-
-task createStaticResources(type: Tar, dependsOn: buildStaticResources) {
+task createStaticResources(type: Tar) {
 	archiveName = "static-resources.tar"
 	destinationDir = file("${buildDir}/libs")
 	def staticsDir = "${projectDir}/src/main/resources/static"
@@ -155,8 +150,6 @@ jar {
 	from "${buildDir}/libs/static-resources.tar"
 }
 
-gulp_jest.dependsOn buildStaticResources
-check.dependsOn gulp_jest
 task stage(dependsOn: ['clean', 'installDist', 'flywayMigrate'])
 installDist.mustRunAfter clean
 check.mustRunAfter clean
