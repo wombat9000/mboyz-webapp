@@ -24,7 +24,14 @@ class AuthController(@Autowired val auth0: Auth0Wrapper,
 
     @RequestMapping(value = LOGIN, method = arrayOf(RequestMethod.GET))
     fun login(req: HttpServletRequest): String {
-        val redirectUri = req.scheme + "://" + req.serverName + ":" + req.serverPort + CALLBACK
+        var redirectUri = req.scheme + "://" + req.serverName
+
+        if (req.serverPort == 8080) {
+            redirectUri += ":" + req.serverPort
+        }
+
+        redirectUri += CALLBACK
+
         val authorizeUrl = auth0.buildAuthorizeUrl(req, redirectUri)
         return "redirect:" + authorizeUrl
     }
