@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 @Controller
 class AuthController(@Autowired val auth0: Auth0Wrapper,
@@ -31,21 +30,21 @@ class AuthController(@Autowired val auth0: Auth0Wrapper,
     }
 
     @RequestMapping(value = CALLBACK, method = arrayOf(RequestMethod.GET))
-    fun getCallback(req: HttpServletRequest, res: HttpServletResponse) {
+    fun getCallback(req: HttpServletRequest): String {
         try {
             val tokens: Tokens = auth0.handle(req)
             val tokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
             userService.createOrUpdate(tokenAuth.name, tokens.accessToken)
-            res.sendRedirect(HOME)
+            return "redirect:$HOME"
         } catch (e: AuthenticationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            res.sendRedirect(LOGIN)
+            return "redirect:$LOGIN"
         } catch (e: IdentityVerificationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            res.sendRedirect(LOGIN)
+            return "redirect:$LOGIN"
         }
     }
 }
