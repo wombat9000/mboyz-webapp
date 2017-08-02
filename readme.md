@@ -17,7 +17,7 @@ This project is for me to experiment with Kotlin+Spring and share my learnings a
 	
 	
 ## Mockito ArgumentMatchers and Kotlin nullsafety
-Mockito matchers such as any() and nonNull() don't work with nonNullable Kotlin types. In order to make the following work:
+Mockito matchers such as any() return Java types, and are not compatible with Kotlin nonNullable types. In order to make the following work:
 
 ```kotlin
 given(auth0Mock.buildAuthorizeUrl(any(), any())).willReturn("someUrl")
@@ -31,7 +31,8 @@ fun buildAuthorizeUrl(req: HttpServletRequest?, redirectUri: String?): String {
 ```
 
 A google search led me to this [article](https://medium.com/elye.project/befriending-kotlin-and-mockito-1c2e7b0ef791)
-by Elye. I followed the advice and introduced a helper function, allowing me to use the any() matcher with non-nullable argument types:
+by Elye. I followed the advice and introduced a helper function, which wraps Mockito's any(), and returns
+a Kotlin generic, allowing it to match against nonNullable method parameters:
 ```kotlin
 fun <T> any(): T {
     Mockito.any<T>()
