@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Mboyz</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar(home)"></div>
+
+<div class="container">
+    <h1>Es ist ein Fehler aufgetreten.</h1>
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+
+        <tr th:each="error: ${errors}">
+            <td th:text="${error.key}">No Id!</td>
+            <td th:text="${error.value}">No Name!</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
