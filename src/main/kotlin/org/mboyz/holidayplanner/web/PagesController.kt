@@ -2,13 +2,18 @@ package org.mboyz.holidayplanner.web
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 
 @Controller
-class PageController {
+class PagesController {
+
 
     @RequestMapping("/")
-    fun homeReact(): String {
+    fun home(request: HttpServletRequest, response: HttpServletResponse): String {
         return "home"
     }
+
+
 }

@@ -2,28 +2,32 @@ package org.mboyz.holidayplanner.integration
 
 import org.junit.Before
 import org.junit.Test
-import org.mboyz.holidayplanner.web.PageController
-import org.mockito.MockitoAnnotations
+import org.mboyz.holidayplanner.web.PagesController
+import org.mockito.MockitoAnnotations.initMocks
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 
-class PageControllerTest {
 
-    lateinit var testee: PageController
+class PagesControllerTest {
+
+    lateinit var testee: PagesController
     lateinit var mockMvc: MockMvc
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        testee = PageController()
-        mockMvc = MockMvcBuilders.standaloneSetup(testee).build()
+        initMocks(this)
+
+        testee = PagesController()
+        mockMvc = standaloneSetup(testee)
+                .build()
     }
+
     @Test
     fun shouldShowHomePage() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+        mockMvc.perform(get("/"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("home"))
     }

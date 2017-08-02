@@ -17,6 +17,14 @@ import java.io.UnsupportedEncodingException
 @EnableGlobalMethodSecurity(prePostEnabled = false, securedEnabled = true)
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
+    companion object {
+        val HOME = "/"
+        val LOGIN = "/login"
+        val CALLBACK = "/callback"
+        val WEBJARS = "/webjars/**"
+        val ALL = "/**"
+    }
+
     @Suppress("unused")
     val secretFromEnv: String? = System.getenv("AUTH0_SECRET")
     @Value("\${auth0.secret:secretFromEnv}")
@@ -30,10 +38,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
         http.authorizeRequests()
-                .antMatchers("/callback", "/login", "/", "/webjars/**").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers(HOME, CALLBACK, LOGIN, WEBJARS).permitAll()
+                .antMatchers(ALL).authenticated()
                 .and()
-                .logout().logoutSuccessUrl("/").permitAll()
+                .logout().logoutSuccessUrl(HOME).permitAll()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
     }
 

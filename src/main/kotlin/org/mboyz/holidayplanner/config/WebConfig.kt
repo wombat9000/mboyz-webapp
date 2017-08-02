@@ -13,6 +13,7 @@ class WebConfig: WebMvcConfigurerAdapter() {
     fun templateResolver(): ClassLoaderTemplateResolver {
         val templateResolver = ClassLoaderTemplateResolver()
         templateResolver.prefix = "templates/"
+        templateResolver.suffix = ".html"
         templateResolver.isCacheable = false
         templateResolver.templateMode = "HTML5"
         templateResolver.characterEncoding = "UTF-8"
