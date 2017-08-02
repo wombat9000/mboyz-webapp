@@ -36,8 +36,8 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
         lateinit var app: AppApi
 
         @BeforeClass @JvmStatic fun setUp() {
-//            webDriver = setupChromeDriver()
-            webDriver = setupPhantomJSDriver()
+            webDriver = setupChromeDriver()
+//            webDriver = setupPhantomJSDriver()
 
             screen = ScreenApi(webDriver)
             user = UserApi(webDriver)
@@ -112,12 +112,12 @@ class UserApi(val webDriver: WebDriver) {
     }
 
     fun navigatesToHolidaysPage(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holidays']")).click()
+        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holiday']")).click()
         return this
     }
 
     fun clicksLogin(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.navbar-right li a")).click()
+        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).click()
         return this
     }
 
@@ -140,20 +140,14 @@ class UserApi(val webDriver: WebDriver) {
 
 class ScreenApi(val webDriver: WebDriver) {
     fun showsLoginButton(): ScreenApi {
-        val loginButtonText = webDriver.findElement(By.cssSelector("ul.navbar-right li a")).getAttribute("text")
+        val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).getAttribute("text")
         assertThat(loginButtonText, `is`("Login"))
         return this
     }
 
-    fun showsUnauthInfo(): ScreenApi {
-        val unauthenticatedInfo = webDriver.findElement(By.tagName("h2")).text
-        assertThat(unauthenticatedInfo, `is`("Du musst einloggen, um diese Seite zu sehen."))
-        return this
-    }
-
-    fun showsAuthModal(): ScreenApi {
-        webDriver.findElement(By.cssSelector("div.auth0-lock-opened"))
-        // TODO add assertion once modal is not dependant on internet connection
+    fun showsErrorPage(): ScreenApi {
+        val unauthenticatedInfo = webDriver.findElement(By.tagName("h1")).text
+        assertThat(unauthenticatedInfo, `is`("Es ist ein Fehler aufgetreten."))
         return this
     }
 

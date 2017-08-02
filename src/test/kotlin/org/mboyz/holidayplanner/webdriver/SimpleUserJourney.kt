@@ -48,12 +48,8 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 .showsLoginButton()
 
         user    .navigatesToHolidaysPage()
-        screen  .showsUnauthInfo()
-        user    .clicksLogin()
-        // TODO:
-        // authentication is dependent on internet connection
-        // use own auth0 lock implementation
-        screen  .showsAuthModal()
+        screen  .showsErrorPage()
+        user    .visits(HOME)
 
         // "login" by generating valid token, as opposed to retrieving one through Auth0
         // TODO: evaluate if i can provide token myself

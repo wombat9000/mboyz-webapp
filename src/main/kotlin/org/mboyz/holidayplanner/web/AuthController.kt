@@ -24,16 +24,7 @@ class AuthController(@Autowired val auth0: Auth0Wrapper,
 
     @RequestMapping(value = LOGIN, method = arrayOf(RequestMethod.GET))
     fun login(req: HttpServletRequest): String {
-        var redirectUri = req.scheme + "://" + req.serverName
-
-        // Localhost requires port in URL because it does not run on default 80 / 443
-        if (req.serverPort == 8080) {
-            redirectUri += ":" + req.serverPort
-        }
-
-        redirectUri += CALLBACK
-
-        val authorizeUrl = auth0.buildAuthorizeUrl(req, redirectUri)
+        val authorizeUrl = auth0.buildAuthorizeUrl(req, req.getRedirectUrl())
         return "redirect:" + authorizeUrl
     }
 
@@ -55,4 +46,18 @@ class AuthController(@Autowired val auth0: Auth0Wrapper,
             return "redirect:$LOGIN"
         }
     }
+
+    private fun HttpServletRequest.getRedirectUrl(): String {
+        var redirectUri = this.scheme + "://" + this.serverName
+
+        // Localhost requires port in URL because it does not run on 8080 instead of default 80 / 443 which are omitted
+        if (this.serverPort == 8080) {
+            redirectUri += ":" + this.serverPort
+        }
+
+        redirectUri += AuthController.CALLBACK
+        return redirectUri
+    }
 }
+
+

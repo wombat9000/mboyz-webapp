@@ -1,4 +1,4 @@
-package org.mboyz.holidayplanner.integration
+package org.mboyz.holidayplanner.web
 
 import org.junit.Before
 import org.junit.Test
