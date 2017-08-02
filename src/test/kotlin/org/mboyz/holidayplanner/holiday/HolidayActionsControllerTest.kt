@@ -2,11 +2,12 @@ package org.mboyz.holidayplanner.holiday
 
 import org.junit.Before
 import org.junit.Test
-import org.mockito.MockitoAnnotations
+import org.mockito.MockitoAnnotations.initMocks
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
+import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 import java.security.Principal
 
 class HolidayActionsControllerTest {
@@ -16,16 +17,16 @@ class HolidayActionsControllerTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        initMocks(this)
         testee = HolidayActionsController()
-        mockMvc = MockMvcBuilders.standaloneSetup(testee).build()
+        mockMvc = standaloneSetup(testee).build()
     }
 
     @Test
     fun shouldRedirectToHolidayPageAfterSuccessfulParticipation() {
         val somePrincipal = Principal{"test"}
-        mockMvc.perform(MockMvcRequestBuilders.get("/holiday/1/participate").principal(somePrincipal))
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/holiday/1"))
-                .andExpect(MockMvcResultMatchers.status().isFound)
+        mockMvc.perform(get("/holiday/1/participate").principal(somePrincipal))
+                .andExpect(view().name("redirect:/holiday/1"))
+                .andExpect(status().isFound)
     }
 }
