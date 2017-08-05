@@ -22,6 +22,10 @@ import org.springframework.boot.context.embedded.LocalServerPort
 import java.net.InetAddress
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
+import org.openqa.selenium.remote.RemoteWebDriver
+import org.openqa.selenium.chrome.ChromeOptions
+
+
 
 abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
@@ -47,8 +51,10 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
         }
 
         private fun setupChromeDriver(): WebDriver {
+            val chromeOptions = ChromeOptions()
+            chromeOptions.addArguments("--headless")
             System.setProperty("webdriver.chrome.driver", "node_modules/chromedriver/bin/chromedriver")
-            return ChromeDriver()
+            return ChromeDriver(chromeOptions)
         }
 
         private fun setupPhantomJSDriver(): WebDriver {

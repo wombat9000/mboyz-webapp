@@ -7,7 +7,7 @@ addons:
   chrome: stable
 install:
   - # start chrome headlessly
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  - # google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
   - npm i -g npm
   - npm cache verify
