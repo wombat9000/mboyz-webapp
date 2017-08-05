@@ -32,7 +32,6 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
         lateinit var webDriver: WebDriver
         lateinit var screen: ScreenApi
         lateinit var user: UserApi
-        lateinit var js: JsApi
         lateinit var app: AppApi
 
         @BeforeClass @JvmStatic fun setUp() {
@@ -40,7 +39,6 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
             screen = ScreenApi(webDriver)
             user = UserApi(webDriver)
-            js = JsApi(webDriver as JavascriptExecutor)
         }
 
         private fun setupChromeDriver(): WebDriver {
@@ -67,28 +65,6 @@ class AppApi (val holidayRepository: HolidayRepository){
     fun createHoliday(holiday: Holiday): AppApi {
         holidayRepository.save(holiday)
         return this
-    }
-}
-
-class JsApi(val js: JavascriptExecutor) {
-    fun setLocalStorage(item: String, value: String) {
-        js.executeScript(String.format("window.localStorage.setItem('%s','%s');", item, value))!!
-    }
-
-    fun getFromLocalStorage(key: String): String {
-        return js.executeScript(String.format("return window.localStorage.getItem('%s');", key))!! as String
-    }
-
-    fun removeItemFromLocalStorage(item: String) {
-        js.executeScript(String.format("window.localStorage.removeItem('%s');", item))!!
-    }
-
-    fun isItemPresentInLocalStorage(item: String): Boolean {
-        return js.executeScript(String.format("return window.localStorage.getItem('%s');", item)) != null
-    }
-
-    fun clearLocalStorage() {
-        js.executeScript(String.format("window.localStorage.clear();"))!!
     }
 }
 
