@@ -1,32 +1,27 @@
 package org.mboyz.holidayplanner.webdriver
 
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.containsString
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.AfterClass
-import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.BeforeClass
-import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.mboyz.holidayplanner.integration.AbstractSpringTest
-import org.openqa.selenium.By
-import org.openqa.selenium.JavascriptExecutor
+import org.mboyz.holidayplanner.user.UserRepository
+import org.mboyz.holidayplanner.web.Auth0Client
+import org.mboyz.holidayplanner.web.Auth0Wrapper
+import org.mboyz.holidayplanner.webdriver.api.AppApi
+import org.mboyz.holidayplanner.webdriver.api.ScreenApi
+import org.mboyz.holidayplanner.webdriver.api.UserApi
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.embedded.LocalServerPort
+import org.springframework.boot.test.mock.mockito.MockBean
 import java.net.InetAddress
-import java.time.format.DateTimeFormatter
-
 
 abstract class AbstractWebdriverTest : AbstractSpringTest() {
-
-    @Autowired
-    fun initHolidayRepository(holidayRepository: HolidayRepository) {
-        app = AppApi(holidayRepository)
-    }
 
     companion object {
         lateinit var webDriver: WebDriver
@@ -36,9 +31,10 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
         @BeforeClass @JvmStatic fun setUp() {
             webDriver = setupChromeDriver()
+        }
 
-            screen = ScreenApi(webDriver)
-            user = UserApi(webDriver)
+        @AfterClass @JvmStatic fun cleanUp() {
+            webDriver.quit()
         }
 
         private fun setupChromeDriver(): WebDriver {
@@ -47,120 +43,41 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
             System.setProperty("webdriver.chrome.driver", "node_modules/chromedriver/bin/chromedriver")
             return ChromeDriver(chromeOptions)
         }
+    }
 
-        @After fun after() {
-            webDriver.close()
-        }
+    @Suppress("unused")
+    val secretFromEnv: String? = System.getenv("AUTH0_SECRET")
+    @Value("\${auth0.secret:secretFromEnv}")
+    lateinit var AUTH0_SECRET: String
 
-        @AfterClass @JvmStatic fun cleanUp() {
-            webDriver.quit()
-        }
+    @Autowired
+    fun initHolidayRepository(holidayRepository: HolidayRepository, userRepository: UserRepository) {
+        app = AppApi(holidayRepository, userRepository)
+    }
+
+    @MockBean
+    lateinit var auth0Mock: Auth0Wrapper
+    @MockBean
+    lateinit var auth0Client: Auth0Client
+
+    @Before fun setup() {
+    user = UserApi(webDriver, auth0Client, auth0Mock, AUTH0_SECRET)
+    screen = ScreenApi(webDriver)
+
+//        val userInfo = mutableMapOf<String, Any>()
+//        userInfo.put("given_name", "Bastian")
+//        userInfo.put("family_name", "Stein")
+//        userInfo.put("picture", "testImageUrl")
+//
+//        BDDMockito.given(auth0Mock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
+//        BDDMockito.given(auth0Mock.handle(any())).willReturn(Tokens("someAccessToken", generateSignedToken(),"", "bearer", 9000))
+//        BDDMockito.given(auth0Client.getUserInfo("someAccessToken")).willReturn(userInfo)
+    }
+
+    @After fun after() {
+        webDriver.close()
     }
 
     @LocalServerPort var port: Int? = null
     var contextPath: String? = InetAddress.getLocalHost().hostAddress
-}
-
-class AppApi (val holidayRepository: HolidayRepository){
-    fun createHoliday(holiday: Holiday): AppApi {
-        holidayRepository.save(holiday)
-        return this
-    }
-}
-
-class UserApi(val webDriver: WebDriver) {
-
-    fun visits(url: String): UserApi {
-        webDriver.navigate().to(url)
-        return this
-    }
-
-    fun opensHolidayOverview(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holiday']")).click()
-        return this
-    }
-
-    fun clicksLogin(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).click()
-        return this
-    }
-
-    fun createsHoliday(holiday: Holiday): UserApi {
-        webDriver.findElement(By.name("name")).sendKeys(holiday.name)
-        webDriver.findElement(By.name("location")).sendKeys(holiday.location)
-        webDriver.findElement(By.name("startDate")).sendKeys(holiday.startDate!!.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"))).toString()
-        webDriver.findElement(By.name("endDate")).sendKeys(holiday.endDate!!.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"))).toString()
-
-        webDriver.findElement(By.name("saveHoliday")).click()
-        return this
-    }
-
-    fun clicksLogout(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.navbar-right li a")).click()
-        return this
-    }
-
-    fun navigatesToHolidaysCreation(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holiday']")).click()
-        webDriver.findElement(By.cssSelector("p a[href='/holiday/create']")).click()
-        return this
-    }
-
-    fun isLoggedIn(): UserApi {
-        val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).getAttribute("text")
-        assertThat(loginButtonText, `is`("Logout"))
-        return this
-    }
-
-    fun isLoggedOut(): UserApi {
-        val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).getAttribute("text")
-        assertThat(loginButtonText, `is`("Login"))
-        return this
-    }
-}
-
-class ScreenApi(val webDriver: WebDriver) {
-    fun showsErrorPage(): ScreenApi {
-        val unauthenticatedInfo = webDriver.findElement(By.tagName("h1")).text
-        assertThat(unauthenticatedInfo, `is`("Es ist ein Fehler aufgetreten."))
-        return this
-    }
-
-    fun showsHolidayOverview():ScreenApi {
-        val pageHeading = webDriver.findElement(By.tagName("h2")).text
-        assertThat(pageHeading, `is`("Alle Urlaube"))
-        return this
-    }
-
-    fun showsNoHolidays(): ScreenApi {
-        val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
-        assertTrue(rows.isEmpty())
-        return this
-    }
-
-    fun showsHolidays(vararg holidays: Holiday): ScreenApi {
-        val rows = webDriver.findElements(By.cssSelector("table tbody tr")).map { it -> it.text }
-        holidays.forEach { it -> it.assertIsIncludedIn(rows) }
-        return this
-    }
-
-    fun showsHome(): ScreenApi {
-        val pageHeading = webDriver.findElement(By.tagName("h2")).text
-        assertThat(pageHeading, `is`("Home"))
-        return this
-    }
-
-    fun showsPageForHoliday(holiday: Holiday): ScreenApi {
-        val pageHeading = webDriver.findElement(By.tagName("h2")).text
-        val location = webDriver.findElements(By.cssSelector("div.holiday_details ul li"))[0].text
-
-        assertThat("holiday name is the page heading", pageHeading, containsString(holiday.name))
-        assertThat("holiday location is shown", location, containsString(holiday.location))
-        return this
-    }
-}
-
-private fun Holiday.assertIsIncludedIn(row: List<String>): Unit {
-    val expectedRow = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
-    assertThat("row contains $expectedRow", row.contains(expectedRow), `is`(true))
 }

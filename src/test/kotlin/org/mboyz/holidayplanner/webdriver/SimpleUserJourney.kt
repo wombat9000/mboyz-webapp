@@ -2,6 +2,7 @@ package org.mboyz.holidayplanner.webdriver
 
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.user.User
 import java.time.LocalDate
 
 class SimpleUserJourney : AbstractWebdriverTest(){
@@ -24,12 +25,22 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 location = "Some Location",
                 startDate = LocalDate.parse("2017-04-05"),
                 endDate = LocalDate.parse("2017-03-28"))
+
+        val BASTIAN = User(
+                givenName = "Bastian",
+                familyName = "Stein",
+                fbId = "facebook|basti",
+                imageUrl = "someImage.jpg"
+        )
     }
 
     @Test
     fun simpleUserJourney() {
         val BASE_URL = "http://$contextPath:$port"
         val HOME = BASE_URL
+
+        app     .deleteAllHolidays()
+                .deleteAllUsers()
 
         user    .visits(HOME)
                 .isLoggedOut()
@@ -38,7 +49,7 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         user    .opensHolidayOverview()
         screen  .showsErrorPage()
         user    .visits(HOME)
-                .clicksLogin()
+                .loginAs(BASTIAN)
                 .isLoggedIn()
 
         user    .opensHolidayOverview()
