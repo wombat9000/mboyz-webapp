@@ -1,6 +1,7 @@
 package org.mboyz.holidayplanner.webdriver
 
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.AfterClass
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 abstract class AbstractWebdriverTest : AbstractSpringTest() {
+
     @Autowired
     fun initHolidayRepository(holidayRepository: HolidayRepository) {
         app = AppApi(holidayRepository)
@@ -124,11 +126,10 @@ class UserApi(val webDriver: WebDriver) {
     fun createsHoliday(holiday: Holiday): UserApi {
         webDriver.findElement(By.name("name")).sendKeys(holiday.name)
         webDriver.findElement(By.name("location")).sendKeys(holiday.location)
-        webDriver.findElement(By.className("start-date-field")).sendKeys(holiday.startDate!!.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"))).toString()
-        webDriver.findElement(By.className("end-date-field")).sendKeys(holiday.endDate!!.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"))).toString()
+        webDriver.findElement(By.name("startDate")).sendKeys(holiday.startDate!!.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"))).toString()
+        webDriver.findElement(By.name("endDate")).sendKeys(holiday.endDate!!.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"))).toString()
 
-        // submit form
-        webDriver.findElement(By.cssSelector("form div.form-group button")).click()
+        webDriver.findElement(By.name("saveHoliday")).click()
         return this
     }
 
@@ -136,15 +137,27 @@ class UserApi(val webDriver: WebDriver) {
         webDriver.findElement(By.cssSelector("ul.navbar-right li a")).click()
         return this
     }
-}
 
-class ScreenApi(val webDriver: WebDriver) {
-    fun showsLoginButton(): ScreenApi {
+    fun navigatesToHolidaysCreation(): UserApi {
+        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holiday']")).click()
+        webDriver.findElement(By.cssSelector("p a[href='/holiday/create']")).click()
+        return this
+    }
+
+    fun isLoggedIn(): UserApi {
+        val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).getAttribute("text")
+        assertThat(loginButtonText, `is`("Logout"))
+        return this
+    }
+
+    fun isLoggedOut(): UserApi {
         val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).getAttribute("text")
         assertThat(loginButtonText, `is`("Login"))
         return this
     }
+}
 
+class ScreenApi(val webDriver: WebDriver) {
     fun showsErrorPage(): ScreenApi {
         val unauthenticatedInfo = webDriver.findElement(By.tagName("h1")).text
         assertThat(unauthenticatedInfo, `is`("Es ist ein Fehler aufgetreten."))
@@ -153,7 +166,7 @@ class ScreenApi(val webDriver: WebDriver) {
 
     fun showsHolidayOverview():ScreenApi {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
-        assertThat(pageHeading, `is`("Neuen Urlaub anlegen:"))
+        assertThat(pageHeading, `is`("Alle Urlaube"))
         return this
     }
 
@@ -164,12 +177,6 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 
     fun showsHoliday(holiday: Holiday): ScreenApi {
-        // TODO:
-        // this does not work, because it will always immediately find the table,
-        // and not wait for rows to appear asynchronously.
-        // As a workaround, we sleep 200millis to give the application time to render the rows,
-        // before the webdriver attempts to fetch them.
-        Thread.sleep(200)
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
         val rowsAsText: List<String> = rows.map { row -> row.text }
 
@@ -185,17 +192,22 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 
     fun doesNotShowHoliday(holiday: Holiday): ScreenApi {
-        // TODO:
-        // this does not work, because it will always immediately find the table,
-        // and not wait for rows to appear asynchronously.
-        // As a workaround, we sleep 200millis to give the application time to render the rows,
-        // before the webdriver attempts to fetch them.
-        Thread.sleep(200)
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
         val rowsAsText: List<String> = rows.map { row -> row.text }
 
         val expectedRow = "${holiday.name} ${holiday.location} ${holiday.startDate} ${holiday.endDate}"
         assertThat("row contains $expectedRow", rowsAsText.contains(expectedRow), `is`(false))
+        return this
+    }
+
+    fun showsPageForHoliday(holiday: Holiday): ScreenApi {
+        val pagesrc = webDriver.pageSource
+
+        val pageHeading = webDriver.findElement(By.tagName("h2")).text
+        val location = webDriver.findElements(By.cssSelector("div.holiday_details ul li"))[0].text
+
+        assertThat("holiday name is the page heading", pageHeading, containsString(holiday.name))
+        assertThat("holiday location is shown", location, containsString(holiday.location))
         return this
     }
 }

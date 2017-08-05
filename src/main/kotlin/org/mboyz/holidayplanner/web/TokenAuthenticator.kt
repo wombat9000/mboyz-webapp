@@ -27,7 +27,8 @@ class TokenAuthentication(private val jwt: DecodedJWT) : AbstractAuthenticationT
     private var invalidated: Boolean = false
 
     private fun hasExpired(): Boolean {
-        return jwt.expiresAt.before(Date())
+        val expiresAt: Date = jwt.expiresAt ?: return false
+        return expiresAt.before(Date())
     }
 
     override fun getCredentials(): String {

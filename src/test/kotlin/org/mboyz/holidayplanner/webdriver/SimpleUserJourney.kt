@@ -1,15 +1,9 @@
 package org.mboyz.holidayplanner.webdriver
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
-import org.junit.Ignore
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.PropertySource
 import java.time.LocalDate
 
-@PropertySource("classpath:secret.properties", ignoreResourceNotFound = true)
 class SimpleUserJourney : AbstractWebdriverTest(){
 
     companion object {
@@ -32,28 +26,20 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 endDate = LocalDate.parse("2017-03-28"))
     }
 
-    @Suppress("unused")
-    val secretFromEnv: String? = System.getenv("AUTH0_SECRET")
-    @Value("\${auth0.secret:secretFromEnv}")
-    lateinit var AUTH0_SECRET: String
-
     @Test
-    @Ignore
     fun simpleUserJourney() {
         val BASE_URL = "http://$contextPath:$port"
         val HOME = BASE_URL
 
         user    .visits(HOME)
+                .isLoggedOut()
         screen  .showsHome()
-                .showsLoginButton()
 
         user    .navigatesToHolidaysPage()
         screen  .showsErrorPage()
         user    .visits(HOME)
-
-        // "login" by generating valid token, as opposed to retrieving one through Auth0
-        // TODO: evaluate if i can provide token myself
-        js      .setLocalStorage("id_token", generateSignedToken())
+                .clicksLogin()
+                .isLoggedIn()
 
         user    .navigatesToHolidaysPage()
         screen  .showsHolidayOverview()
@@ -65,25 +51,18 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 .navigatesToHolidaysPage()
         screen  .showsHoliday(SKI_HOLIDAY)
 
-        user    .createsHoliday(SURF_HOLIDAY)
+        user    .navigatesToHolidaysCreation()
+                .createsHoliday(SURF_HOLIDAY)
+        screen  .showsPageForHoliday(SURF_HOLIDAY)
+
+        user    .navigatesToHolidaysPage()
         screen  .showsHoliday(SURF_HOLIDAY)
 
-        user    .createsHoliday(HOLIDAY_WITH_INVALID_DATE)
-        screen  .doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)
-
-        // TODO: visits holiday detail page
+//        user    .createsHoliday(HOLIDAY_WITH_INVALID_DATE)
+//        screen  .doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)
 
         user    .clicksLogout()
+                .isLoggedOut()
         screen  .showsHome()
-                .showsLoginButton()
-    }
-
-    fun generateSignedToken(): String {
-        // TODO
-        // explore possibility of using symmetrical encryption for tests to avoid using
-        // the real secret
-        return JWT.create()
-                .withIssuer("https://wombat9000.eu.auth0.com/")
-                .sign(Algorithm.HMAC256(AUTH0_SECRET))
     }
 }

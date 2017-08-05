@@ -38,7 +38,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
         http.authorizeRequests()
-                .antMatchers(HOME, CALLBACK, LOGIN, WEBJARS).permitAll()
+                .antMatchers(HOME, CALLBACK, LOGIN, WEBJARS, "/auth0Test").permitAll()
                 .antMatchers(ALL).authenticated()
                 .and()
                 .logout().logoutSuccessUrl(HOME).permitAll()

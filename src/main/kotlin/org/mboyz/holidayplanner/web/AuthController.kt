@@ -33,6 +33,7 @@ class AuthController(@Autowired val auth0: Auth0Wrapper,
         try {
             val tokens: Tokens = auth0.handle(req)
             val tokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(tokens.idToken))
+            println("blaa")
             SecurityContextHolder.getContext().authentication = tokenAuth
             userService.createOrUpdate(tokenAuth.name, tokens.accessToken)
             return "redirect:$HOME"
