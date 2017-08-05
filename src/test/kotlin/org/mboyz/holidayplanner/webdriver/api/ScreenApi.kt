@@ -29,7 +29,7 @@ class ScreenApi(val webDriver: WebDriver) {
 
     fun showsHolidays(vararg holidays: Holiday): ScreenApi {
         val rows = webDriver.findElements(By.cssSelector("table tbody tr")).map { it -> it.text }
-        holidays.forEach { it -> it isIncludedIn rows }
+        holidays.forEach { it -> it assertIsIncludedIn rows }
         return this
     }
 
@@ -49,8 +49,8 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 }
 
-private infix fun Holiday.isIncludedIn(row: List<String>): Unit {
-    val expectedRow = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
-    assertThat("row contains $expectedRow", row.contains(expectedRow), `is`(true))
+private infix fun Holiday.assertIsIncludedIn(row: List<String>): Unit {
+    val expectedText = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
+    assertThat("row contains $expectedText", row.contains(expectedText), `is`(true))
 }
 

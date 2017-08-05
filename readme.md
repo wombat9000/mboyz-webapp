@@ -3,11 +3,6 @@
 This project is for me to experiment with Kotlin+Spring and share my learnings along the way.
 
 ## Tech & Tools
-- Heroku
-- TravisCI
-- Auth0
-- PSQL
-	- flyway
 - Kotlin(JVM)
 	- JUnit/Mockito/Hamcrest
 	- Selenium
@@ -15,9 +10,14 @@ This project is for me to experiment with Kotlin+Spring and share my learnings a
 	- Security
 	- Data
 	- Thymeleaf
+- PSQL
+    - flyway
+- Heroku
+- TravisCI
+- Auth0
 	
-	
-## Mockito ArgumentMatchers and Kotlin nullsafety
+## Testing
+### Mockito ArgumentMatchers and Kotlin nullsafety
 Mockito matchers such as any() return Java types, and are not compatible with Kotlin nonNullable types. In order to make the following work:
 
 ```kotlin
@@ -41,7 +41,53 @@ fun <T> any(): T {
 }
 ```
 
-## Auth0 & Testing
+### Kotlin Extension Functions
+When writing tests, you will often times find yourself creating and using domain objects to setup your tests and make your assertions.
+
+
+I found Kotlin extension functions convenient for making tests more readable. In Particular, I like how you can derive other objects which you may need for your test setup:
+```kotlin
+fun loginAs(user: User): UserApi {
+    given(auth0WrapperMock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
+    given(auth0WrapperMock.handle(any())).willReturn(Tokens("someAccessToken", user.provideSignedToken(),"", "bearer", 9000))
+    given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
+
+    webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).click()
+    return this
+}
+
+private fun User.getUserInfo(): MutableMap<String, Any> {
+    val userInfo = mutableMapOf<String, Any>()
+    userInfo.put("given_name", this.givenName)
+    userInfo.put("family_name", this.familyName)
+    userInfo.put("picture", this.imageUrl)
+    return userInfo
+}
+
+private fun User.provideSignedToken(): String {
+    return JWT.create()
+            .withSubject("facebook|${this.fbId}")
+            .withAudience("someAudience")
+            .withIssuer("https://wombat9000.eu.auth0.com/")
+            .sign(Algorithm.HMAC256(auth0Secret))
+}
+```
+Also, you can define custom assertions for your domain objects.
+```kotlin
+fun showsHolidays(vararg holidays: Holiday): ScreenApi {
+    val rows = webDriver.findElements(By.cssSelector("table tbody tr")).map { it -> it.text }
+    holidays.forEach { it -> it assertIsIncludedIn rows }
+    return this
+}
+
+private infix fun Holiday.assertIsIncludedIn(row: List<String>): Unit {
+    val expectedText = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
+    assertThat("row contains $expectedText", row.contains(expectedText), `is`(true))
+}
+
+```
+
+### Auth0
 #### Mocking the AuthenticationController
 When authenticating your requests with Auth0 in Java, it is convenient to use the Auth0 AuthenticationController.
 
