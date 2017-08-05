@@ -1,8 +1,9 @@
 package org.mboyz.holidayplanner.webdriver.api
 
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.assertTrue
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.isIncludedIn
 import org.openqa.selenium.By
@@ -11,19 +12,19 @@ import org.openqa.selenium.WebDriver
 class ScreenApi(val webDriver: WebDriver) {
     fun showsErrorPage(): ScreenApi {
         val unauthenticatedInfo = webDriver.findElement(By.tagName("h1")).text
-        MatcherAssert.assertThat(unauthenticatedInfo, CoreMatchers.`is`("Es ist ein Fehler aufgetreten."))
+        assertThat(unauthenticatedInfo, `is`("Es ist ein Fehler aufgetreten."))
         return this
     }
 
     fun showsHolidayOverview():ScreenApi {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
-        MatcherAssert.assertThat(pageHeading, CoreMatchers.`is`("Alle Urlaube"))
+        assertThat(pageHeading, `is`("Alle Urlaube"))
         return this
     }
 
     fun showsNoHolidays(): ScreenApi {
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
-        Assert.assertTrue(rows.isEmpty())
+        assertTrue(rows.isEmpty())
         return this
     }
 
@@ -35,7 +36,7 @@ class ScreenApi(val webDriver: WebDriver) {
 
     fun showsHome(): ScreenApi {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
-        MatcherAssert.assertThat(pageHeading, CoreMatchers.`is`("Home"))
+        assertThat(pageHeading, `is`("Home"))
         return this
     }
 
@@ -43,8 +44,8 @@ class ScreenApi(val webDriver: WebDriver) {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
         val location = webDriver.findElements(By.cssSelector("div.holiday_details ul li"))[0].text
 
-        MatcherAssert.assertThat("holiday name is the page heading", pageHeading, CoreMatchers.containsString(holiday.name))
-        MatcherAssert.assertThat("holiday location is shown", location, CoreMatchers.containsString(holiday.location))
+        assertThat("holiday name is the page heading", pageHeading, containsString(holiday.name))
+        assertThat("holiday location is shown", location, containsString(holiday.location))
         return this
     }
 }

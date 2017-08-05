@@ -63,15 +63,6 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
     @Before fun setup() {
     user = UserApi(webDriver, auth0Client, auth0Mock, AUTH0_SECRET)
     screen = ScreenApi(webDriver)
-
-//        val userInfo = mutableMapOf<String, Any>()
-//        userInfo.put("given_name", "Bastian")
-//        userInfo.put("family_name", "Stein")
-//        userInfo.put("picture", "testImageUrl")
-//
-//        BDDMockito.given(auth0Mock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
-//        BDDMockito.given(auth0Mock.handle(any())).willReturn(Tokens("someAccessToken", generateSignedToken(),"", "bearer", 9000))
-//        BDDMockito.given(auth0Client.getUserInfo("someAccessToken")).willReturn(userInfo)
     }
 
     @After fun after() {

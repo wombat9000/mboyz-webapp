@@ -4,13 +4,13 @@ import com.auth0.Tokens
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.user.User
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.mboyz.holidayplanner.web.Auth0Wrapper
-import org.mockito.BDDMockito
+import org.mockito.BDDMockito.given
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import java.time.format.DateTimeFormatter
@@ -31,9 +31,9 @@ class UserApi(val webDriver: WebDriver,
     }
 
     fun loginAs(user: User): UserApi {
-        BDDMockito.given(auth0WrapperMock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
-        BDDMockito.given(auth0WrapperMock.handle(any())).willReturn(Tokens("someAccessToken", user.provideSignedToken(),"", "bearer", 9000))
-        BDDMockito.given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
+        given(auth0WrapperMock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
+        given(auth0WrapperMock.handle(any())).willReturn(Tokens("someAccessToken", user.provideSignedToken(),"", "bearer", 9000))
+        given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
 
         webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).click()
         return this
@@ -62,13 +62,13 @@ class UserApi(val webDriver: WebDriver,
 
     fun isLoggedIn(): UserApi {
         val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).text
-        MatcherAssert.assertThat(loginButtonText, CoreMatchers.`is`("Logout"))
+        assertThat(loginButtonText, CoreMatchers.`is`("Logout"))
         return this
     }
 
     fun isLoggedOut(): UserApi {
         val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).text
-        MatcherAssert.assertThat(loginButtonText, CoreMatchers.`is`("Login"))
+        assertThat(loginButtonText, CoreMatchers.`is`("Login"))
         return this
     }
 
