@@ -5,26 +5,20 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.AfterClass
+import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayRepository
 import org.mboyz.holidayplanner.integration.AbstractSpringTest
 import org.openqa.selenium.By
-import org.openqa.selenium.Dimension
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.phantomjs.PhantomJSDriver
-import org.openqa.selenium.phantomjs.PhantomJSDriverService
-import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.chrome.ChromeOptions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.embedded.LocalServerPort
 import java.net.InetAddress
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.TimeUnit
-import org.openqa.selenium.remote.RemoteWebDriver
-import org.openqa.selenium.chrome.ChromeOptions
-
 
 
 abstract class AbstractWebdriverTest : AbstractSpringTest() {
@@ -43,7 +37,6 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
         @BeforeClass @JvmStatic fun setUp() {
             webDriver = setupChromeDriver()
-//            webDriver = setupPhantomJSDriver()
 
             screen = ScreenApi(webDriver)
             user = UserApi(webDriver)
@@ -55,18 +48,6 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
             chromeOptions.addArguments("--headless")
             System.setProperty("webdriver.chrome.driver", "node_modules/chromedriver/bin/chromedriver")
             return ChromeDriver(chromeOptions)
-        }
-
-        private fun setupPhantomJSDriver(): WebDriver {
-            val caps = DesiredCapabilities()
-            caps.isJavascriptEnabled = true
-            caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "node_modules/phantomjs-prebuilt/bin/phantomjs")
-
-            val driver = PhantomJSDriver(caps)
-            driver.manage().window().size = Dimension(1920, 1080)
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)
-
-            return driver
         }
 
         @After fun after() {
@@ -87,20 +68,19 @@ class AppApi (val holidayRepository: HolidayRepository){
         holidayRepository.save(holiday)
         return this
     }
-
 }
 
 class JsApi(val js: JavascriptExecutor) {
     fun setLocalStorage(item: String, value: String) {
-        js.executeScript(String.format("window.localStorage.setItem('%s','%s');", item, value))
+        js.executeScript(String.format("window.localStorage.setItem('%s','%s');", item, value))!!
     }
 
     fun getFromLocalStorage(key: String): String {
-        return js.executeScript(String.format("return window.localStorage.getItem('%s');", key)) as String
+        return js.executeScript(String.format("return window.localStorage.getItem('%s');", key))!! as String
     }
 
     fun removeItemFromLocalStorage(item: String) {
-        js.executeScript(String.format("window.localStorage.removeItem('%s');", item))
+        js.executeScript(String.format("window.localStorage.removeItem('%s');", item))!!
     }
 
     fun isItemPresentInLocalStorage(item: String): Boolean {
@@ -108,7 +88,7 @@ class JsApi(val js: JavascriptExecutor) {
     }
 
     fun clearLocalStorage() {
-        js.executeScript(String.format("window.localStorage.clear();"))
+        js.executeScript(String.format("window.localStorage.clear();"))!!
     }
 }
 
@@ -178,14 +158,13 @@ class ScreenApi(val webDriver: WebDriver) {
 
     fun showsNoHolidays(): ScreenApi {
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
-        assertThat(rows.isEmpty(), `is`(true))
+        assertTrue(rows.isEmpty())
         return this
     }
 
     fun showsHolidays(vararg holidays: Holiday): ScreenApi {
-        val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
-        val rowsAsText: List<String> = rows.map { row -> row.text }
-        holidays.forEach { it -> it.assertIsIncludedIn(rowsAsText) }
+        val rows = webDriver.findElements(By.cssSelector("table tbody tr")).map { it -> it.text }
+        holidays.forEach { it -> it.assertIsIncludedIn(rows) }
         return this
     }
 
@@ -205,7 +184,7 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 }
 
-private fun Holiday.assertIsIncludedIn(rowsAsText: List<String>): Unit {
+private fun Holiday.assertIsIncludedIn(row: List<String>): Unit {
     val expectedRow = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
-    assertThat("row contains $expectedRow", rowsAsText.contains(expectedRow), `is`(true))
+    assertThat("row contains $expectedRow", row.contains(expectedRow), `is`(true))
 }
