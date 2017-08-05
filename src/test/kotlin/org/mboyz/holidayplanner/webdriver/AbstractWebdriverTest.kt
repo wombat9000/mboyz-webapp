@@ -47,7 +47,7 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
         }
 
         private fun setupChromeDriver(): WebDriver {
-            System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver")
+            System.setProperty("webdriver.chrome.driver", "node_modules/chromedriver/bin/chromedriver")
             return ChromeDriver()
         }
 
