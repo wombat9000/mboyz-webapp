@@ -4,9 +4,9 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.mboyz.holidayplanner.user.User
+import org.mockito.BDDMockito.*
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verifyZeroInteractions
 import org.mockito.MockitoAnnotations.initMocks
 import java.time.LocalDate
 
@@ -26,7 +26,7 @@ class HolidayServiceTest {
     @Test
     fun shouldFindAll() {
         val someHoliday = Holiday()
-        `when`(holidayRepository.findAll()).thenReturn(listOf(someHoliday))
+        given(holidayRepository.findAll()).willReturn(listOf(someHoliday))
 
         val result = testee.findAll()
 
@@ -37,17 +37,28 @@ class HolidayServiceTest {
     fun shouldFindSingle() {
         val someHoliday = Holiday()
         val someId: Long = 1
-        `when`(holidayRepository.findOne(someId)).thenReturn(someHoliday)
+        given(holidayRepository.findOne(someId)).willReturn(someHoliday)
 
         val result = testee.findOne(someId)
 
         assertThat(result, `is`(someHoliday))
     }
 
+    @Test(expected = HolidayNotFoundException::class)
+    fun shouldThrowErrorIfHolidayNotFound() {
+        given(holidayRepository.findOne(any())).willReturn(null)
+
+        try {
+            testee.findOne(1L)
+        } catch (e: Exception) {
+            throw(e)
+        }
+    }
+
     @Test
     fun shouldSaveHoliday() {
         val someHoliday = Holiday(1, "someName", "someLocation")
-        `when`(holidayRepository.save(someHoliday)).thenReturn(someHoliday)
+        given(holidayRepository.save(someHoliday)).willReturn(someHoliday)
 
     	val result = testee.save(someHoliday)
 
@@ -69,4 +80,56 @@ class HolidayServiceTest {
             throw(e)
         }
     }
+
+//    @Test
+//    fun shouldSignUpUserForHoliday() {
+//        val someUserId = 1337L
+//        val someUser: User = User(someUserId)
+//        val someHolidayId = 1L
+//        val someHoliday: Holiday = Holiday(someHolidayId)
+//
+//        given(holidayRepository.findOne(someHolidayId)).willReturn(someHoliday)
+//
+//        testee.signUserUpForHoliday(someHolidayId, someUser)
+//
+//        val holidayWithParticipant = someHoliday.copy(users = listOf(someUserId))
+//
+//        verify(holidayRepository).save(holidayWithParticipant)
+//    }
+
+//    @Test
+//    fun shouldSignUpUserForHolidayIfAnotherUserAlreadyOnList() {
+//        val signUpUserId = 1337L
+//        val someUser: User = User(signUpUserId)
+//        val someHolidayId = 1L
+//        val alreadySignedUpId = 2L
+//        val someHolidayWithOtherParticipant: Holiday = Holiday(
+//                id = someHolidayId,
+//                users = listOf(alreadySignedUpId))
+//
+//        given(holidayRepository.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
+//
+//        testee.signUserUpForHoliday(someHolidayId, someUser)
+//
+//        val holidayWithMultipleSignups = someHolidayWithOtherParticipant.copy(users = listOf(alreadySignedUpId, signUpUserId))
+//
+//        verify(holidayRepository).save(holidayWithMultipleSignups)
+//    }
+//
+//    @Test
+//    fun shouldNotSignUpUserForHolidayIfAlreadyOnList() {
+//        val signUpUserId = 1337L
+//        val someUser: User = User(signUpUserId)
+//        val someHolidayId = 1L
+//        val alreadySignedUpId = 1337L
+//        val someHolidayWithOtherParticipant: Holiday = Holiday(
+//                id = someHolidayId,
+//                users = listOf(alreadySignedUpId))
+//
+//        given(holidayRepository.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
+//
+//        testee.signUserUpForHoliday(someHolidayId, someUser)
+//        verify(holidayRepository).findOne(someHolidayId)
+//        verifyNoMoreInteractions(holidayRepository)
+//    }
 }

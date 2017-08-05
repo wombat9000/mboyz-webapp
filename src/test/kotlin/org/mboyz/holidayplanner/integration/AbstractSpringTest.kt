@@ -23,7 +23,7 @@ abstract class AbstractSpringTest {
             val build = DataSourceBuilder
                     .create()
                     .username("sa")
-                    .url("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE")
+                    .url("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL")
                     .driverClassName("org.h2.Driver")
                     .build()
 

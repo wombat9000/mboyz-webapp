@@ -5,6 +5,7 @@ import java.time.LocalDate
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
 
+@Suppress("UNUSED") // used by DAO when writing holidays into DB
 @Converter(autoApply = true)
 class LocalDateAttributeConverter : AttributeConverter<LocalDate, Date> {
 

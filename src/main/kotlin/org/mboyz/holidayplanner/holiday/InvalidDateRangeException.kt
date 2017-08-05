@@ -1,5 +1,4 @@
 package org.mboyz.holidayplanner.holiday
 
 
-class InvalidDateRangeException: RuntimeException() {
-}
+class InvalidDateRangeException: RuntimeException()
