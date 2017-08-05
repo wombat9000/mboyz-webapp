@@ -35,28 +35,31 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 .isLoggedOut()
         screen  .showsHome()
 
-        user    .navigatesToHolidaysPage()
+        user    .opensHolidayOverview()
         screen  .showsErrorPage()
         user    .visits(HOME)
                 .clicksLogin()
                 .isLoggedIn()
 
-        user    .navigatesToHolidaysPage()
+        user    .opensHolidayOverview()
         screen  .showsHolidayOverview()
                 .showsNoHolidays()
 
         app     .createHoliday(SKI_HOLIDAY)
 
         user    .visits(HOME)
-                .navigatesToHolidaysPage()
-        screen  .showsHoliday(SKI_HOLIDAY)
+                .opensHolidayOverview()
+        screen  .showsHolidays(SKI_HOLIDAY)
 
         user    .navigatesToHolidaysCreation()
                 .createsHoliday(SURF_HOLIDAY)
         screen  .showsPageForHoliday(SURF_HOLIDAY)
 
-        user    .navigatesToHolidaysPage()
-        screen  .showsHoliday(SURF_HOLIDAY)
+        user    .opensHolidayOverview()
+        screen  .showsHolidays(SKI_HOLIDAY, SURF_HOLIDAY)
+
+        user    .opensHolidayOverview()
+        screen  .showsHolidays(SURF_HOLIDAY)
 
 //        user    .createsHoliday(HOLIDAY_WITH_INVALID_DATE)
 //        screen  .doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)

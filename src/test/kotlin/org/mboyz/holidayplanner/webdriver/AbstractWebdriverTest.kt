@@ -113,7 +113,7 @@ class UserApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun navigatesToHolidaysPage(): UserApi {
+    fun opensHolidayOverview(): UserApi {
         webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holiday']")).click()
         return this
     }
@@ -176,12 +176,10 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun showsHoliday(holiday: Holiday): ScreenApi {
+    fun showsHolidays(vararg holidays: Holiday): ScreenApi {
         val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
         val rowsAsText: List<String> = rows.map { row -> row.text }
-
-        val expectedRow = "${holiday.name} ${holiday.location} ${holiday.startDate} ${holiday.endDate}"
-        assertThat("row contains $expectedRow", rowsAsText.contains(expectedRow), `is`(true))
+        holidays.forEach { it -> it.assertIsIncludedIn(rowsAsText) }
         return this
     }
 
@@ -210,4 +208,9 @@ class ScreenApi(val webDriver: WebDriver) {
         assertThat("holiday location is shown", location, containsString(holiday.location))
         return this
     }
+}
+
+private fun Holiday.assertIsIncludedIn(rowsAsText: List<String>): Unit {
+    val expectedRow = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
+    assertThat("row contains $expectedRow", rowsAsText.contains(expectedRow), `is`(true))
 }
