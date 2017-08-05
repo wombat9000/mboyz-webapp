@@ -189,18 +189,7 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun doesNotShowHoliday(holiday: Holiday): ScreenApi {
-        val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
-        val rowsAsText: List<String> = rows.map { row -> row.text }
-
-        val expectedRow = "${holiday.name} ${holiday.location} ${holiday.startDate} ${holiday.endDate}"
-        assertThat("row contains $expectedRow", rowsAsText.contains(expectedRow), `is`(false))
-        return this
-    }
-
     fun showsPageForHoliday(holiday: Holiday): ScreenApi {
-        val pagesrc = webDriver.pageSource
-
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
         val location = webDriver.findElements(By.cssSelector("div.holiday_details ul li"))[0].text
 
