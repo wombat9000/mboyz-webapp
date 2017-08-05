@@ -80,9 +80,9 @@ fun showsHolidays(vararg holidays: Holiday): ScreenApi {
     return this
 }
 
-private infix fun Holiday.assertIsIncludedIn(row: List<String>): Unit {
+private infix fun Holiday.assertIsIncludedIn(rows: List<String>): Unit {
     val expectedText = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
-    assertThat("row contains $expectedText", row.contains(expectedText), `is`(true))
+    assertThat("row contains $expectedText", rows.contains(expectedText), `is`(true))
 }
 
 ```
