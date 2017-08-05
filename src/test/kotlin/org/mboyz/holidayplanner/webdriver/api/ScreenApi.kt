@@ -5,7 +5,6 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertTrue
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.isIncludedIn
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 
@@ -49,3 +48,9 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 }
+
+private infix fun Holiday.isIncludedIn(row: List<String>): Unit {
+    val expectedRow = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
+    assertThat("row contains $expectedRow", row.contains(expectedRow), `is`(true))
+}
+

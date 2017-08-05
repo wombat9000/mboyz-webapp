@@ -25,9 +25,6 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
     companion object {
         lateinit var webDriver: WebDriver
-        lateinit var screen: ScreenApi
-        lateinit var user: UserApi
-        lateinit var app: AppApi
 
         @BeforeClass @JvmStatic fun setUp() {
             webDriver = setupChromeDriver()
@@ -49,9 +46,12 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
     val secretFromEnv: String? = System.getenv("AUTH0_SECRET")
     @Value("\${auth0.secret:secretFromEnv}")
     lateinit var AUTH0_SECRET: String
+    lateinit var screen: ScreenApi
+    lateinit var user: UserApi
+    lateinit var app: AppApi
 
     @Autowired
-    fun initHolidayRepository(holidayRepository: HolidayRepository, userRepository: UserRepository) {
+    fun initAppApi(holidayRepository: HolidayRepository, userRepository: UserRepository) {
         app = AppApi(holidayRepository, userRepository)
     }
 
@@ -61,8 +61,8 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
     lateinit var auth0Client: Auth0Client
 
     @Before fun setup() {
-    user = UserApi(webDriver, auth0Client, auth0Mock, AUTH0_SECRET)
-    screen = ScreenApi(webDriver)
+        user = UserApi(webDriver, auth0Client, auth0Mock, AUTH0_SECRET)
+        screen = ScreenApi(webDriver)
     }
 
     @After fun after() {
