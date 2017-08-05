@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/wombat9000/mboyz-webapp.svg?branch=master)](https://travis-ci.org/wombat9000/mboyz-webapp)
 ## Introduction
 This project is for me to experiment with Kotlin+Spring and share my learnings along the way.
 
