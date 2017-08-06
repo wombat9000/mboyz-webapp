@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common_header"></head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar(home)"></div>
+
+<div class="container">
+    <h1>Du kannst diese Seite nicht sehen, da du nicht eingeloggt bist.</h1>
+
+    <a href="/login" class="btn btn-primary">Login via Facebook</a>
+
+</div>
+
+</body>
+</html>

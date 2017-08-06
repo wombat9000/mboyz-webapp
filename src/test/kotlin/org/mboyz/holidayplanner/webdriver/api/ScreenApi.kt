@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement
 class ScreenApi(val webDriver: WebDriver) {
     fun showsErrorPage(): ScreenApi {
         val unauthenticatedInfo = webDriver.findElement(By.tagName("h1")).text
-        assertThat(unauthenticatedInfo, `is`("Es ist ein Fehler aufgetreten."))
+        assertThat(unauthenticatedInfo, `is`("Du kannst diese Seite nicht sehen, da du nicht eingeloggt bist."))
         return this
     }
 

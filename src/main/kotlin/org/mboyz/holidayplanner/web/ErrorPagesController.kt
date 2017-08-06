@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner.web
 
+import org.eclipse.jetty.http.HttpStatus.FORBIDDEN_403
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.web.ErrorAttributes
@@ -18,6 +19,10 @@ class ErrorPagesController(@Value("\${debug}") val debug: Boolean,
 
     @RequestMapping("/error")
     fun error(request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+        if (response.status == FORBIDDEN_403) {
+            return ModelAndView("error/forbidden")
+        }
+
         val errorMap = getErrorAttributes(request, debug)
         return ModelAndView("error/generic", "errors", errorMap)
     }
