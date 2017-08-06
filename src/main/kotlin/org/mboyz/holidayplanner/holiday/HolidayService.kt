@@ -47,16 +47,20 @@ class HolidayService(
 
     @Transactional
     fun deleteAll() {
-        holidayRepository.findAll().forEach({ it ->
-            run {
-                it.participations.forEach { participation -> participation.holiday = null }
-                it.participations.clear()
-            }
-        })
+        holidayRepository.findAll().forEach(Holiday::clearParticipations)
         holidayRepository.deleteAll()
     }
 
     private fun invalidTimeFrame(endDate: LocalDate?, startDate: LocalDate?): Boolean {
         return startDate != null && endDate != null && startDate.isAfter(endDate)
     }
+}
+
+private fun Holiday.clearParticipations() {
+    this.participations.forEach(Participation::removeReferenceToHoliday)
+    this.participations.clear()
+}
+
+private fun Participation.removeReferenceToHoliday() {
+    this.holiday = null
 }

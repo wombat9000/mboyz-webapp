@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner.user
 
+import org.mboyz.holidayplanner.holiday.participation.Participation
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -35,16 +36,20 @@ class UserService (@Autowired val userRepository: UserRepository,
 
     @Transactional
     fun deleteAll() {
-        userRepository.findAll().forEach({ it ->
-            run {
-                it.participations.forEach { participation -> participation.holiday = null }
-                it.participations.clear()
-            }
-        })
+        userRepository.findAll().forEach(User::clearParticipations)
         userRepository.deleteAll()
     }
 
     fun save(user: User): User {
         return userRepository.save(user)!!
     }
+}
+
+private fun User.clearParticipations() {
+    this.participations.forEach(Participation::removeReferenceToUser)
+    this.participations.clear()
+}
+
+private fun Participation.removeReferenceToUser() {
+    this.user = null
 }
