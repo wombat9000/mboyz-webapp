@@ -1,8 +1,14 @@
 package org.mboyz.holidayplanner.integration
 
 import org.flywaydb.core.Flyway
+import org.junit.After
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.runner.RunWith
+import org.mboyz.holidayplanner.holiday.HolidayService
+import org.mboyz.holidayplanner.holiday.participation.ParticipationRepository
+import org.mboyz.holidayplanner.user.UserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -32,5 +38,27 @@ abstract class AbstractSpringTest {
             flyway.clean()
             flyway.migrate()
         }
+    }
+
+    @Autowired
+    lateinit var userService: UserService
+    @Autowired
+    lateinit var holidayService: HolidayService
+    @Autowired
+    lateinit var participationRepository: ParticipationRepository
+
+    @Before
+    open fun setup() {
+        cleanDB()
+    }
+
+    @After
+    open fun tearDown() {
+        cleanDB()
+    }
+
+    fun cleanDB() {
+        holidayService.deleteAll()
+        userService.deleteAll()
     }
 }

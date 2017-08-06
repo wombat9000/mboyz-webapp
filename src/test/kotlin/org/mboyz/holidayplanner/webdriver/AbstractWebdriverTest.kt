@@ -60,12 +60,14 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
     @MockBean
     lateinit var auth0Client: Auth0Client
 
-    @Before fun setup() {
+    @Before override fun setup() {
+        super.setup()
         user = UserApi(webDriver, auth0Client, auth0Mock, AUTH0_SECRET)
         screen = ScreenApi(webDriver)
     }
 
-    @After fun after() {
+    @After override fun tearDown() {
+        super.tearDown()
         webDriver.close()
     }
 

@@ -4,7 +4,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserRepository
 import org.mockito.BDDMockito.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
@@ -15,12 +15,15 @@ class HolidayServiceTest {
     lateinit var testee: HolidayService
 
     @Mock
+    lateinit var userRepository: UserRepository
+
+    @Mock
     lateinit var holidayRepository: HolidayRepository
 
     @Before
     fun setUp() {
     	initMocks(this)
-    	testee = HolidayService(holidayRepository)
+    	testee = HolidayService(holidayRepository, userRepository)
     }
 
     @Test
@@ -88,13 +91,13 @@ class HolidayServiceTest {
 //        val someHolidayId = 1L
 //        val someHoliday: Holiday = Holiday(someHolidayId)
 //
-//        given(holidayRepository.findOne(someHolidayId)).willReturn(someHoliday)
+//        given(holidayService.findOne(someHolidayId)).willReturn(someHoliday)
 //
 //        testee.signUserUpForHoliday(someHolidayId, someUser)
 //
 //        val holidayWithParticipant = someHoliday.copy(users = listOf(someUserId))
 //
-//        verify(holidayRepository).save(holidayWithParticipant)
+//        verify(holidayService).add(holidayWithParticipant)
 //    }
 
 //    @Test
@@ -107,13 +110,13 @@ class HolidayServiceTest {
 //                id = someHolidayId,
 //                users = listOf(alreadySignedUpId))
 //
-//        given(holidayRepository.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
+//        given(holidayService.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
 //
 //        testee.signUserUpForHoliday(someHolidayId, someUser)
 //
 //        val holidayWithMultipleSignups = someHolidayWithOtherParticipant.copy(users = listOf(alreadySignedUpId, signUpUserId))
 //
-//        verify(holidayRepository).save(holidayWithMultipleSignups)
+//        verify(holidayService).add(holidayWithMultipleSignups)
 //    }
 //
 //    @Test
@@ -126,10 +129,10 @@ class HolidayServiceTest {
 //                id = someHolidayId,
 //                users = listOf(alreadySignedUpId))
 //
-//        given(holidayRepository.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
+//        given(holidayService.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
 //
 //        testee.signUserUpForHoliday(someHolidayId, someUser)
-//        verify(holidayRepository).findOne(someHolidayId)
-//        verifyNoMoreInteractions(holidayRepository)
+//        verify(holidayService).findOne(someHolidayId)
+//        verifyNoMoreInteractions(holidayService)
 //    }
 }

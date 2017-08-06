@@ -1,12 +1,17 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.user.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Component
-class HolidayService(@Autowired val holidayRepository: HolidayRepository) {
+class HolidayService(
+        @Autowired val holidayRepository: HolidayRepository,
+        @Autowired val userRepository: UserRepository
+) {
     fun findAll(): Iterable<Holiday> {
         return holidayRepository.findAll()
     }
@@ -25,21 +30,30 @@ class HolidayService(@Autowired val holidayRepository: HolidayRepository) {
 
         return holidayRepository.save(holiday)
     }
-//
-//    fun signUserUpForHoliday(holidayId: Long, user: User) {
-//        val holiday = findOne(holidayId)
-//
-//        if (holiday.users.contains(user.id)) return
-//
-//        val combinedParticipants: MutableList<Long> = mutableListOf()
-//        combinedParticipants.addAll(holiday.users)
-//        combinedParticipants.add(user.id)
-//
-//        val holidayWithAddedParticipant = holiday.copy(users = combinedParticipants)
-//        save(holidayWithAddedParticipant)
-//    }
+
+    @Transactional
+    fun deleteAll() {
+        holidayRepository.findAll().forEach({ it ->
+            run {
+                it.participations.forEach { participation -> participation.holiday = null }
+                it.participations.clear()
+            }
+        })
+        holidayRepository.deleteAll()
+    }
 
     private fun invalidTimeFrame(endDate: LocalDate?, startDate: LocalDate?): Boolean {
         return startDate != null && endDate != null && startDate.isAfter(endDate)
+    }
+
+    @Transactional
+    fun registerParticipation(holidayId: Long, fbId: String): Holiday {
+        val holiday = this.findOne(holidayId)
+        val user = userRepository.findByFbId(fbId)!!
+        val participation = Participation(holiday = holiday, user = user)
+        user.participations.add(participation)
+        holiday.participations.add(participation)
+
+        return holiday
     }
 }

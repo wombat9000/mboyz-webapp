@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner.user
 
+import org.mboyz.holidayplanner.holiday.participation.Participation
 import javax.persistence.*
 
 @Entity
@@ -20,4 +21,13 @@ data class User @JvmOverloads constructor(
         var familyName: String = "",
 
         @Column(name = "image_url")
-        var imageUrl: String = "")
+        var imageUrl: String = "",
+
+        @OneToMany(
+                mappedBy = "user",
+                fetch = FetchType.EAGER,
+                cascade = arrayOf(CascadeType.ALL),
+                orphanRemoval = true)
+        var participations: MutableSet<Participation> = mutableSetOf()
+) {
+}

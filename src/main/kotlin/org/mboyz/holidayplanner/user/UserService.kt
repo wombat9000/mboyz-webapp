@@ -3,6 +3,7 @@ package org.mboyz.holidayplanner.user
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 
 @Component
@@ -30,5 +31,20 @@ class UserService (@Autowired val userRepository: UserRepository,
 
     fun findOne(id: Long): User? {
         return userRepository.findOne(id)
+    }
+
+    @Transactional
+    fun deleteAll() {
+        userRepository.findAll().forEach({ it ->
+            run {
+                it.participations.forEach { participation -> participation.holiday = null }
+                it.participations.clear()
+            }
+        })
+        userRepository.deleteAll()
+    }
+
+    fun save(user: User): User {
+        return userRepository.save(user)!!
     }
 }
