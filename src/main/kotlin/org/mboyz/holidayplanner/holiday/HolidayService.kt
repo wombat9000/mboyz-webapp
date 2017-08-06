@@ -10,14 +10,14 @@ import java.time.LocalDate
 @Component
 class HolidayService(
         @Autowired val holidayRepository: HolidayRepository,
-        @Autowired val userRepository: UserRepository
-) {
-    fun findAll(): Iterable<Holiday> {
-        return holidayRepository.findAll()
-    }
+        @Autowired val userRepository: UserRepository) {
 
     fun findOne(id: Long): Holiday {
         return holidayRepository.findOne(id)?: throw HolidayNotFoundException()
+    }
+
+    fun findAll(): Iterable<Holiday> {
+        return holidayRepository.findAll()
     }
 
     fun save(holiday: Holiday): Holiday? {
@@ -29,6 +29,20 @@ class HolidayService(
         }
 
         return holidayRepository.save(holiday)
+    }
+
+    @Transactional
+    fun registerParticipation(holidayId: Long, fbId: String): Holiday {
+        val holiday = this.findOne(holidayId)
+        val user = userRepository.findByFbId(fbId)!!
+
+        if (holiday.participations.any { it.user == user }) return holiday
+
+        val participation = Participation(holiday = holiday, user = user)
+        user.participations.add(participation)
+        holiday.participations.add(participation)
+
+        return holiday
     }
 
     @Transactional
@@ -44,16 +58,5 @@ class HolidayService(
 
     private fun invalidTimeFrame(endDate: LocalDate?, startDate: LocalDate?): Boolean {
         return startDate != null && endDate != null && startDate.isAfter(endDate)
-    }
-
-    @Transactional
-    fun registerParticipation(holidayId: Long, fbId: String): Holiday {
-        val holiday = this.findOne(holidayId)
-        val user = userRepository.findByFbId(fbId)!!
-        val participation = Participation(holiday = holiday, user = user)
-        user.participations.add(participation)
-        holiday.participations.add(participation)
-
-        return holiday
     }
 }

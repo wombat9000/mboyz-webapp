@@ -29,4 +29,19 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
         assertThat(participatingUser.participations, contains(participation))
         assertThat(participatedHoliday.participations, contains(participation))
     }
+
+    @Test
+    fun shouldNotAddParticipationIfAlreadyExists() {
+        val originalHoliday = testee.save(Holiday())!!
+        val fbId = "someFbId"
+        val originalUser = userService.save(User(fbId = fbId))
+        val participation: Participation = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
+        testee.registerParticipation(originalHoliday.id, fbId).participations.first()
+
+        val participatingUser = userService.findOne(originalUser.id)!!
+        val participatedHoliday = testee.findOne(originalHoliday.id)
+
+        assertThat(participatingUser.participations, contains(participation))
+        assertThat(participatedHoliday.participations, contains(participation))
+    }
 }
