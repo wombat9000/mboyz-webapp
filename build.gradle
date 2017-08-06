@@ -52,6 +52,8 @@ dependencies {
 	compile "org.webjars:webjars-locator"
 	compile 'org.webjars:jquery:3.2.1'
 	compile 'org.webjars.bower:tether:1.4.0'
+	compile 'org.webjars:font-awesome:4.7.0'
+
 	compile 'com.auth0:mvc-auth-commons:1.+'
 	compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
 	compile 'com.auth0:auth0:1.1.0'

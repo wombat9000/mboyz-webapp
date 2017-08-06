@@ -8,27 +8,36 @@
 <div class="container">
     <h2>Alle Urlaube</h2>
     <p><a href="/holiday/create">Neuen Urlaub anlegen</a></p>
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Ort</th>
-            <th>Start</th>
-            <th>Ende</th>
-            <th>Teilnehmer</th>
-        </tr>
-        </thead>
+
+    <div class="card-columns">
         <!--/*@thymesVar id="allHolidays" type="java.util.List"*/-->
         <!--/*@thymesVar id="holiday" type="org.mboyz.holidayplanner.holiday.Holiday"*/-->
-        <tr th:each="holiday : ${allHolidays}" >
-            <td><a th:href="'/holiday/' + ${holiday.id}" th:text="${holiday.name}"></a></td>
-            <td th:text="${holiday.location}"></td>
-            <td th:text="${holiday.startDate}"></td>
-            <td th:text="${holiday.endDate}"></td>
-            <!--/*@thymesVar id="participants" type="org.mboyz.holidayplanner.holiday.participation.Participation"*/-->
-            <td th:text="${holiday.participations.size()}"></td>
-        </tr>
-    </table>
+        <div class="card" th:each="holiday : ${allHolidays}">
+            <img class="card-img-top img-fluid" src="https://media.giphy.com/media/TBmbqLhbYPiKc/giphy.gif" />
+            <div class="card-block">
+                <h4 class="card-title" th:text="${holiday.name}"></h4>
+                <table>
+                    <tr>
+                        <td><i class="fa fa-plane"></i></td>
+                        <td th:text="${holiday.location}"></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-calendar-check-o"></i></td>
+                        <td th:text="${holiday.startDate}"></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-calendar-times-o"></i></td>
+                        <td th:text="${holiday.endDate}"></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-users"></i></td>
+                        <td th:text="${holiday.participations.size()}"></td>
+                    </tr>
+                </table>
+                <a th:href="'/holiday/' + ${holiday.id}" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

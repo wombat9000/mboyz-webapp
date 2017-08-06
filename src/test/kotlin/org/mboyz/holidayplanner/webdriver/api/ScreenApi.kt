@@ -29,9 +29,9 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 
     fun showsHolidays(vararg holidays: Holiday): ScreenApi {
-        val rows: MutableList<WebElement> = webDriver.findElements(By.cssSelector("table tbody tr"))
+        val cards: MutableList<WebElement> = webDriver.findElements(By.cssSelector("div.card"))
 
-        holidays.forEach { it -> it assertIsIncludedIn rows }
+        holidays.forEach { it -> it assertIsIncludedIn cards }
         return this
     }
 
@@ -51,23 +51,10 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 }
 
-private infix fun Holiday.assertIsIncludedIn(rows: MutableList<WebElement>): Unit {
-    val holidayIsInRows = rows
-            .map { it.findElements(By.tagName("td")) }
-            .any { tdList -> this.matches(tdList) }
+private infix fun Holiday.assertIsIncludedIn(cards: MutableList<WebElement>): Unit {
+    val cardHeadings = cards
+            .map { it.findElement(By.tagName("h4")).text }
+            .any { it == this.name}
 
-    assertThat("rows contain $this", holidayIsInRows, `is`(true))
+    assertThat("rows contain $this", cardHeadings, `is`(true))
 }
-
-private fun Holiday.matches(tdList: List<WebElement>): Boolean {
-    assertThat(tdList.size, `is`(5))
-
-    if(tdList[0].text != this.name) return false
-    if(tdList[1].text != this.location) return false
-    if(tdList[2].text != this.startDate.toString()) return false
-    if(tdList[3].text != this.endDate.toString()) return false
-    if(tdList[4].text != this.participations.size.toString()) return false
-
-    return true
-}
-
