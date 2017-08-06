@@ -3,7 +3,6 @@ package org.mboyz.holidayplanner.holiday
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import org.mboyz.holidayplanner.user.User
 import org.mboyz.holidayplanner.util.LocalDateDeserializer
 import org.mboyz.holidayplanner.util.LocalDateSerializer
 import java.time.LocalDate
@@ -27,11 +26,4 @@ data class Holiday @JvmOverloads constructor(
                     @Column(name = "end_date")
                     @JsonSerialize(using = LocalDateSerializer::class)
                     @JsonDeserialize(using = LocalDateDeserializer::class)
-                    var endDate: LocalDate? = null,
-
-                    @ManyToMany(cascade = arrayOf(CascadeType.ALL))
-                    @JoinTable(
-                            name = "holiday_user",
-                            joinColumns = arrayOf(JoinColumn(name = "holiday_id", referencedColumnName = "holiday_id")),
-                            inverseJoinColumns = arrayOf(JoinColumn(name = "user_id", referencedColumnName = "user_id")))
-                    var users: Set<User> = emptySet())
+                    var endDate: LocalDate? = null)

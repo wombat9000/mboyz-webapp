@@ -1,6 +1,5 @@
 package org.mboyz.holidayplanner.user
 
-import org.mboyz.holidayplanner.holiday.Holiday
 import javax.persistence.*
 
 @Entity
@@ -21,7 +20,4 @@ data class User @JvmOverloads constructor(
         var familyName: String = "",
 
         @Column(name = "image_url")
-        var imageUrl: String = "",
-
-        @ManyToMany(mappedBy = "users")
-        var holidays: Set<Holiday> = emptySet())
+        var imageUrl: String = "")
