@@ -4,6 +4,7 @@ import com.auth0.Tokens
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.Holiday
@@ -26,7 +27,8 @@ class UserApi(val webDriver: WebDriver,
     }
 
     fun opensHolidayOverview(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holiday']")).click()
+        webDriver.findElement(By.cssSelector("nav ul li a[href='/holiday']"))
+                .click()
         return this
     }
 
@@ -35,7 +37,7 @@ class UserApi(val webDriver: WebDriver,
         given(auth0WrapperMock.handle(any())).willReturn(Tokens("someAccessToken", user.provideSignedToken(),"", "bearer", 9000))
         given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
 
-        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).click()
+        webDriver.findElement(By.cssSelector("ul.navbar-nav.navbar-right li.nav-item a.nav-link")).click()
         return this
     }
 
@@ -50,25 +52,25 @@ class UserApi(val webDriver: WebDriver,
     }
 
     fun clicksLogout(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.navbar-right li a")).click()
+        webDriver.findElement(By.cssSelector("ul.navbar-nav.navbar-right li.nav-item a.nav-link")).click()
         return this
     }
 
     fun navigatesToHolidaysCreation(): UserApi {
-        webDriver.findElement(By.cssSelector("ul.nav.navbar-nav li a[href='/holiday']")).click()
+        webDriver.findElement(By.cssSelector("nav ul li a[href='/holiday']")).click()
         webDriver.findElement(By.cssSelector("p a[href='/holiday/create']")).click()
         return this
     }
 
     fun isLoggedIn(): UserApi {
-        val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).text
-        assertThat(loginButtonText, CoreMatchers.`is`("Logout"))
+        val loginButtonText = webDriver.findElement(By.cssSelector("ul.navbar-nav.navbar-right li.nav-item a.nav-link")).getAttribute("text")
+        assertThat(loginButtonText, `is`("Logout"))
         return this
     }
 
     fun isLoggedOut(): UserApi {
-        val loginButtonText = webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).text
-        assertThat(loginButtonText, CoreMatchers.`is`("Login"))
+        val loginButtonText = webDriver.findElement(By.cssSelector("ul.navbar-nav.navbar-right li.nav-item a.nav-link")).getAttribute("text")
+        assertThat(loginButtonText, `is`("Login"))
         return this
     }
 
