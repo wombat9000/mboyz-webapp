@@ -7,6 +7,7 @@ import org.junit.Assert.assertTrue
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 
 class ScreenApi(val webDriver: WebDriver) {
     fun showsErrorPage(): ScreenApi {
@@ -28,7 +29,8 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 
     fun showsHolidays(vararg holidays: Holiday): ScreenApi {
-        val rows = webDriver.findElements(By.cssSelector("table tbody tr")).map { it -> it.text }
+        val rows: MutableList<WebElement> = webDriver.findElements(By.cssSelector("table tbody tr"))
+
         holidays.forEach { it -> it assertIsIncludedIn rows }
         return this
     }
@@ -49,8 +51,23 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 }
 
-private infix fun Holiday.assertIsIncludedIn(rows: List<String>): Unit {
-    val expectedText = "${this.name} ${this.location} ${this.startDate} ${this.endDate}"
-    assertThat("row contains $expectedText", rows.contains(expectedText), `is`(true))
+private infix fun Holiday.assertIsIncludedIn(rows: MutableList<WebElement>): Unit {
+    val holidayIsInRows = rows
+            .map { it.findElements(By.tagName("td")) }
+            .any { tdList -> this.matches(tdList) }
+
+    assertThat("rows contain $this", holidayIsInRows, `is`(true))
+}
+
+private fun Holiday.matches(tdList: List<WebElement>): Boolean {
+    assertThat(tdList.size, `is`(5))
+
+    if(tdList[0].text != this.name) return false
+    if(tdList[1].text != this.location) return false
+    if(tdList[2].text != this.startDate.toString()) return false
+    if(tdList[3].text != this.endDate.toString()) return false
+    if(tdList[4].text != this.participations.size.toString()) return false
+
+    return true
 }
 
