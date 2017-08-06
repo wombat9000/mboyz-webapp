@@ -21,6 +21,7 @@
             <th>Ort</th>
             <th>Start</th>
             <th>Ende</th>
+            <th>Teilnehmer</th>
         </tr>
         </thead>
         <!--/*@thymesVar id="allHolidays" type="java.util.List"*/-->
@@ -30,6 +31,8 @@
             <td th:text="${holiday.location}"></td>
             <td th:text="${holiday.startDate}"></td>
             <td th:text="${holiday.endDate}"></td>
+            <!--/*@thymesVar id="participants" type="org.mboyz.holidayplanner.holiday.participation.Participation"*/-->
+            <td th:text="${holiday.participations.size()}"></td>
         </tr>
     </table>
 </div>

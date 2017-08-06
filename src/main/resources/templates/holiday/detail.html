@@ -21,6 +21,12 @@
             <li th:text="'Start: ' + ${holiday.startDate}"></li>
             <li th:text="'Ende: ' + ${holiday.endDate}"></li>
         </ul>
+
+        <h3>Teilnehmer:</h3>
+        <ul>
+            <li th:each="participation : ${holiday.participations}" th:text="${participation.user.givenName}"></li>
+        </ul>
+
         <a th:href="'/holiday/' + ${holiday.id} + '/participate'">Ich nehme teil.</a>
     </div>
 </div>
