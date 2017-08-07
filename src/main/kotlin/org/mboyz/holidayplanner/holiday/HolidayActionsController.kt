@@ -17,4 +17,11 @@ class HolidayActionsController(@Autowired val holidayService: HolidayService) {
         holidayService.registerParticipation(id, principal.name)
         return "redirect:/holiday/$id"
     }
+
+    @RequestMapping(value = "/unparticipate", method = arrayOf(RequestMethod.GET))
+    fun unparticipate(@PathVariable id: Long,
+               principal: Principal): String {
+        holidayService.removeParticipation(id, principal.name)
+        return "redirect:/holiday/$id"
+    }
 }

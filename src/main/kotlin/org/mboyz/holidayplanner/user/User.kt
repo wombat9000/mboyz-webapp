@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner.user
 
+import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.participation.Participation
 import javax.persistence.*
 
@@ -30,4 +31,7 @@ data class User @JvmOverloads constructor(
                 orphanRemoval = true)
         var participations: MutableSet<Participation> = mutableSetOf()
 ) {
+        fun removeParticipation(holiday: Holiday) {
+                participations.removeIf { p -> p.holiday == holiday }
+        }
 }

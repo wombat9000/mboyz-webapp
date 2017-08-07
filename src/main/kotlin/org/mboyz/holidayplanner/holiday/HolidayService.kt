@@ -46,6 +46,15 @@ class HolidayService(
     }
 
     @Transactional
+    fun removeParticipation(holidayId: Long, fbId: String) {
+        val holiday = this.findOne(holidayId)
+        val user = userRepository.findByFbId(fbId)!!
+
+        holiday.removeParticipation(user)
+        user.removeParticipation(holiday)
+    }
+
+    @Transactional
     fun deleteAll() {
         holidayRepository.findAll().forEach(Holiday::clearParticipations)
         holidayRepository.deleteAll()

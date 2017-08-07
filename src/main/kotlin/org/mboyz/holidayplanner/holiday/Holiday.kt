@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.user.User
 import org.mboyz.holidayplanner.util.LocalDateDeserializer
 import org.mboyz.holidayplanner.util.LocalDateSerializer
 import java.time.LocalDate
@@ -35,4 +36,8 @@ data class Holiday @JvmOverloads constructor(
             cascade = arrayOf(CascadeType.ALL),
             orphanRemoval = true)
     var participations: MutableSet<Participation> = mutableSetOf()
-)
+) {
+    fun removeParticipation(user: User) {
+        participations.removeIf { p -> p.user == user }
+    }
+}
