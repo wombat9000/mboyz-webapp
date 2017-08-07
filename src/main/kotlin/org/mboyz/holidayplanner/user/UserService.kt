@@ -43,6 +43,10 @@ class UserService (@Autowired val userRepository: UserRepository,
     fun save(user: User): User {
         return userRepository.save(user)!!
     }
+
+    fun findByFbId(fbId: String): User? {
+        return userRepository.findByFbId(fbId)
+    }
 }
 
 private fun User.clearParticipations() {

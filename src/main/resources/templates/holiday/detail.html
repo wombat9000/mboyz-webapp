@@ -21,7 +21,8 @@
             <li th:each="participation : ${holiday.participations}" th:text="${participation.user.givenName}"></li>
         </ul>
 
-        <a th:href="'/holiday/' + ${holiday.id} + '/participate'">Ich nehme teil.</a>
+        <!--/*@thymesVar id="isParticipating" type="kotlin.Boolean"*/-->
+        <a th:if="${isParticipating == false}" th:href="'/holiday/' + ${holiday.id} + '/participate'">Ich nehme teil.</a>
     </div>
 </div>
 </body>

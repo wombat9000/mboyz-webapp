@@ -1,15 +1,19 @@
 package org.mboyz.holidayplanner.holiday
 
+import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
+import java.security.Principal
 
 @Controller
 @RequestMapping("/holiday")
-class HolidayPagesController(@Autowired val holidayService: HolidayService) {
+class HolidayPagesController(@Autowired val holidayService: HolidayService,
+                             @Autowired val userService: UserService) {
 
     @ModelAttribute(name = "allHolidays")
     fun allHolidays(): List<Holiday> {
@@ -22,9 +26,18 @@ class HolidayPagesController(@Autowired val holidayService: HolidayService) {
     }
 
     @RequestMapping(value = "/{id}", method = arrayOf(RequestMethod.GET))
-    fun detail(@PathVariable id: Long): ModelAndView {
+    fun detail(@PathVariable id: Long, principal: Principal): ModelAndView {
         val holiday = holidayService.findOne(id)
-        return ModelAndView("holiday/detail", "holiday", holiday)
+
+        val modelAndView = ModelAndView("holiday/detail", "holiday", holiday)
+        modelAndView.addObject("isParticipating", isParticipating(principal, id))
+
+        return modelAndView
+    }
+
+    fun isParticipating(principal: Principal, holidayId: Long): Boolean {
+        val user: User = userService.findByFbId(principal.name)?: return false
+        return user.participations.any { x -> x.holiday?.id == holidayId }
     }
 
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.GET))
