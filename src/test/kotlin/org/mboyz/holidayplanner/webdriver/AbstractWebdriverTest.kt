@@ -37,7 +37,7 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
         private fun setupChromeDriver(): WebDriver {
             val chromeOptions = ChromeOptions()
             chromeOptions.addArguments("--window-size=1920,1080")
-            chromeOptions.addArguments("--headless")
+//            chromeOptions.addArguments("--headless")
             System.setProperty("webdriver.chrome.driver", "node_modules/chromedriver/bin/chromedriver")
             return ChromeDriver(chromeOptions)
         }

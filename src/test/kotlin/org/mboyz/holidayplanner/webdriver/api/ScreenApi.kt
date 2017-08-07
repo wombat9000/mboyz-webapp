@@ -23,8 +23,8 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 
     fun showsNoHolidays(): ScreenApi {
-        val rows = webDriver.findElements(By.cssSelector("table tbody tr"))
-        assertTrue(rows.isEmpty())
+        val cards = webDriver.findElements(By.cssSelector("div.card"))
+        assertTrue(cards.isEmpty())
         return this
     }
 
