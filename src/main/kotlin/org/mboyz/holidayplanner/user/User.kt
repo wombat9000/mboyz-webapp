@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner.user
 
+import org.mboyz.holidayplanner.holiday.Comment
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.participation.Participation
 import javax.persistence.*
@@ -29,7 +30,14 @@ data class User @JvmOverloads constructor(
                 fetch = FetchType.EAGER,
                 cascade = arrayOf(CascadeType.ALL),
                 orphanRemoval = true)
-        var participations: MutableSet<Participation> = mutableSetOf()
+        var participations: MutableSet<Participation> = mutableSetOf(),
+
+        @OneToMany(
+                mappedBy = "user",
+                fetch = FetchType.EAGER,
+                cascade = arrayOf(CascadeType.ALL),
+                orphanRemoval = true)
+        var comments: MutableSet<Comment> = mutableSetOf()
 ) {
         fun removeParticipation(holiday: Holiday) {
                 participations.removeIf { p -> p.holiday == holiday }
@@ -38,5 +46,9 @@ data class User @JvmOverloads constructor(
         fun addParticipation(participation: Participation) {
                 if (participations.any { it.holiday == participation.holiday }) return
                 participations.add(participation)
+        }
+
+        fun addComment(comment: Comment) {
+                comments.add(comment)
         }
 }

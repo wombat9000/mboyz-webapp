@@ -5,6 +5,7 @@ import org.hamcrest.Matchers.contains
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.mboyz.holidayplanner.holiday.Comment
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayService
 import org.mboyz.holidayplanner.holiday.participation.Participation
@@ -62,5 +63,22 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
         assertTrue(participatingUser.participations.isEmpty())
         assertTrue(participatedHoliday.participations.isEmpty())
+    }
+
+    @Test
+    fun shouldAddCommentAndUpdateRelatedEntities() {
+        val originalHoliday = testee.save(Holiday())!!
+        val fbId = "someFbId"
+        val originalUser = userService.save(User(fbId = fbId))
+
+        val commentToAdd = "someComment"
+
+        val comment: Comment = testee.addComment(originalHoliday.id, fbId, commentToAdd).comments.first()
+
+        val author = userService.findOne(originalUser.id)!!
+        val subject = testee.findOne(originalHoliday.id)
+
+        assertThat(author.comments, contains(comment))
+        assertThat(subject.comments, contains(comment))
     }
 }

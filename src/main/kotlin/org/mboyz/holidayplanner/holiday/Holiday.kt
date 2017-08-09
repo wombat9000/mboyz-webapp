@@ -25,7 +25,15 @@ data class Holiday @JvmOverloads constructor(
             fetch = FetchType.EAGER,
             cascade = arrayOf(CascadeType.ALL),
             orphanRemoval = true)
-    var participations: MutableSet<Participation> = mutableSetOf()
+    var participations: MutableSet<Participation> = mutableSetOf(),
+
+    @OneToMany(
+            mappedBy = "holiday",
+            fetch = FetchType.EAGER,
+            cascade = arrayOf(CascadeType.ALL),
+            orphanRemoval = true)
+    var comments: MutableSet<Comment> = mutableSetOf()
+
 ) {
     fun removeParticipation(user: User) {
         participations.removeIf { p -> p.user == user }
@@ -34,5 +42,9 @@ data class Holiday @JvmOverloads constructor(
     fun addParticipation(participation: Participation) {
         if (participations.any { it.user == participation.user }) return
         participations.add(participation)
+    }
+
+    fun addComment(comment: Comment) {
+        comments.add(comment)
     }
 }

@@ -54,12 +54,29 @@ class HolidayService(
     @Transactional
     fun deleteAll() {
         holidayRepository.findAll().forEach(Holiday::clearParticipations)
+        holidayRepository.findAll().forEach(Holiday::clearComments)
         holidayRepository.deleteAll()
+    }
+
+    @Transactional
+    fun addComment(holidayId: Long, fbId: String, commentBody: String): Holiday {
+        val holiday = this.findOne(holidayId)
+        val user = userRepository.findByFbId(fbId)!!
+
+        val comment = Comment(holiday = holiday, user = user, text = commentBody)
+        holiday.addComment(comment)
+        user.addComment(comment)
+        return holiday
     }
 
     private fun invalidTimeFrame(endDate: LocalDate?, startDate: LocalDate?): Boolean {
         return startDate != null && endDate != null && startDate.isAfter(endDate)
     }
+}
+
+private fun Holiday.clearComments() {
+    this.comments.forEach(Comment::removeReferenceToHoliday)
+    this.comments.clear() //To change body of created functions use File | Settings | File Templates.
 }
 
 private fun Holiday.clearParticipations() {
@@ -68,5 +85,9 @@ private fun Holiday.clearParticipations() {
 }
 
 private fun Participation.removeReferenceToHoliday() {
+    this.holiday = null
+}
+
+private fun Comment.removeReferenceToHoliday() {
     this.holiday = null
 }
