@@ -10,6 +10,13 @@
     <!--/*@thymesVar id="user" type="org.mboyz.holidayplanner.user.User"*/-->
     <h2 th:text="${user.givenName} + ${user.familyName}"></h2>
     <img th:src="${user.imageUrl}" />
+
+    <h3>Teilnahmen:</h3>
+    <ul>
+        <li th:each="participation : ${user.participations}" >
+            <a th:href="'/holiday/' + ${participation.holiday.id}" th:text="${participation.holiday.name}"></a>
+        </li>
+    </ul>
 </div>
 </body>
 </html>
