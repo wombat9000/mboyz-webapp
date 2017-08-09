@@ -18,7 +18,10 @@
 
         <h3>Teilnehmer:</h3>
         <ul>
-            <li th:each="participation : ${holiday.participations}" th:text="${participation.user.givenName}"></li>
+            <li th:each="participation : ${holiday.participations}" >
+                <img th:src="${participation.user.imageUrl}"/>
+                <a th:href="'/user/' + ${participation.user.id}" th:text="${participation.user.givenName}"></a>
+            </li>
         </ul>
 
         <!--/*@thymesVar id="isParticipating" type="kotlin.Boolean"*/-->
