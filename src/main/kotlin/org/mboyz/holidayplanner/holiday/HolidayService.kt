@@ -36,12 +36,9 @@ class HolidayService(
         val holiday = this.findOne(holidayId)
         val user = userRepository.findByFbId(fbId)!!
 
-        if (holiday.participations.any { it.user == user }) return holiday
-
         val participation = Participation(holiday = holiday, user = user)
-        user.participations.add(participation)
-        holiday.participations.add(participation)
-
+        holiday.addParticipation(participation)
+        user.addParticipation(participation)
         return holiday
     }
 

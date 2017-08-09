@@ -40,4 +40,9 @@ data class Holiday @JvmOverloads constructor(
     fun removeParticipation(user: User) {
         participations.removeIf { p -> p.user == user }
     }
+
+    fun addParticipation(participation: Participation) {
+        if (participations.any { it.user == participation.user }) return
+        participations.add(participation)
+    }
 }
