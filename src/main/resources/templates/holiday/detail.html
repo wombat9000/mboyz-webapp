@@ -30,7 +30,7 @@
 
         <h2>Kommentare:</h2>
 
-        <p th:each="comment : ${holiday.comments}" th:text="${comment.text}"></p>
+        <p th:each="comment : ${holiday.comments}" th:text="${comment.user.givenName} + ': ' + ${comment.text}"></p>
 
         <!--/*@thymesVar id="holiday" type="org.mboyz.holidayplanner.holiday.Holiday"*/-->
         <form action="#" th:action="'/holiday/' + ${holiday.id} + '/add-comment'" method="post">
