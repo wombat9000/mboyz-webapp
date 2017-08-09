@@ -1,6 +1,5 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.holiday.participation.Participation
 import org.mboyz.holidayplanner.user.User
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -20,7 +19,6 @@ data class Comment @JvmOverloads constructor(
         @ManyToOne()
         @JoinColumn(name = "user_id")
         var user: User? = User(),
-
 
         var text: String? = "",
 

@@ -11,6 +11,14 @@ import java.security.Principal
 @RequestMapping("/holiday/{id}/")
 class HolidayActionsController(@Autowired val holidayService: HolidayService) {
 
+    @RequestMapping(value = "/add-comment", method = arrayOf(RequestMethod.POST))
+    fun addComment(@PathVariable id: Long,
+                   comment: String,
+                   principal: Principal): String {
+        holidayService.addComment(id, principal.name, comment)
+        return "redirect:/holiday/$id"
+    }
+
     @RequestMapping(value = "/participate", method = arrayOf(RequestMethod.GET))
     fun participate(@PathVariable id: Long,
                principal: Principal): String {

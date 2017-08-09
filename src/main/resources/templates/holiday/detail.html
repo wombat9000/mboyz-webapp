@@ -27,6 +27,21 @@
         <!--/*@thymesVar id="isParticipating" type="kotlin.Boolean"*/-->
         <a th:if="${isParticipating == false}" th:href="'/holiday/' + ${holiday.id} + '/participate'">Ich nehme teil.</a>
         <a th:if="${isParticipating == true}" th:href="'/holiday/' + ${holiday.id} + '/unparticipate'">Ich kann doch nicht teilnehmen.</a>
+
+        <h2>Kommentare:</h2>
+
+        <p th:each="comment : ${holiday.comments}" th:text="${comment.text}"></p>
+
+        <!--/*@thymesVar id="holiday" type="org.mboyz.holidayplanner.holiday.Holiday"*/-->
+        <form action="#" th:action="'/holiday/' + ${holiday.id} + '/add-comment'" method="post">
+            <label>
+                Kommentar:
+                <input name="comment"/>
+            </label>
+
+            <button name="send">Abschicken</button>
+        </form>
+
     </div>
 </div>
 </body>
