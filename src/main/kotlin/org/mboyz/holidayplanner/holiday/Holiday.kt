@@ -32,9 +32,14 @@ data class Holiday @JvmOverloads constructor(
             fetch = FetchType.EAGER,
             cascade = arrayOf(CascadeType.ALL),
             orphanRemoval = true)
-    var comments: MutableSet<Comment> = mutableSetOf()
+    var comments: MutableList<Comment> = mutableListOf()
 
 ) {
+    // used in holiday detail
+    fun commentsSorted() {
+        return comments.sortBy { x -> x.created }
+    }
+
     fun removeParticipation(user: User) {
         participations.removeIf { p -> p.user == user }
     }

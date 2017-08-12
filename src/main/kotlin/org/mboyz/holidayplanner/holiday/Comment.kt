@@ -3,6 +3,8 @@ package org.mboyz.holidayplanner.holiday
 import org.mboyz.holidayplanner.user.User
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.persistence.*
 
 @Entity
@@ -26,6 +28,11 @@ data class Comment @JvmOverloads constructor(
 ) {
     companion object {
         val EUROPEAN_CENTRAL_TIME = "Europe/Paris"
+    }
+
+    // used in holiday detail
+    fun createdFormatted(): String {
+        return created.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT))
     }
 
     override fun toString(): String {
