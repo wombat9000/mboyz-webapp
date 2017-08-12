@@ -1,8 +1,7 @@
 package org.mboyz.holidayplanner.integration
 
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.contains
-import org.junit.Assert
+import org.hamcrest.Matchers.*
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Comment
@@ -53,7 +52,6 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
         val originalHoliday = testee.save(Holiday())!!
         val fbId = "someFbId"
         val originalUser = userService.save(User(fbId = fbId))
-        val participation: Participation = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
         testee.registerParticipation(originalHoliday.id, fbId).participations.first()
 
         testee.removeParticipation(originalHoliday.id, fbId)
@@ -80,5 +78,18 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
         assertThat(author.comments, contains(comment))
         assertThat(subject.comments, contains(comment))
+    }
+
+    @Test
+    fun shouldSoftDelete() {
+        val someHoliday = testee.save(Holiday())!!
+        val someUser = userService.save(User(fbId = "someFbId"))
+
+        testee.softDelete(someHoliday.id, someUser.fbId)
+
+        val result = testee.findOne(someHoliday.id)
+
+        assertThat(result.deletedDate, notNullValue())
+        assertThat(result.deletingUser, `is`(someUser))
     }
 }

@@ -3,6 +3,7 @@ package org.mboyz.holidayplanner.holiday
 import org.mboyz.holidayplanner.holiday.participation.Participation
 import org.mboyz.holidayplanner.user.User
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -19,6 +20,13 @@ data class Holiday @JvmOverloads constructor(
 
     @Column(name = "end_date")
     var endDate: LocalDate? = null,
+
+    @Column(name = "deleted_at")
+    var deletedDate: LocalDateTime? = null,
+
+    @ManyToOne()
+    @JoinColumn(name = "deleting_user_id")
+    var deletingUser: User? = null,
 
     @OneToMany(
             mappedBy = "holiday",

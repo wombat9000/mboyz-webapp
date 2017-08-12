@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 
 @Component
+@Transactional
 class UserService (@Autowired val userRepository: UserRepository,
                    @Autowired val auth0Client: Auth0Client){
 
@@ -34,7 +35,6 @@ class UserService (@Autowired val userRepository: UserRepository,
         return userRepository.findOne(id)
     }
 
-    @Transactional
     fun deleteAll() {
         userRepository.findAll().forEach(User::clearParticipations)
         userRepository.deleteAll()

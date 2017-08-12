@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Component
+@Transactional
 class HolidayService(
         @Autowired val holidayRepository: HolidayRepository,
         @Autowired val userRepository: UserRepository) {
@@ -31,7 +33,6 @@ class HolidayService(
         return holidayRepository.save(holiday)
     }
 
-    @Transactional
     fun registerParticipation(holidayId: Long, fbId: String): Holiday {
         val holiday = this.findOne(holidayId)
         val user = userRepository.findByFbId(fbId)!!
@@ -42,7 +43,6 @@ class HolidayService(
         return holiday
     }
 
-    @Transactional
     fun removeParticipation(holidayId: Long, fbId: String) {
         val holiday = this.findOne(holidayId)
         val user = userRepository.findByFbId(fbId)!!
@@ -51,14 +51,20 @@ class HolidayService(
         user.removeParticipation(holiday)
     }
 
-    @Transactional
+    fun softDelete(holidayId: Long, fbId: String) {
+        val holidayToDelete = findOne(holidayId)
+        val deletingUser = userRepository.findByFbId(fbId)!!
+
+        holidayToDelete.deletedDate = LocalDateTime.now()
+        holidayToDelete.deletingUser = deletingUser
+    }
+
     fun deleteAll() {
         holidayRepository.findAll().forEach(Holiday::clearParticipations)
         holidayRepository.findAll().forEach(Holiday::clearComments)
         holidayRepository.deleteAll()
     }
 
-    @Transactional
     fun addComment(holidayId: Long, fbId: String, commentBody: String): Holiday {
         val holiday = this.findOne(holidayId)
         val user = userRepository.findByFbId(fbId)!!
