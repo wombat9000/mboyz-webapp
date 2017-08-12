@@ -13,7 +13,7 @@
 
     <h3>Teilnahmen:</h3>
     <ul>
-        <li th:each="participation : ${user.participations}" >
+        <li th:each="participation : ${user.participations}" th:if="${participation.holiday.notDeleted()}">
             <a th:href="'/holiday/' + ${participation.holiday.id}" th:text="${participation.holiday.name}"></a>
         </li>
     </ul>
