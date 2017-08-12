@@ -48,6 +48,10 @@ data class Holiday @JvmOverloads constructor(
         return comments.sortBy { x -> x.created }
     }
 
+    fun notDeleted(): Boolean {
+        return deletedDate == null
+    }
+
     fun removeParticipation(user: User) {
         participations.removeIf { p -> p.user == user }
     }

@@ -32,4 +32,11 @@ class HolidayActionsController(@Autowired val holidayService: HolidayService) {
         holidayService.removeParticipation(id, principal.name)
         return "redirect:/holiday/$id"
     }
+
+    @RequestMapping(value = "/delete", method = arrayOf(RequestMethod.GET))
+    fun delete(@PathVariable id: Long,
+               principal: Principal): String {
+        holidayService.softDelete(id, principal.name)
+        return "redirect:/holiday"
+    }
 }

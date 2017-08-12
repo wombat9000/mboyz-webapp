@@ -17,7 +17,9 @@ class HolidayPagesController(@Autowired val holidayService: HolidayService,
 
     @ModelAttribute(name = "allHolidays")
     fun allHolidays(): List<Holiday> {
-        return holidayService.findAll().toList()
+        return holidayService.findAll()
+                .filter { it.notDeleted() }
+                .toList()
     }
 
     @RequestMapping(method = arrayOf(RequestMethod.GET))
