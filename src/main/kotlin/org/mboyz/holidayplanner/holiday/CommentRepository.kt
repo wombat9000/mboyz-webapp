@@ -6,5 +6,4 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 @Transactional
-interface CommentRepository: JpaRepository<Comment, Long> {
-}
+interface CommentRepository: JpaRepository<Comment, Long>

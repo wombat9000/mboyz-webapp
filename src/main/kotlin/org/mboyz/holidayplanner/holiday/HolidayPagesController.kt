@@ -12,8 +12,9 @@ import java.security.Principal
 
 @Controller
 @RequestMapping("/holiday")
-class HolidayPagesController(@Autowired val holidayService: HolidayService,
-                             @Autowired val userService: UserService) {
+class HolidayPagesController
+@Autowired
+constructor(val holidayService: HolidayService, val userService: UserService) {
 
     @ModelAttribute(name = "allHolidays")
     fun allHolidays(): List<Holiday> {
@@ -38,7 +39,7 @@ class HolidayPagesController(@Autowired val holidayService: HolidayService,
     }
 
     fun isParticipating(principal: Principal, holidayId: Long): Boolean {
-        val user: User = userService.findByFbId(principal.name)?: return false
+        val user: User = userService.findByFbId(principal.name) ?: return false
         return user.participations.any { x -> x.holiday?.id == holidayId }
     }
 

@@ -5,12 +5,13 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertTrue
 import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.user.User
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 class ScreenApi(val webDriver: WebDriver) {
-    fun showsErrorPage(): ScreenApi {
+    fun showsUnauthNotice(): ScreenApi {
         val unauthenticatedInfo = webDriver.findElement(By.tagName("h1")).text
         assertThat(unauthenticatedInfo, `is`("Du kannst diese Seite nicht sehen, da du nicht eingeloggt bist."))
         return this
@@ -48,6 +49,10 @@ class ScreenApi(val webDriver: WebDriver) {
         assertThat("holiday name is the page heading", pageHeading, containsString(holiday.name))
         assertThat("holiday location is shown", location, containsString(holiday.location))
         return this
+    }
+
+    fun showsUsers(vararg users: User) {
+
     }
 }
 

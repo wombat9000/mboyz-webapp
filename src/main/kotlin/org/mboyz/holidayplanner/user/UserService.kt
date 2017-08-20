@@ -9,8 +9,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 @Transactional
-class UserService (@Autowired val userRepository: UserRepository,
-                   @Autowired val auth0Client: Auth0Client){
+class UserService
+@Autowired
+constructor(val userRepository: UserRepository, val auth0Client: Auth0Client) {
 
     fun createOrUpdate(fbId: String, accessToken: String): User? {
         return userRepository.findByFbId(fbId) ?: createNewUserWithFieldsFromAuth0(fbId, accessToken)

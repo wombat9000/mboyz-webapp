@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.1.4'
+		kotlinVersion = '1.1.4-2'
 		springBootVersion = '1.5.2.RELEASE'
 	}
 	repositories {
@@ -57,8 +57,6 @@ dependencies {
 	compile 'com.auth0:mvc-auth-commons:1.+'
 	compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
 	compile 'com.auth0:auth0:1.1.0'
-
-
 
 	runtime 'org.postgresql:postgresql'
 

@@ -8,24 +8,18 @@ import java.time.format.FormatStyle
 import javax.persistence.*
 
 @Entity
-data class Comment @JvmOverloads constructor(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+data class Comment
+@JvmOverloads
+constructor(
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "comment_id", updatable = false, nullable = false)
         var id: Long = 0L,
-
-        @ManyToOne
-        @JoinColumn(name = "holiday_id")
+        @ManyToOne @JoinColumn(name = "holiday_id")
         var holiday: Holiday? = Holiday(),
-
-        @ManyToOne()
-        @JoinColumn(name = "user_id")
+        @ManyToOne() @JoinColumn(name = "user_id")
         var user: User? = User(),
-
         var text: String? = "",
-
-        var created: LocalDateTime = LocalDateTime.now(ZoneId.of(EUROPEAN_CENTRAL_TIME))
-) {
+        var created: LocalDateTime = LocalDateTime.now(ZoneId.of(EUROPEAN_CENTRAL_TIME))) {
     companion object {
         val EUROPEAN_CENTRAL_TIME = "Europe/Paris"
     }
@@ -36,7 +30,7 @@ data class Comment @JvmOverloads constructor(
     }
 
     override fun toString(): String {
-        return "Comment(id=$id, holiday=${holiday?.id?: ""}, user=${user?.id?: ""}, text=$text, created=$created)"
+        return "Comment(id=$id, holiday=${holiday?.id ?: ""}, user=${user?.id ?: ""}, text=$text, created=$created)"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -56,8 +50,8 @@ data class Comment @JvmOverloads constructor(
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + (holiday?.id?.hashCode()?: 0)
-        result = 31 * result + (user?.id?.hashCode()?: 0)
+        result = 31 * result + (holiday?.id?.hashCode() ?: 0)
+        result = 31 * result + (user?.id?.hashCode() ?: 0)
         result = 31 * result + (text?.hashCode() ?: 0)
         result = 31 * result + created.hashCode()
         return result

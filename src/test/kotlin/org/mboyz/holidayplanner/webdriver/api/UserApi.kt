@@ -74,6 +74,12 @@ class UserApi(val webDriver: WebDriver,
         return this
     }
 
+    fun opensUserOverview(): UserApi {
+        webDriver.findElement(By.cssSelector("nav ul li a[href='/user']"))
+                .click()
+        return this
+    }
+
     private fun User.getUserInfo(): MutableMap<String, Any> {
         val userInfo = mutableMapOf<String, Any>()
         userInfo.put("given_name", this.givenName)

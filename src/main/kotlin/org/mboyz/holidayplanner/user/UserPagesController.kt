@@ -10,7 +10,9 @@ import org.springframework.web.servlet.ModelAndView
 
 @Controller
 @RequestMapping("/user")
-class UserPagesController(@Autowired val userService: UserService) {
+class UserPagesController
+@Autowired
+constructor(val userService: UserService) {
 
     @ModelAttribute(name = "allUsers")
     fun allUsers(): List<User> {

@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod
 import javax.servlet.http.HttpServletRequest
 
 @Controller
-class AuthController(@Autowired val auth0: Auth0Wrapper,
-                     @Autowired val userService: UserService) {
+class AuthController
+@Autowired
+constructor(val auth0: Auth0Wrapper, val userService: UserService) {
 
     companion object {
         const private val HOME: String = "/"

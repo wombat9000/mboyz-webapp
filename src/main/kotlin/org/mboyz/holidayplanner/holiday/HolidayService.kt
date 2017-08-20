@@ -10,12 +10,12 @@ import java.time.LocalDateTime
 
 @Component
 @Transactional
-class HolidayService(
-        @Autowired val holidayRepository: HolidayRepository,
-        @Autowired val userRepository: UserRepository) {
+class HolidayService
+@Autowired
+constructor(val holidayRepository: HolidayRepository, val userRepository: UserRepository) {
 
     fun findOne(id: Long): Holiday {
-        return holidayRepository.findOne(id)?: throw HolidayNotFoundException()
+        return holidayRepository.findOne(id) ?: throw HolidayNotFoundException()
     }
 
     fun findAll(): Iterable<Holiday> {

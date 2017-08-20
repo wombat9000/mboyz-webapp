@@ -8,10 +8,11 @@ import java.util.*
 
 @ComponentScan
 @SpringBootApplication
-open class Server : SpringBootServletInitializer() {
+class Server : SpringBootServletInitializer() {
 
     companion object {
-        @JvmStatic fun main(args: Array<String>) {
+        @JvmStatic
+        fun main(args: Array<String>) {
             val getenv: String? = System.getenv("PORT")
             var PORT = 8080
             if (getenv != null) {

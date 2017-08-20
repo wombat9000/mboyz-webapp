@@ -9,7 +9,9 @@ import java.security.Principal
 
 @Controller
 @RequestMapping("/holiday/{id}/")
-class HolidayActionsController(@Autowired val holidayService: HolidayService) {
+class HolidayActionsController
+@Autowired
+constructor(val holidayService: HolidayService) {
 
     @RequestMapping(value = "/add-comment", method = arrayOf(RequestMethod.POST))
     fun addComment(@PathVariable id: Long,
@@ -20,22 +22,19 @@ class HolidayActionsController(@Autowired val holidayService: HolidayService) {
     }
 
     @RequestMapping(value = "/participate", method = arrayOf(RequestMethod.GET))
-    fun participate(@PathVariable id: Long,
-               principal: Principal): String {
+    fun participate(@PathVariable id: Long, principal: Principal): String {
         holidayService.registerParticipation(id, principal.name)
         return "redirect:/holiday/$id"
     }
 
     @RequestMapping(value = "/unparticipate", method = arrayOf(RequestMethod.GET))
-    fun unparticipate(@PathVariable id: Long,
-               principal: Principal): String {
+    fun unparticipate(@PathVariable id: Long, principal: Principal): String {
         holidayService.removeParticipation(id, principal.name)
         return "redirect:/holiday/$id"
     }
 
     @RequestMapping(value = "/delete", method = arrayOf(RequestMethod.GET))
-    fun delete(@PathVariable id: Long,
-               principal: Principal): String {
+    fun delete(@PathVariable id: Long, principal: Principal): String {
         holidayService.softDelete(id, principal.name)
         return "redirect:/holiday"
     }

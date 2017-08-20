@@ -10,12 +10,12 @@ import java.time.LocalDate
 import javax.servlet.http.HttpServletRequest
 
 @Configuration
-class HolidayArgumentResolver: HandlerMethodArgumentResolver {
+class HolidayArgumentResolver : HandlerMethodArgumentResolver {
     override fun resolveArgument(parameter: MethodParameter?, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest?, binderFactory: WebDataBinderFactory?): Any {
         val servletRequest: HttpServletRequest = webRequest!!.getNativeRequest(HttpServletRequest::class.java)
 
         val name: String = servletRequest.getParameter("name")
-        val location: String = servletRequest.getParameter("location")?: ""
+        val location: String = servletRequest.getParameter("location") ?: ""
 
         val startDate = servletRequest.getParameter("startDate").toLocalDate()
         val endDate = servletRequest.getParameter("endDate").toLocalDate()
@@ -34,5 +34,5 @@ class HolidayArgumentResolver: HandlerMethodArgumentResolver {
 }
 
 private fun String.toLocalDate(): LocalDate? {
-    return if(this.isNullOrEmpty()) null else LocalDate.parse(this)
+    return if (this.isNullOrEmpty()) null else LocalDate.parse(this)
 }

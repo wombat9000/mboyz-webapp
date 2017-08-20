@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse
 
 @Controller
 class ErrorPagesController(@Value("\${debug}") val debug: Boolean,
-                           @Autowired val errorAttributes: ErrorAttributes): ErrorController {
+                           @Autowired val errorAttributes: ErrorAttributes) : ErrorController {
 
     @RequestMapping("/error")
     fun error(request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
