@@ -52,8 +52,8 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 .loginAs(BASTIAN)
                 .isLoggedIn()
 
-//        user    .opensUserOverview()
-//        screen  .showsUsers(BASTIAN)
+        user    .opensUserOverview()
+        screen  .showsUsers(BASTIAN)
 
         user    .opensHolidayOverview()
         screen  .showsHolidayOverview()

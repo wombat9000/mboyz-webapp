@@ -17,7 +17,7 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun showsHolidayOverview():ScreenApi {
+    fun showsHolidayOverview(): ScreenApi {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
         assertThat(pageHeading, `is`("Alle Urlaube"))
         return this
@@ -51,15 +51,22 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun showsUsers(vararg users: User) {
+    fun showsUsers(vararg users: User): ScreenApi {
+        val userRows: MutableList<WebElement> = webDriver.findElements(By.cssSelector("tbody tr"))
 
+        val namesDisplayed: List<String> = userRows.map { it.findElement(By.tagName("a")).text }
+
+        val familyNames = users.map { "${it.givenName} ${it.familyName}" }
+
+        assertTrue(namesDisplayed.containsAll(familyNames))
+        return this
     }
 }
 
 private infix fun Holiday.assertIsIncludedIn(cards: MutableList<WebElement>): Unit {
     val cardHeadings = cards
             .map { it.findElement(By.tagName("h4")).text }
-            .any { it == this.name}
+            .any { it == this.name }
 
     assertThat("rows contain $this", cardHeadings, `is`(true))
 }
