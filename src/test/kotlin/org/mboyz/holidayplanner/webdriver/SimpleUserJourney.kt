@@ -75,8 +75,10 @@ class SimpleUserJourney : AbstractWebdriverTest(){
         user    .opensHolidayOverview()
         screen  .showsHolidays(SURF_HOLIDAY)
 
-//        user    .createsHoliday(HOLIDAY_WITH_INVALID_DATE)
-//        screen  .doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)
+        user    .navigatesToHolidaysCreation()
+                .createsHoliday(HOLIDAY_WITH_INVALID_DATE)
+                .opensHolidayOverview()
+        screen  .doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)
 
         user    .clicksLogout()
                 .isLoggedOut()
