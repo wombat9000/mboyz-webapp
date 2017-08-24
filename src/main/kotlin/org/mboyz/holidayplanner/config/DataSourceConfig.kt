@@ -27,14 +27,12 @@ class DataSourceConfig {
         val host: String? = dbUri.host ?: "localhost"
         val dbUrl = "jdbc:postgresql://$host:$port$path"
 
-        val basicDataSource = DataSourceBuilder
+        return DataSourceBuilder
                 .create()
                 .username(username)
                 .password(password)
                 .url(dbUrl)
                 .driverClassName("org.postgresql.Driver")
                 .build()
-
-        return basicDataSource
     }
 }

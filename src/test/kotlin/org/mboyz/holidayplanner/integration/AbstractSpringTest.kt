@@ -48,12 +48,12 @@ abstract class AbstractSpringTest {
     lateinit var participationRepository: ParticipationRepository
 
     @Before
-    open fun setup() {
+    fun setup() {
         cleanDB()
     }
 
     @After
-    open fun tearDown() {
+    fun tearDown() {
         cleanDB()
     }
 

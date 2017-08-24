@@ -31,20 +31,20 @@ constructor(val auth0: Auth0Wrapper, val userService: UserService) {
 
     @RequestMapping(value = CALLBACK, method = arrayOf(RequestMethod.GET))
     fun getCallback(req: HttpServletRequest): String {
-        try {
+        return try {
             val tokens: Tokens = auth0.handle(req)
-            val tokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(tokens.idToken))
+            val tokenAuth = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
             userService.createOrUpdate(tokenAuth.name, tokens.accessToken)
-            return "redirect:$HOME"
+            "redirect:$HOME"
         } catch (e: AuthenticationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            return "redirect:$LOGIN"
+            "redirect:$LOGIN"
         } catch (e: IdentityVerificationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            return "redirect:$LOGIN"
+            "redirect:$LOGIN"
         }
     }
 

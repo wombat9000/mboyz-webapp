@@ -70,7 +70,7 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 }
 
-private infix fun Holiday.assertIsIncludedIn(cards: MutableList<WebElement>): Unit {
+private infix fun Holiday.assertIsIncludedIn(cards: MutableList<WebElement>) {
     val cardHeadings = cards
             .map { it.findElement(By.tagName("h4")).text }
             .any { it == this.name }
@@ -78,7 +78,7 @@ private infix fun Holiday.assertIsIncludedIn(cards: MutableList<WebElement>): Un
     assertThat("rows contain $this", cardHeadings, `is`(true))
 }
 
-private infix fun Holiday.assertIsNotIncludedIn(cards: MutableList<WebElement>): Unit {
+private infix fun Holiday.assertIsNotIncludedIn(cards: MutableList<WebElement>) {
     val cardHeadings = cards
             .map { it.findElement(By.tagName("h4")).text }
             .none { it == this.name }

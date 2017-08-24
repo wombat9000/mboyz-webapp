@@ -3,8 +3,7 @@ package org.mboyz.holidayplanner.webdriver.api
 import com.auth0.Tokens
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.Holiday

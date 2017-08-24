@@ -31,7 +31,7 @@ constructor(
         @OneToMany(mappedBy = "holiday", fetch = FetchType.EAGER,
                 cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
         var comments: MutableList<Comment> = mutableListOf()) {
-    // used in holiday detail
+    // used in holiday detail template
     fun commentsSorted() {
         return comments.sortBy { x -> x.created }
     }

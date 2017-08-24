@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
-import java.security.Principal
 
 class HolidayActionsControllerTest {
 
@@ -37,7 +36,7 @@ class HolidayActionsControllerTest {
                 .withAudience("someAudience")
                 .withIssuer("https://wombat9000.eu.auth0.com/")
                 .sign(Algorithm.HMAC256("someSecret"))
-        val tokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(token))
+        val tokenAuth = TokenAuthentication(JWT.decode(token))
 
         given(holidayService.registerParticipation(1L, "someFbId")).willReturn(Holiday())
 

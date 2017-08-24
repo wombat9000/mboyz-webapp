@@ -2,7 +2,6 @@ package org.mboyz.holidayplanner.web
 
 import org.junit.Before
 import org.junit.Test
-import org.mboyz.holidayplanner.web.PagesController
 import org.mockito.MockitoAnnotations.initMocks
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -13,8 +12,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetu
 
 class PagesControllerTest {
 
-    lateinit var testee: PagesController
-    lateinit var mockMvc: MockMvc
+    private lateinit var testee: PagesController
+    private lateinit var mockMvc: MockMvc
 
     @Before
     fun setUp() {

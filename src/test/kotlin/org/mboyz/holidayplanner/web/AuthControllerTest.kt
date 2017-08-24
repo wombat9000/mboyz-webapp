@@ -49,7 +49,7 @@ class AuthControllerTest {
         val home = "/"
 
         val accessToken = "someAccessToken"
-        val token: Tokens = Tokens(accessToken, generateToken(), "", "", 60L)
+        val token = Tokens(accessToken, generateToken(), "", "", 60L)
         given(auth0Mock.handle(any())).willReturn(token)
         given(userServiceMock.createOrUpdate("someSubject", accessToken)).willReturn(User())
 

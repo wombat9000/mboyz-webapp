@@ -34,5 +34,5 @@ class HolidayArgumentResolver : HandlerMethodArgumentResolver {
 }
 
 private fun String.toLocalDate(): LocalDate? {
-    return if (this.isNullOrEmpty()) null else LocalDate.parse(this)
+    return if (this.isEmpty()) null else LocalDate.parse(this)
 }

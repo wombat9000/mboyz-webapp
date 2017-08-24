@@ -22,8 +22,8 @@ class HolidayServiceTest {
 
     @Before
     fun setUp() {
-    	initMocks(this)
-    	testee = HolidayService(holidayRepository, userRepository)
+        initMocks(this)
+        testee = HolidayService(holidayRepository, userRepository)
     }
 
     @Test
@@ -33,7 +33,7 @@ class HolidayServiceTest {
 
         val result = testee.findAll()
 
-       assertThat(result.any { it == someHoliday }, `is`(true))
+        assertThat(result.any { it == someHoliday }, `is`(true))
     }
 
     @Test
@@ -63,7 +63,7 @@ class HolidayServiceTest {
         val someHoliday = Holiday(1, "someName", "someLocation")
         given(holidayRepository.save(someHoliday)).willReturn(someHoliday)
 
-    	val result = testee.save(someHoliday)
+        val result = testee.save(someHoliday)
 
         assertThat(result, `is`(someHoliday))
     }

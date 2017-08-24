@@ -28,12 +28,12 @@ class HolidayPagesControllerTest {
     @Mock
     lateinit var userService: UserService
 
-    val token = JWT.create()
+    private val token: String = JWT.create()
             .withSubject("someFbId")
             .withAudience("someAudience")
             .withIssuer("https://wombat9000.eu.auth0.com/")
-            .sign(Algorithm.HMAC256("someSecret"))
-    val withTokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(token))
+            .sign(Algorithm.HMAC256("someSecret"))!!
+    private val withTokenAuth: TokenAuthentication = TokenAuthentication(JWT.decode(token))
 
     @Before
     fun setUp() {
