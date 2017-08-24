@@ -106,6 +106,7 @@ flyway {
 	if (null == System.getenv("DATABASE_URL")) {
 		url = 'jdbc:postgresql://localhost:5432/mboyz'
         user = 'mboyz_app'
+		password = "postgres"
     } else {
 		def dbUri = new URI(System.getenv("DATABASE_URL"))
         user = dbUri.userInfo.split(":")[0]
