@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 @Component
 @Transactional
-class HolidayService
+open class HolidayService
 @Autowired
 constructor(val holidayRepository: HolidayRepository, val userRepository: UserRepository) {
 

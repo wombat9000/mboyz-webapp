@@ -10,7 +10,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 
 
 @Configuration
-class WebConfig: WebMvcConfigurerAdapter() {
+open class WebConfig: WebMvcConfigurerAdapter() {
     @Autowired
     lateinit var holidayArgumentResolver: HolidayArgumentResolver
 
@@ -20,7 +20,7 @@ class WebConfig: WebMvcConfigurerAdapter() {
     }
 
     @Bean
-    fun templateResolver(): ClassLoaderTemplateResolver {
+    open fun templateResolver(): ClassLoaderTemplateResolver {
         val templateResolver = ClassLoaderTemplateResolver()
         templateResolver.prefix = "templates/"
         templateResolver.suffix = ".html"

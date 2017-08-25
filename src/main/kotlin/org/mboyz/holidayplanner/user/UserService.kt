@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 @Transactional
-class UserService
+open class UserService
 @Autowired
 constructor(val userRepository: UserRepository, val auth0Client: Auth0Client) {
 

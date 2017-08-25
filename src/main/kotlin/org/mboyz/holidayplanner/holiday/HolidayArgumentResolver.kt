@@ -10,7 +10,7 @@ import java.time.LocalDate
 import javax.servlet.http.HttpServletRequest
 
 @Configuration
-class HolidayArgumentResolver : HandlerMethodArgumentResolver {
+open class HolidayArgumentResolver : HandlerMethodArgumentResolver {
     override fun resolveArgument(parameter: MethodParameter?, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest?, binderFactory: WebDataBinderFactory?): Any {
         val servletRequest: HttpServletRequest = webRequest!!.getNativeRequest(HttpServletRequest::class.java)
 

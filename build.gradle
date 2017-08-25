@@ -1,23 +1,23 @@
 buildscript {
-	ext {
-		kotlinVersion = '1.1.4-2'
-		springBootVersion = '1.5.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
-		classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}"
-		classpath 'com.h2database:h2:1.4.194'
-	}
+    ext {
+        kotlinVersion = '1.1.4-2'
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}"
+        classpath 'com.h2database:h2:1.4.194'
+    }
 }
 
 plugins {
-	id "com.moowork.gulp" version "1.1.1"
-	id "com.moowork.node" version "1.1.1"
-	id "org.flywaydb.flyway" version "4.1.2"
+    id "com.moowork.gulp" version "1.1.1"
+    id "com.moowork.node" version "1.1.1"
+    id "org.flywaydb.flyway" version "4.1.2"
 }
 
 apply plugin: 'kotlin'
@@ -32,93 +32,105 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
-	maven { url 'https://jitpack.io' }
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile "org.springframework.boot:spring-boot-starter-web"
-	compile "org.springframework.boot:spring-boot-starter-jetty"
-	compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-	compile 'org.springframework.boot:spring-boot-starter-security'
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}"
-	compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
-	compile "org.hamcrest:hamcrest-all:1.3"
-	compile "org.flywaydb:flyway-core:4.1.2"
+    compile "org.springframework.boot:spring-boot-starter-jetty"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}"
+    compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+    compile "org.hamcrest:hamcrest-all:1.3"
+    compile "org.flywaydb:flyway-core:4.1.2"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.7"
-	compile 'com.auth0:java-jwt:3.2.0'
-	compile "org.webjars:bootstrap:4.0.0-alpha.6-1"
-	compile "org.webjars:webjars-locator"
-	compile 'org.webjars:jquery:3.2.1'
-	compile 'org.webjars.bower:tether:1.4.0'
-	compile 'org.webjars:font-awesome:4.7.0'
+    compile 'com.auth0:java-jwt:3.2.0'
+    compile "org.webjars:bootstrap:4.0.0-alpha.6-1"
+    compile "org.webjars:webjars-locator"
+    compile 'org.webjars:jquery:3.2.1'
+    compile 'org.webjars.bower:tether:1.4.0'
+    compile 'org.webjars:font-awesome:4.7.0'
 
-	compile 'com.auth0:mvc-auth-commons:1.+'
-	compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
-	compile 'com.auth0:auth0:1.1.0'
+    compile 'com.auth0:mvc-auth-commons:1.+'
+    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
+    compile 'com.auth0:auth0:1.1.0'
 
-	runtime 'org.postgresql:postgresql'
+    runtime 'org.postgresql:postgresql'
 
-	testCompile 'org.seleniumhq.selenium:selenium-java:3.4.0'
-	testCompile 'com.github.detro:ghostdriver:2.1.0'
-	testCompile group: 'com.h2database', name: 'h2', version: '1.4.194'
-	testCompile 'org.mockito:mockito-core:2.7.21'
-	testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.seleniumhq.selenium:selenium-java:3.4.0'
+    testCompile 'com.github.detro:ghostdriver:2.1.0'
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.194'
+    testCompile 'org.mockito:mockito-core:2.7.21'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 compileKotlin {
-	kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.8"
 }
 compileTestKotlin {
-	kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 test {
-	testLogging {
-		events "failed"
-		exceptionFormat "full"
-	}
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
 }
 
 idea {
-	module {
-		name = 'holidayplanner'
+    module {
+        name = 'holidayplanner'
 
-		excludeDirs = [file(".gradle")]
-		["build", "out", ".gradle", "node_modules"].each {
-			excludeDirs << file("$buildDir/$it")
-		}
+        excludeDirs = [file(".gradle")]
+        ["build", "out", ".gradle", "node_modules"].each {
+            excludeDirs << file("$buildDir/$it")
+        }
 
-		iml {
-			withXml {
-				def atts = it.asNode().component.content.sourceFolder
-						.find { it.@url == 'file://$MODULE_DIR$/src/main/resources' }
-						.attributes()
-				atts.remove('isSource')
-				atts.put('type', 'java-resource')
-			}
-		}
-	}
+        iml.withXml {
+            def resourceAtts = it.asNode().component.content.sourceFolder
+                    .find { it.@url == 'file://$MODULE_DIR$/src/main/resources' }
+                    .attributes()
+            resourceAtts.remove('isSource')
+            resourceAtts.put('type', 'java-resource')
+
+            def testResourceAtts = it.asNode().component.content.sourceFolder
+                    .find { it.@url == 'file://$MODULE_DIR$/src/test/resources' }
+                    .attributes()
+            testResourceAtts.remove('isSource')
+            testResourceAtts.put('type', 'java-test-resource')
+        }
+    }
+
+    workspace {
+        iws.withXml { provider ->
+            def node = provider.asNode()
+            def runManager = node.component.find { it.@name == 'RunManager' }
+            runManager.append(new XmlParser().parse(file("project/runConfigurations/Start_Locally.xml")))
+        }
+    }
 }
 
 flyway {
-	if (null == System.getenv("DATABASE_URL")) {
-		url = 'jdbc:postgresql://localhost:5432/mboyz'
+    if (null == System.getenv("DATABASE_URL")) {
+        url = 'jdbc:postgresql://localhost:5432/mboyz'
         user = 'mboyz_app'
-		password = "postgres"
+        password = "postgres"
     } else {
-		def dbUri = new URI(System.getenv("DATABASE_URL"))
+        def dbUri = new URI(System.getenv("DATABASE_URL"))
         user = dbUri.userInfo.split(":")[0]
         password = dbUri.userInfo.split(":")[1]
 
         def port = dbUri.getPort()
         def path = dbUri.getPath()
         def host = dbUri.getHost()
-        url = "jdbc:postgresql://"+host+":"+port+path
-	}
+        url = "jdbc:postgresql://" + host + ":" + port + path
+    }
 
-	locations = ["filesystem:src/main/resources/db/migration/"]
+    locations = ["filesystem:src/main/resources/db/migration/"]
 }
 
 sourceSets.main.kotlin.srcDirs = ['src/main/kotlin']
@@ -127,19 +139,19 @@ sourceSets.test.kotlin.srcDirs = ['src/test/kotlin']
 sourceSets.test.resources.srcDirs = ['src/test/resources']
 
 springBoot {
-	mainClass = 'org.mboyz.holidayplanner.Server'
+    mainClass = 'org.mboyz.holidayplanner.Server'
 }
 
 task createStaticResources(type: Tar) {
-	archiveName = "static-resources.tar"
-	destinationDir = file("${buildDir}/libs")
-	def staticsDir = "${projectDir}/src/main/resources/static"
+    archiveName = "static-resources.tar"
+    destinationDir = file("${buildDir}/libs")
+    def staticsDir = "${projectDir}/src/main/resources/static"
 
-	into("js") {
-		from("${staticsDir}/js/") {
-			include("*.js")
-		}
-	}
+    into("js") {
+        from("${staticsDir}/js/") {
+            include("*.js")
+        }
+    }
 }
 
 task createDB(type: Exec) {
@@ -150,8 +162,8 @@ task createDB(type: Exec) {
 processResources.dependsOn createStaticResources
 
 jar {
-	dependsOn createStaticResources
-	from "${buildDir}/libs/static-resources.tar"
+    dependsOn createStaticResources
+    from "${buildDir}/libs/static-resources.tar"
 }
 
 task stage(dependsOn: ['clean', 'installDist', 'flywayMigrate'])

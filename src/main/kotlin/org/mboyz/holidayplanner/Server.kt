@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan
 
 @ComponentScan
 @SpringBootApplication
-class Server : SpringBootServletInitializer() {
+open class Server : SpringBootServletInitializer() {
 
     companion object {
         @JvmStatic

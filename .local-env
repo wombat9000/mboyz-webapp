@@ -1,0 +1,10 @@
+// add these props to .env file for running locally
+
+PORT=8080
+JAVA_OPTS=-Dspring.profiles.active=local
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=mboyz
+DB_USER=mboyz_app
+DB_PW=postgres

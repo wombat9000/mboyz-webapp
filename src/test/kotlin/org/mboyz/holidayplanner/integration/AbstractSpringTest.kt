@@ -39,12 +39,12 @@ abstract class AbstractSpringTest {
     }
 
     @Before
-    fun setup() {
+    open fun setup() {
         cleanDB()
     }
 
     @After
-    fun tearDown() {
+    open fun tearDown() {
         cleanDB()
     }
 
