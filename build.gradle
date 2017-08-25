@@ -29,7 +29,7 @@ idea {
         iws.withXml { provider ->
             def node = provider.asNode()
             def runManager = node.component.find { it.@name == 'RunManager' }
-            runManager.append(new XmlParser().parse(file("project/runConfigurations/Start_Locally.xml")))
+            runManager.append(new XmlParser().parse(file("project/runConfigurations/localRunconfig.xml")))
         }
     }
 }
