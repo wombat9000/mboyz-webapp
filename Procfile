@@ -1,1 +1,1 @@
-web: ./build/install/holidayplanner/bin/holidayplanner
+web: ./backend/build/install/backend/bin/backend
