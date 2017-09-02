@@ -1,8 +1,7 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import org.mboyz.holidayplanner.user.UserService
-import org.mboyz.holidayplanner.holiday.Holiday
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -40,7 +39,7 @@ constructor(val holidayService: HolidayService, val userService: UserService) {
     }
 
     fun isParticipating(principal: Principal, holidayId: Long): Boolean {
-        val user: User = userService.findByFbId(principal.name) ?: return false
+        val user: UserEntity = userService.findByFbId(principal.name) ?: return false
         return user.participations.any { x -> x.holiday?.id == holidayId }
     }
 

@@ -88,7 +88,7 @@ class HolidayServiceTest {
 //    @Test
 //    fun shouldSignUpUserForHoliday() {
 //        val someUserId = 1337L
-//        val someUser: User = User(someUserId)
+//        val someUser: UserEntity = UserEntity(someUserId)
 //        val someHolidayId = 1L
 //        val someHoliday: Holiday = Holiday(someHolidayId)
 //
@@ -104,7 +104,7 @@ class HolidayServiceTest {
 //    @Test
 //    fun shouldSignUpUserForHolidayIfAnotherUserAlreadyOnList() {
 //        val signUpUserId = 1337L
-//        val someUser: User = User(signUpUserId)
+//        val someUser: UserEntity = UserEntity(signUpUserId)
 //        val someHolidayId = 1L
 //        val alreadySignedUpId = 2L
 //        val someHolidayWithOtherParticipant: Holiday = Holiday(
@@ -123,7 +123,7 @@ class HolidayServiceTest {
 //    @Test
 //    fun shouldNotSignUpUserForHolidayIfAlreadyOnList() {
 //        val signUpUserId = 1337L
-//        val someUser: User = User(signUpUserId)
+//        val someUser: UserEntity = UserEntity(signUpUserId)
 //        val someHolidayId = 1L
 //        val alreadySignedUpId = 1337L
 //        val someHolidayWithOtherParticipant: Holiday = Holiday(

@@ -11,7 +11,7 @@ constructor(
         var id: Long = 0,
         var name: String = "",
         @ManyToMany(mappedBy = "roles")
-        var users: MutableSet<User> = mutableSetOf(),
+        var users: MutableSet<UserEntity> = mutableSetOf(),
 
         @ManyToMany
         @JoinTable(

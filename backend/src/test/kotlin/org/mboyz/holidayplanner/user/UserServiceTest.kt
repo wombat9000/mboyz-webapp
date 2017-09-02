@@ -29,8 +29,8 @@ class UserServiceTest {
     @Test
     fun shouldNotCreateUserIfAlreadyExists() {
         val fbId = "someFbId"
-        val userToCreate = User(fbId = fbId)
-        val persistedUser = User(1, fbId)
+        val userToCreate = UserEntity(fbId = fbId)
+        val persistedUser = UserEntity(1, fbId)
         given(userRepositoryMock.findByFbId(fbId)).willReturn(persistedUser)
 
         val result = testee.createOrUpdate(fbId, "someAccessToken")
@@ -42,8 +42,8 @@ class UserServiceTest {
     @Test
     fun shouldAddUserNameAndPictureFromAuth0() {
         val fbId = "someFbId"
-        val userToCreate = User(fbId = fbId, givenName = "Bastian", familyName = "Stein", imageUrl = "someImgUrl")
-        val persistedUser = User(id = 1, fbId = fbId, givenName = "Bastian", familyName = "Stein", imageUrl = "someImgUrl")
+        val userToCreate = UserEntity(fbId = fbId, givenName = "Bastian", familyName = "Stein", imageUrl = "someImgUrl")
+        val persistedUser = UserEntity(id = 1, fbId = fbId, givenName = "Bastian", familyName = "Stein", imageUrl = "someImgUrl")
 
         val userInfo = mutableMapOf<String, Any>()
         userInfo.put("given_name", "Bastian")

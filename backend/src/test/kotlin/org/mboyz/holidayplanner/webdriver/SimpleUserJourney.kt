@@ -2,7 +2,7 @@ package org.mboyz.holidayplanner.webdriver
 
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import java.time.LocalDate
 
 class SimpleUserJourney : AbstractWebdriverTest(){
@@ -26,7 +26,7 @@ class SimpleUserJourney : AbstractWebdriverTest(){
                 startDate = LocalDate.parse("2017-04-05"),
                 endDate = LocalDate.parse("2017-03-28"))
 
-        val BASTIAN = User(
+        val BASTIAN = UserEntity(
                 givenName = "Bastian",
                 familyName = "Stein",
                 fbId = "facebook|basti",

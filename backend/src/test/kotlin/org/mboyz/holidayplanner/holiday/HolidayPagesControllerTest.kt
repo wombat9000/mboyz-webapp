@@ -2,13 +2,11 @@ package org.mboyz.holidayplanner.holiday
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import org.mboyz.holidayplanner.holiday.HolidayPagesController
-import org.mboyz.holidayplanner.holiday.HolidayService
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Before
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.participation.Participation
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import org.mboyz.holidayplanner.user.UserService
 import org.mboyz.holidayplanner.web.TokenAuthentication
 import org.mockito.BDDMockito.*
@@ -73,7 +71,7 @@ class HolidayPagesControllerTest {
     fun shouldProvideDetailViewAndIndicateUserIsParticipating() {
         val expectedHoliday = Holiday(1L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03"))
         given(holidayService.findOne(1)).willReturn(expectedHoliday)
-        given(userService.findByFbId("someFbId")).willReturn(User(participations = mutableSetOf(Participation(holiday = expectedHoliday))))
+        given(userService.findByFbId("someFbId")).willReturn(UserEntity(participations = mutableSetOf(Participation(holiday = expectedHoliday))))
 
         mockMvc.perform(get("/holiday/1").principal(withTokenAuth))
                 .andExpect(view().name("holiday/detail"))

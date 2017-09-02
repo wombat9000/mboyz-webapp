@@ -8,7 +8,7 @@ import org.mboyz.holidayplanner.holiday.Comment
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayService
 import org.mboyz.holidayplanner.holiday.participation.Participation
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 
@@ -21,7 +21,7 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
     fun shouldAddParticipationAndUpdateRelatedEntities() {
         val originalHoliday = testee.save(Holiday())!!
         val fbId = "someFbId"
-        val originalUser = userService.save(User(fbId = fbId))
+        val originalUser = userService.save(UserEntity(fbId = fbId))
 
         val participation: Participation = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
 
@@ -36,7 +36,7 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
     fun shouldNotAddParticipationIfAlreadyExists() {
         val originalHoliday = testee.save(Holiday())!!
         val fbId = "someFbId"
-        val originalUser = userService.save(User(fbId = fbId))
+        val originalUser = userService.save(UserEntity(fbId = fbId))
         val participation: Participation = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
         testee.registerParticipation(originalHoliday.id, fbId).participations.first()
 
@@ -51,7 +51,7 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
     fun shouldRemoveParticipation() {
         val originalHoliday = testee.save(Holiday())!!
         val fbId = "someFbId"
-        val originalUser = userService.save(User(fbId = fbId))
+        val originalUser = userService.save(UserEntity(fbId = fbId))
         testee.registerParticipation(originalHoliday.id, fbId).participations.first()
 
         testee.removeParticipation(originalHoliday.id, fbId)
@@ -67,7 +67,7 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
     fun shouldAddCommentAndUpdateRelatedEntities() {
         val originalHoliday = testee.save(Holiday())!!
         val fbId = "someFbId"
-        val originalUser = userService.save(User(fbId = fbId))
+        val originalUser = userService.save(UserEntity(fbId = fbId))
 
         val commentToAdd = "someComment"
 
@@ -83,7 +83,7 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
     @Test
     fun shouldSoftDelete() {
         val someHoliday = testee.save(Holiday())!!
-        val someUser = userService.save(User(fbId = "someFbId"))
+        val someUser = userService.save(UserEntity(fbId = "someFbId"))
 
         testee.softDelete(someHoliday.id, someUser.fbId)
 

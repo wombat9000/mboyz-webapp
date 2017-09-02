@@ -6,6 +6,6 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 @Transactional
-interface UserRepository: JpaRepository<User, Long> {
-    fun findByFbId(fbId: String): User?
+interface UserRepository: JpaRepository<UserEntity, Long> {
+    fun findByFbId(fbId: String): UserEntity?
 }

@@ -1,7 +1,7 @@
 package org.mboyz.holidayplanner.holiday.participation
 
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import javax.persistence.*
 
 @Entity
@@ -16,7 +16,7 @@ constructor(
         var holiday: Holiday? = Holiday(),
 
         @ManyToOne() @JoinColumn(name = "user_id")
-        var user: User? = User()) {
+        var user: UserEntity? = UserEntity()) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -15,7 +15,7 @@ class UserPagesController
 constructor(val userService: UserService) {
 
     @ModelAttribute(name = "allUsers")
-    fun allUsers(): List<User> {
+    fun allUsers(): List<UserEntity> {
         return userService.findAll().toList()
     }
 

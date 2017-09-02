@@ -3,7 +3,7 @@ import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Test
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import org.mboyz.holidayplanner.user.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -17,7 +17,7 @@ class UserPersistenceTest: AbstractSpringTest() {
 
     @Test
     fun shouldFindByFbId() {
-        userRepo.save(User(fbId = "someFbID"))
+        userRepo.save(UserEntity(fbId = "someFbID"))
 
         val result = userRepo.findByFbId("someFbID")!!
 

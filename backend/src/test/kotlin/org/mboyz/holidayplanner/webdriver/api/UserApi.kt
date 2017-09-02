@@ -7,7 +7,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.mboyz.holidayplanner.web.Auth0Wrapper
 import org.mockito.BDDMockito.given
@@ -31,7 +31,7 @@ class UserApi(val webDriver: WebDriver,
         return this
     }
 
-    fun loginAs(user: User): UserApi {
+    fun loginAs(user: UserEntity): UserApi {
         given(auth0WrapperMock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
         given(auth0WrapperMock.handle(any())).willReturn(Tokens("someAccessToken", user.provideSignedToken(),"", "bearer", 9000))
         given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
@@ -79,7 +79,7 @@ class UserApi(val webDriver: WebDriver,
         return this
     }
 
-    private fun User.getUserInfo(): MutableMap<String, Any> {
+    private fun UserEntity.getUserInfo(): MutableMap<String, Any> {
         val userInfo = mutableMapOf<String, Any>()
         userInfo.put("given_name", this.givenName)
         userInfo.put("family_name", this.familyName)
@@ -87,7 +87,7 @@ class UserApi(val webDriver: WebDriver,
         return userInfo
     }
 
-    private fun User.provideSignedToken(): String {
+    private fun UserEntity.provideSignedToken(): String {
         return JWT.create()
                 .withSubject("facebook|${this.fbId}")
                 .withAudience("someAudience")

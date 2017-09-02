@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import org.junit.Before
 import org.junit.Test
 import org.mboyz.holidayplanner.any
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import org.mboyz.holidayplanner.user.UserService
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
@@ -51,7 +51,7 @@ class AuthControllerTest {
         val accessToken = "someAccessToken"
         val token = Tokens(accessToken, generateToken(), "", "", 60L)
         given(auth0Mock.handle(any())).willReturn(token)
-        given(userServiceMock.createOrUpdate("someSubject", accessToken)).willReturn(User())
+        given(userServiceMock.createOrUpdate("someSubject", accessToken)).willReturn(UserEntity())
 
         mockMvc.perform(MockMvcRequestBuilders.get("/callback"))
                 .andExpect(MockMvcResultMatchers.redirectedUrl(home))

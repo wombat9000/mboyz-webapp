@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "\"user\"")
-data class User
+data class UserEntity
 @JvmOverloads
 constructor(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

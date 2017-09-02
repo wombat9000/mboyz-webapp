@@ -13,13 +13,13 @@ open class UserService
 @Autowired
 constructor(val userRepository: UserRepository, val auth0Client: Auth0Client) {
 
-    fun createOrUpdate(fbId: String, accessToken: String): User? {
+    fun createOrUpdate(fbId: String, accessToken: String): UserEntity? {
         return userRepository.findByFbId(fbId) ?: createNewUserWithFieldsFromAuth0(fbId, accessToken)
     }
 
-    private fun createNewUserWithFieldsFromAuth0(fbId: String, accessToken: String): User? {
+    private fun createNewUserWithFieldsFromAuth0(fbId: String, accessToken: String): UserEntity? {
         val userInfo = auth0Client.getUserInfo(accessToken)
-        val userToCreate = User(
+        val userToCreate = UserEntity(
                 fbId = fbId,
                 givenName = userInfo["given_name"] as String,
                 familyName = userInfo["family_name"] as String,
@@ -28,29 +28,29 @@ constructor(val userRepository: UserRepository, val auth0Client: Auth0Client) {
         return userRepository.save(userToCreate)
     }
 
-    fun findAll(): Iterable<User> {
+    fun findAll(): Iterable<UserEntity> {
         return userRepository.findAll()
     }
 
-    fun findOne(id: Long): User? {
+    fun findOne(id: Long): UserEntity? {
         return userRepository.findOne(id)
     }
 
     fun deleteAll() {
-        userRepository.findAll().forEach(User::clearParticipations)
+        userRepository.findAll().forEach(UserEntity::clearParticipations)
         userRepository.deleteAll()
     }
 
-    fun save(user: User): User {
+    fun save(user: UserEntity): UserEntity {
         return userRepository.save(user)!!
     }
 
-    fun findByFbId(fbId: String): User? {
+    fun findByFbId(fbId: String): UserEntity? {
         return userRepository.findByFbId(fbId)
     }
 }
 
-private fun User.clearParticipations() {
+private fun UserEntity.clearParticipations() {
     this.participations.forEach(Participation::removeReferenceToUser)
     this.participations.clear()
 }

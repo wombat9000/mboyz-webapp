@@ -1,6 +1,6 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -17,7 +17,7 @@ constructor(
         @ManyToOne @JoinColumn(name = "holiday_id")
         var holiday: Holiday? = Holiday(),
         @ManyToOne @JoinColumn(name = "user_id")
-        var user: User? = User(),
+        var user: UserEntity? = UserEntity(),
         var text: String? = "",
         var created: LocalDateTime = LocalDateTime.now(ZoneId.of(EUROPEAN_CENTRAL_TIME))) {
     companion object {

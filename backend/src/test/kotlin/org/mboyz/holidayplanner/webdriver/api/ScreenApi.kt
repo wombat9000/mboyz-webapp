@@ -5,7 +5,7 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertTrue
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -51,7 +51,7 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun showsUsers(vararg users: User): ScreenApi {
+    fun showsUsers(vararg users: UserEntity): ScreenApi {
         val userRows: MutableList<WebElement> = webDriver.findElements(By.cssSelector("tbody tr"))
 
         val namesDisplayed: List<String> = userRows.map { it.findElement(By.tagName("a")).text }

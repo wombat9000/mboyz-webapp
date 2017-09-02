@@ -1,7 +1,7 @@
 package org.mboyz.holidayplanner.holiday
 
 import org.mboyz.holidayplanner.holiday.participation.Participation
-import org.mboyz.holidayplanner.user.User
+import org.mboyz.holidayplanner.user.UserEntity
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -22,7 +22,7 @@ constructor(
         @Column(name = "deleted_at")
         var deletedDate: LocalDateTime? = null,
         @ManyToOne @JoinColumn(name = "deleting_user_id")
-        var deletingUser: User? = null,
+        var deletingUser: UserEntity? = null,
 
         @OneToMany(mappedBy = "holiday", fetch = FetchType.EAGER,
                 cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
@@ -41,7 +41,7 @@ constructor(
         return deletedDate == null
     }
 
-    fun removeParticipation(user: User) {
+    fun removeParticipation(user: UserEntity) {
         participations.removeIf { p -> p.user == user }
     }
 
