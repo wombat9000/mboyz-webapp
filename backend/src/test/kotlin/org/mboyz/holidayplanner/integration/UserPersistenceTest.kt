@@ -7,23 +7,26 @@ import org.mboyz.holidayplanner.user.User
 import org.mboyz.holidayplanner.user.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 
+// TODO: Make use of this annotation for faster tests?
+//@DataJpaTest
 class UserPersistenceTest: AbstractSpringTest() {
+// TODO: figure out how to write meaningful persistence tests
 
     @Autowired
-    lateinit var testee: UserRepository
+    lateinit var userRepo: UserRepository
 
     @Test
     fun shouldFindByFbId() {
-        testee.save(User(fbId = "someFbID"))
+        userRepo.save(User(fbId = "someFbID"))
 
-        val result = testee.findByFbId("someFbID")!!
+        val result = userRepo.findByFbId("someFbID")!!
 
         assertThat(result.fbId, `is`("someFbID"))
     }
 
     @Test
     fun shouldReturnNullIfCantFindFbId() {
-        val result = testee.findByFbId("someFbID")
+        val result = userRepo.findByFbId("someFbID")
         assertThat(result, `is`(nullValue()))
     }
 }

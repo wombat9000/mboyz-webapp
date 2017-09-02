@@ -15,6 +15,13 @@ constructor(
         var id: Long = 0,
         @Column(name = "fb_id")
         var fbId: String = "",
+
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(
+                name = "user_role",
+                joinColumns = arrayOf(JoinColumn(name = "user_id", referencedColumnName = "user_id")),
+                inverseJoinColumns = arrayOf(JoinColumn(name = "role_id", referencedColumnName = "role_id")))
+        var roles: MutableSet<Role> = mutableSetOf(),
         @Column(name = "given_name")
         var givenName: String = "",
         @Column(name = "family_name")
