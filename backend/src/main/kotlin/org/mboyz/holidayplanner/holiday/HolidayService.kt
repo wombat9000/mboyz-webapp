@@ -1,9 +1,7 @@
 package org.mboyz.holidayplanner.holiday
 
 import org.mboyz.holidayplanner.holiday.participation.Participation
-import org.mboyz.holidayplanner.user.UserRepository
-import org.mboyz.holidayplanner.holiday.Comment
-import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

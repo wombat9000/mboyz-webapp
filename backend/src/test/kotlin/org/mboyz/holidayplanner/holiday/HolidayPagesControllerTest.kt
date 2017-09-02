@@ -6,7 +6,7 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Before
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.participation.Participation
-import org.mboyz.holidayplanner.user.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.user.UserService
 import org.mboyz.holidayplanner.web.TokenAuthentication
 import org.mockito.BDDMockito.*

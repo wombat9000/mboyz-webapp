@@ -8,7 +8,7 @@ import org.mboyz.holidayplanner.holiday.Comment
 import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.holiday.HolidayService
 import org.mboyz.holidayplanner.holiday.participation.Participation
-import org.mboyz.holidayplanner.user.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 

@@ -1,7 +1,7 @@
 package org.mboyz.holidayplanner.holiday.participation
 
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.user.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserEntity
 import javax.persistence.*
 
 @Entity

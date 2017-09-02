@@ -1,6 +1,8 @@
 package org.mboyz.holidayplanner.user
 
 import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.user.persistence.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -9,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 @Transactional
-open class UserService
+class UserService
 @Autowired
 constructor(val userRepository: UserRepository, val auth0Client: Auth0Client) {
 

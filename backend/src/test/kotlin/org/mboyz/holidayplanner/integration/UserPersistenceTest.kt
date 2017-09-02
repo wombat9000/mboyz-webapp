@@ -3,8 +3,8 @@ import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Test
-import org.mboyz.holidayplanner.user.UserEntity
-import org.mboyz.holidayplanner.user.UserRepository
+import org.mboyz.holidayplanner.user.persistence.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 
 // TODO: Make use of this annotation for faster tests?

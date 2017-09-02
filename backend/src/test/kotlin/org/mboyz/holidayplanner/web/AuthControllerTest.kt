@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import org.junit.Before
 import org.junit.Test
 import org.mboyz.holidayplanner.any
-import org.mboyz.holidayplanner.user.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.user.UserService
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify

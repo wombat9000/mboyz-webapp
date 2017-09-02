@@ -2,7 +2,7 @@ package org.mboyz.holidayplanner.webdriver
 
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.user.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserEntity
 import java.time.LocalDate
 
 class SimpleUserJourney : AbstractWebdriverTest(){

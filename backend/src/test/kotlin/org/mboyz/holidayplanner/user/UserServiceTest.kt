@@ -4,6 +4,8 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
+import org.mboyz.holidayplanner.user.persistence.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify

@@ -1,11 +1,10 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.holiday.*
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.mboyz.holidayplanner.user.UserRepository
+import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.mockito.BDDMockito.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks

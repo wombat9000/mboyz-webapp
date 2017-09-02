@@ -1,4 +1,4 @@
-package org.mboyz.holidayplanner.user
+package org.mboyz.holidayplanner.user.persistence
 
 import org.mboyz.holidayplanner.holiday.Comment
 import org.mboyz.holidayplanner.holiday.Holiday
@@ -21,7 +21,7 @@ constructor(
                 name = "user_role",
                 joinColumns = arrayOf(JoinColumn(name = "user_id", referencedColumnName = "user_id")),
                 inverseJoinColumns = arrayOf(JoinColumn(name = "role_id", referencedColumnName = "role_id")))
-        var roles: MutableSet<Role> = mutableSetOf(),
+        var roles: MutableSet<RoleEntity> = mutableSetOf(),
         @Column(name = "given_name")
         var givenName: String = "",
         @Column(name = "family_name")

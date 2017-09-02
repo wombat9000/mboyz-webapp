@@ -1,9 +1,10 @@
-package org.mboyz.holidayplanner.user
+package org.mboyz.holidayplanner.user.persistence
 
 import javax.persistence.*
 
 @Entity
-data class Role
+@Table(name = "role")
+data class RoleEntity
 @JvmOverloads
 constructor(
         @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,18 +19,18 @@ constructor(
                 name = "role_privilege",
                 joinColumns = arrayOf(JoinColumn(name = "role_id", referencedColumnName = "role_id")),
                 inverseJoinColumns = arrayOf(JoinColumn(name = "privilege_id", referencedColumnName = "privilege_id")))
-        var privileges: MutableSet<Privilege> = mutableSetOf()
+        var privileges: MutableSet<PrivilegeEntity> = mutableSetOf()
 
 ) {
     override fun toString(): String {
-        return "Role(name='$name')"
+        return "RoleEntity(name='$name')"
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Role
+        other as RoleEntity
 
         if (name != other.name) return false
 

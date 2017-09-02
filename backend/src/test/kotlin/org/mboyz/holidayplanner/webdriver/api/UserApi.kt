@@ -7,7 +7,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.user.UserEntity
+import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.mboyz.holidayplanner.web.Auth0Wrapper
 import org.mockito.BDDMockito.given
