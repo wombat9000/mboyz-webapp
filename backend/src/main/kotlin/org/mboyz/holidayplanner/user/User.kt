@@ -28,6 +28,7 @@ constructor(
         @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
                 cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
         var comments: MutableSet<Comment> = mutableSetOf()) {
+
     fun removeParticipation(holiday: Holiday) {
         participations.removeIf { p -> p.holiday == holiday }
     }

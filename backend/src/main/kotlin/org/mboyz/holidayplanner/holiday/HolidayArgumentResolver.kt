@@ -1,6 +1,5 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.holiday.Holiday
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.MethodParameter
 import org.springframework.web.bind.support.WebDataBinderFactory

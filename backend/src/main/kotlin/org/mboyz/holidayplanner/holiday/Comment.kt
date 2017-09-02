@@ -16,7 +16,7 @@ constructor(
         var id: Long = 0L,
         @ManyToOne @JoinColumn(name = "holiday_id")
         var holiday: Holiday? = Holiday(),
-        @ManyToOne() @JoinColumn(name = "user_id")
+        @ManyToOne @JoinColumn(name = "user_id")
         var user: User? = User(),
         var text: String? = "",
         var created: LocalDateTime = LocalDateTime.now(ZoneId.of(EUROPEAN_CENTRAL_TIME))) {

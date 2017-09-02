@@ -21,7 +21,7 @@ constructor(
         var endDate: LocalDate? = null,
         @Column(name = "deleted_at")
         var deletedDate: LocalDateTime? = null,
-        @ManyToOne() @JoinColumn(name = "deleting_user_id")
+        @ManyToOne @JoinColumn(name = "deleting_user_id")
         var deletingUser: User? = null,
 
         @OneToMany(mappedBy = "holiday", fetch = FetchType.EAGER,
@@ -31,6 +31,7 @@ constructor(
         @OneToMany(mappedBy = "holiday", fetch = FetchType.EAGER,
                 cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
         var comments: MutableList<Comment> = mutableListOf()) {
+
     // used in holiday detail template
     fun commentsSorted() {
         return comments.sortBy { x -> x.created }
