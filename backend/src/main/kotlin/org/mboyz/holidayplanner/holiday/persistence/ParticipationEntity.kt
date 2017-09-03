@@ -1,11 +1,11 @@
-package org.mboyz.holidayplanner.holiday.participation
+package org.mboyz.holidayplanner.holiday.persistence
 
-import org.mboyz.holidayplanner.holiday.Holiday
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import javax.persistence.*
 
 @Entity
-data class Participation
+@Table(name = "participation")
+data class ParticipationEntity
 @JvmOverloads
 constructor(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +13,7 @@ constructor(
         var id: Long = 0L,
 
         @ManyToOne @JoinColumn(name = "holiday_id")
-        var holiday: Holiday? = Holiday(),
+        var holiday: HolidayEntity? = HolidayEntity(),
 
         @ManyToOne() @JoinColumn(name = "user_id")
         var user: UserEntity? = UserEntity()) {
@@ -22,7 +22,7 @@ constructor(
         if (this === other) return true
         if (other?.javaClass != javaClass) return false
 
-        other as Participation
+        other as ParticipationEntity
 
         if (id != other.id) return false
         if ((holiday != null && other.holiday != null) && holiday!!.id != other.holiday!!.id) return false

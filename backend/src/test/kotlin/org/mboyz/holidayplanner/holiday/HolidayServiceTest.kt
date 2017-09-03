@@ -4,6 +4,8 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
+import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
 import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.mockito.BDDMockito.*
 import org.mockito.Mock
@@ -28,7 +30,7 @@ class HolidayServiceTest {
 
     @Test
     fun shouldFindAll() {
-        val someHoliday = Holiday()
+        val someHoliday = HolidayEntity()
         given(holidayRepository.findAll()).willReturn(listOf(someHoliday))
 
         val result = testee.findAll()
@@ -38,7 +40,7 @@ class HolidayServiceTest {
 
     @Test
     fun shouldFindSingle() {
-        val someHoliday = Holiday()
+        val someHoliday = HolidayEntity()
         val someId: Long = 1
         given(holidayRepository.findOne(someId)).willReturn(someHoliday)
 
@@ -60,7 +62,7 @@ class HolidayServiceTest {
 
     @Test
     fun shouldSaveHoliday() {
-        val someHoliday = Holiday(1, "someName", "someLocation")
+        val someHoliday = HolidayEntity(1, "someName", "someLocation")
         given(holidayRepository.save(someHoliday)).willReturn(someHoliday)
 
         val result = testee.save(someHoliday)
@@ -70,7 +72,7 @@ class HolidayServiceTest {
 
     @Test(expected = InvalidDateRangeException::class)
     fun shouldThrowExceptionIfHolidayHasInvalidDates() {
-        val holidayWithInvalidDates = Holiday(
+        val holidayWithInvalidDates = HolidayEntity(
                 name = "someName",
                 location = "someLocation",
                 startDate = LocalDate.parse("1990-12-02"),
@@ -89,7 +91,7 @@ class HolidayServiceTest {
 //        val someUserId = 1337L
 //        val someUser: UserEntity = UserEntity(someUserId)
 //        val someHolidayId = 1L
-//        val someHoliday: Holiday = Holiday(someHolidayId)
+//        val someHoliday: HolidayEntity = HolidayEntity(someHolidayId)
 //
 //        given(holidayService.findOne(someHolidayId)).willReturn(someHoliday)
 //
@@ -106,7 +108,7 @@ class HolidayServiceTest {
 //        val someUser: UserEntity = UserEntity(signUpUserId)
 //        val someHolidayId = 1L
 //        val alreadySignedUpId = 2L
-//        val someHolidayWithOtherParticipant: Holiday = Holiday(
+//        val someHolidayWithOtherParticipant: HolidayEntity = HolidayEntity(
 //                id = someHolidayId,
 //                users = listOf(alreadySignedUpId))
 //
@@ -125,7 +127,7 @@ class HolidayServiceTest {
 //        val someUser: UserEntity = UserEntity(signUpUserId)
 //        val someHolidayId = 1L
 //        val alreadySignedUpId = 1337L
-//        val someHolidayWithOtherParticipant: Holiday = Holiday(
+//        val someHolidayWithOtherParticipant: HolidayEntity = HolidayEntity(
 //                id = someHolidayId,
 //                users = listOf(alreadySignedUpId))
 //

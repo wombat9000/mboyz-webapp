@@ -4,7 +4,7 @@ import org.flywaydb.core.Flyway
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
-import org.mboyz.holidayplanner.holiday.participation.ParticipationRepository
+import org.mboyz.holidayplanner.holiday.persistence.ParticipationRepository
 import org.mboyz.holidayplanner.holiday.HolidayService
 import org.mboyz.holidayplanner.user.UserService
 import org.springframework.beans.factory.annotation.Autowired

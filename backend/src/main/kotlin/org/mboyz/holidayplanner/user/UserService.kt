@@ -1,6 +1,6 @@
 package org.mboyz.holidayplanner.user
 
-import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.mboyz.holidayplanner.web.Auth0Client
@@ -53,10 +53,10 @@ constructor(val userRepository: UserRepository, val auth0Client: Auth0Client) {
 }
 
 private fun UserEntity.clearParticipations() {
-    this.participations.forEach(Participation::removeReferenceToUser)
+    this.participations.forEach(ParticipationEntity::removeReferenceToUser)
     this.participations.clear()
 }
 
-private fun Participation.removeReferenceToUser() {
+private fun ParticipationEntity.removeReferenceToUser() {
     this.user = null
 }

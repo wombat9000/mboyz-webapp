@@ -1,8 +1,8 @@
 package org.mboyz.holidayplanner.user.persistence
 
-import org.mboyz.holidayplanner.holiday.Comment
-import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.holiday.persistence.CommentEntity
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
+import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
 import javax.persistence.*
 
 @Entity
@@ -30,22 +30,22 @@ constructor(
         var imageUrl: String = "",
         @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
                 cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
-        var participations: MutableSet<Participation> = mutableSetOf(),
+        var participations: MutableSet<ParticipationEntity> = mutableSetOf(),
 
         @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
                 cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
-        var comments: MutableSet<Comment> = mutableSetOf()) {
+        var comments: MutableSet<CommentEntity> = mutableSetOf()) {
 
-    fun removeParticipation(holiday: Holiday) {
+    fun removeParticipation(holiday: HolidayEntity) {
         participations.removeIf { p -> p.holiday == holiday }
     }
 
-    fun addParticipation(participation: Participation) {
+    fun addParticipation(participation: ParticipationEntity) {
         if (participations.any { it.holiday == participation.holiday }) return
         participations.add(participation)
     }
 
-    fun addComment(comment: Comment) {
+    fun addComment(comment: CommentEntity) {
         comments.add(comment)
     }
 }

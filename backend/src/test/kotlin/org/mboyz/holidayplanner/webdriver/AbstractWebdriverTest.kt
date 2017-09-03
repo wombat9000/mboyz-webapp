@@ -4,7 +4,7 @@ import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
-import org.mboyz.holidayplanner.holiday.HolidayRepository
+import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
 import org.mboyz.holidayplanner.integration.AbstractSpringTest
 import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.mboyz.holidayplanner.web.Auth0Client

@@ -8,8 +8,8 @@
 <div class="container">
     <h2>Neuen Urlaub anlegen:</h2>
 
-    <!--/*@thymesVar id="holiday" type="Holiday"*/-->
-    <form action="#" th:action="@{/holiday/create}" th:object="${holiday}" method="post">
+    <!--/*@thymesVar id="holidayEntity" type="org.mboyz.holidayplanner.holiday.persistence.HolidayEntity"*/-->
+    <form action="#" th:action="@{/holiday/create}" th:object="${holidayEntity}" method="post">
         <label>
             Name:
             <input th:field="*{name}"/>

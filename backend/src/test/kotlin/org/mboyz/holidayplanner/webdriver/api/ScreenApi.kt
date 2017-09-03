@@ -4,7 +4,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertTrue
-import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -29,7 +29,7 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun showsHolidays(vararg holidays: Holiday): ScreenApi {
+    fun showsHolidays(vararg holidays: HolidayEntity): ScreenApi {
         val cards: MutableList<WebElement> = webDriver.findElements(By.cssSelector("div.card"))
 
         holidays.forEach { it -> it assertIsIncludedIn cards }
@@ -42,7 +42,7 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun showsPageForHoliday(holiday: Holiday): ScreenApi {
+    fun showsPageForHoliday(holiday: HolidayEntity): ScreenApi {
         val pageHeading = webDriver.findElement(By.tagName("h2")).text
         val location = webDriver.findElements(By.cssSelector("div.holiday_details ul li"))[0].text
 
@@ -62,7 +62,7 @@ class ScreenApi(val webDriver: WebDriver) {
         return this
     }
 
-    fun doesNotShowHoliday(holiday: Holiday): ScreenApi {
+    fun doesNotShowHoliday(holiday: HolidayEntity): ScreenApi {
         val cards: MutableList<WebElement> = webDriver.findElements(By.cssSelector("div.card"))
 
         holiday assertIsNotIncludedIn cards
@@ -70,7 +70,7 @@ class ScreenApi(val webDriver: WebDriver) {
     }
 }
 
-private infix fun Holiday.assertIsIncludedIn(cards: MutableList<WebElement>) {
+private infix fun HolidayEntity.assertIsIncludedIn(cards: MutableList<WebElement>) {
     val cardHeadings = cards
             .map { it.findElement(By.tagName("h4")).text }
             .any { it == this.name }
@@ -78,7 +78,7 @@ private infix fun Holiday.assertIsIncludedIn(cards: MutableList<WebElement>) {
     assertThat("rows contain $this", cardHeadings, `is`(true))
 }
 
-private infix fun Holiday.assertIsNotIncludedIn(cards: MutableList<WebElement>) {
+private infix fun HolidayEntity.assertIsNotIncludedIn(cards: MutableList<WebElement>) {
     val cardHeadings = cards
             .map { it.findElement(By.tagName("h4")).text }
             .none { it == this.name }

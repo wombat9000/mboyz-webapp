@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner.holiday
 
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +18,7 @@ class HolidayPagesController
 constructor(val holidayService: HolidayService, val userService: UserService) {
 
     @ModelAttribute(name = "allHolidays")
-    fun allHolidays(): List<Holiday> {
+    fun allHolidays(): List<HolidayEntity> {
         return holidayService.findAll()
                 .filter { it.notDeleted() }
                 .toList()
@@ -45,13 +46,13 @@ constructor(val holidayService: HolidayService, val userService: UserService) {
 
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.GET))
     fun create(model: Model): String {
-        model.addAttribute(Holiday())
+        model.addAttribute(HolidayEntity())
         return "holiday/form"
     }
 
     @ResponseStatus(HttpStatus.FOUND)
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST))
-    fun save(holiday: Holiday): String {
+    fun save(holiday: HolidayEntity): String {
         val savedHoliday = holidayService.save(holiday)
         return "redirect:/holiday/${savedHoliday!!.id}"
     }

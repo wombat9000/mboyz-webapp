@@ -1,7 +1,7 @@
 package org.mboyz.holidayplanner.webdriver.api
 
-import org.mboyz.holidayplanner.holiday.Holiday
-import org.mboyz.holidayplanner.holiday.HolidayRepository
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
+import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
 import org.mboyz.holidayplanner.user.persistence.UserRepository
 
 class AppApi (val holidayRepository: HolidayRepository, val userRepository: UserRepository){
@@ -10,7 +10,7 @@ class AppApi (val holidayRepository: HolidayRepository, val userRepository: User
         return this
     }
 
-    fun createHoliday(holiday: Holiday): AppApi {
+    fun createHoliday(holiday: HolidayEntity): AppApi {
         holidayRepository.save(holiday)
         return this
     }

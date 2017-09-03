@@ -4,10 +4,10 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.mboyz.holidayplanner.holiday.Comment
-import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.holiday.persistence.CommentEntity
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.holiday.HolidayService
-import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -19,11 +19,11 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
     @Test
     fun shouldAddParticipationAndUpdateRelatedEntities() {
-        val originalHoliday = testee.save(Holiday())!!
+        val originalHoliday = testee.save(HolidayEntity())!!
         val fbId = "someFbId"
         val originalUser = userService.save(UserEntity(fbId = fbId))
 
-        val participation: Participation = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
+        val participation: ParticipationEntity = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
 
         val participatingUser = userService.findOne(originalUser.id)!!
         val participatedHoliday = testee.findOne(originalHoliday.id)
@@ -34,10 +34,10 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
     @Test
     fun shouldNotAddParticipationIfAlreadyExists() {
-        val originalHoliday = testee.save(Holiday())!!
+        val originalHoliday = testee.save(HolidayEntity())!!
         val fbId = "someFbId"
         val originalUser = userService.save(UserEntity(fbId = fbId))
-        val participation: Participation = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
+        val participation: ParticipationEntity = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
         testee.registerParticipation(originalHoliday.id, fbId).participations.first()
 
         val participatingUser = userService.findOne(originalUser.id)!!
@@ -49,7 +49,7 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
     @Test
     fun shouldRemoveParticipation() {
-        val originalHoliday = testee.save(Holiday())!!
+        val originalHoliday = testee.save(HolidayEntity())!!
         val fbId = "someFbId"
         val originalUser = userService.save(UserEntity(fbId = fbId))
         testee.registerParticipation(originalHoliday.id, fbId).participations.first()
@@ -65,13 +65,13 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
     @Test
     fun shouldAddCommentAndUpdateRelatedEntities() {
-        val originalHoliday = testee.save(Holiday())!!
+        val originalHoliday = testee.save(HolidayEntity())!!
         val fbId = "someFbId"
         val originalUser = userService.save(UserEntity(fbId = fbId))
 
         val commentToAdd = "someComment"
 
-        val comment: Comment = testee.addComment(originalHoliday.id, fbId, commentToAdd).comments.first()
+        val comment: CommentEntity = testee.addComment(originalHoliday.id, fbId, commentToAdd).comments.first()
 
         val author = userService.findOne(originalUser.id)!!
         val subject = testee.findOne(originalHoliday.id)
@@ -82,7 +82,7 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
     @Test
     fun shouldSoftDelete() {
-        val someHoliday = testee.save(Holiday())!!
+        val someHoliday = testee.save(HolidayEntity())!!
         val someUser = userService.save(UserEntity(fbId = "someFbId"))
 
         testee.softDelete(someHoliday.id, someUser.fbId)

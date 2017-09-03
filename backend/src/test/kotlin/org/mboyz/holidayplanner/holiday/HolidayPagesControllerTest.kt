@@ -5,7 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Before
 import org.junit.Test
-import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
+import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.user.UserService
 import org.mboyz.holidayplanner.web.TokenAuthentication
@@ -44,7 +45,7 @@ class HolidayPagesControllerTest {
 
     @Test
     fun shouldProvideIndexView() {
-        val expectedHolidays = listOf(Holiday(0L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03")))
+        val expectedHolidays = listOf(HolidayEntity(0L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03")))
         given(holidayService.findAll()).willReturn(expectedHolidays)
 
         mockMvc.perform(get("/holiday"))
@@ -55,7 +56,7 @@ class HolidayPagesControllerTest {
 
     @Test
     fun shouldProvideDetailView() {
-        val expectedHoliday = Holiday(1L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03"))
+        val expectedHoliday = HolidayEntity(1L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03"))
         given(holidayService.findOne(1)).willReturn(expectedHoliday)
 
         mockMvc.perform(get("/holiday/1").principal(withTokenAuth))
@@ -69,9 +70,9 @@ class HolidayPagesControllerTest {
 
     @Test
     fun shouldProvideDetailViewAndIndicateUserIsParticipating() {
-        val expectedHoliday = Holiday(1L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03"))
+        val expectedHoliday = HolidayEntity(1L, "someName", "someLocation", LocalDate.parse("1990-12-02"), LocalDate.parse("2100-12-03"))
         given(holidayService.findOne(1)).willReturn(expectedHoliday)
-        given(userService.findByFbId("someFbId")).willReturn(UserEntity(participations = mutableSetOf(Participation(holiday = expectedHoliday))))
+        given(userService.findByFbId("someFbId")).willReturn(UserEntity(participations = mutableSetOf(ParticipationEntity(holiday = expectedHoliday))))
 
         mockMvc.perform(get("/holiday/1").principal(withTokenAuth))
                 .andExpect(view().name("holiday/detail"))
@@ -86,14 +87,14 @@ class HolidayPagesControllerTest {
     fun shouldHandleCreateHoliday() {
         mockMvc.perform(get("/holiday/create"))
                 .andExpect(view().name("holiday/form"))
-                .andExpect(model().attribute("holiday", instanceOf<Holiday>(Holiday::class.java)))
+                .andExpect(model().attribute("holidayEntity", instanceOf<HolidayEntity>(HolidayEntity::class.java)))
                 .andExpect(status().isOk)
     }
 
     @Test
     fun shouldHandleSaveHoliday() {
-        val someHoliday = Holiday(name = "someName", location = "someLocation")
-        val somePersistedHoliday = Holiday(id = 1, name = "someName", location = "someLocation")
+        val someHoliday = HolidayEntity(name = "someName", location = "someLocation")
+        val somePersistedHoliday = HolidayEntity(id = 1, name = "someName", location = "someLocation")
 
         given(holidayService.save(someHoliday)).willReturn(somePersistedHoliday)
 

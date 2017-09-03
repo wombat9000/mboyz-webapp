@@ -1,6 +1,9 @@
 package org.mboyz.holidayplanner.holiday
 
-import org.mboyz.holidayplanner.holiday.participation.Participation
+import org.mboyz.holidayplanner.holiday.persistence.CommentEntity
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
+import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
+import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
 import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -14,15 +17,15 @@ open class HolidayService
 @Autowired
 constructor(val holidayRepository: HolidayRepository, val userRepository: UserRepository) {
 
-    fun findOne(id: Long): Holiday {
+    fun findOne(id: Long): HolidayEntity {
         return holidayRepository.findOne(id) ?: throw HolidayNotFoundException()
     }
 
-    fun findAll(): Iterable<Holiday> {
+    fun findAll(): Iterable<HolidayEntity> {
         return holidayRepository.findAll()
     }
 
-    fun save(holiday: Holiday): Holiday? {
+    fun save(holiday: HolidayEntity): HolidayEntity? {
         val parsedStartDate: LocalDate? = holiday.startDate
         val parsedEndDate: LocalDate? = holiday.endDate
 
@@ -33,11 +36,11 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
         return holidayRepository.save(holiday)
     }
 
-    fun registerParticipation(holidayId: Long, fbId: String): Holiday {
+    fun registerParticipation(holidayId: Long, fbId: String): HolidayEntity {
         val holiday = this.findOne(holidayId)
         val user = userRepository.findByFbId(fbId)!!
 
-        val participation = Participation(holiday = holiday, user = user)
+        val participation = ParticipationEntity(holiday = holiday, user = user)
         holiday.addParticipation(participation)
         user.addParticipation(participation)
         return holiday
@@ -60,16 +63,16 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
     }
 
     fun deleteAll() {
-        holidayRepository.findAll().forEach(Holiday::clearParticipations)
-        holidayRepository.findAll().forEach(Holiday::clearComments)
+        holidayRepository.findAll().forEach(HolidayEntity::clearParticipations)
+        holidayRepository.findAll().forEach(HolidayEntity::clearComments)
         holidayRepository.deleteAll()
     }
 
-    fun addComment(holidayId: Long, fbId: String, commentBody: String): Holiday {
+    fun addComment(holidayId: Long, fbId: String, commentBody: String): HolidayEntity {
         val holiday = this.findOne(holidayId)
         val user = userRepository.findByFbId(fbId)!!
 
-        val comment = Comment(holiday = holiday, user = user, text = commentBody)
+        val comment = CommentEntity(holiday = holiday, user = user, text = commentBody)
         holiday.addComment(comment)
         user.addComment(comment)
         return holiday
@@ -80,20 +83,20 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
     }
 }
 
-private fun Holiday.clearComments() {
-    this.comments.forEach(Comment::removeReferenceToHoliday)
+private fun HolidayEntity.clearComments() {
+    this.comments.forEach(CommentEntity::removeReferenceToHoliday)
     this.comments.clear() //To change body of created functions use File | Settings | File Templates.
 }
 
-private fun Holiday.clearParticipations() {
-    this.participations.forEach(Participation::removeReferenceToHoliday)
+private fun HolidayEntity.clearParticipations() {
+    this.participations.forEach(ParticipationEntity::removeReferenceToHoliday)
     this.participations.clear()
 }
 
-private fun Participation.removeReferenceToHoliday() {
+private fun ParticipationEntity.removeReferenceToHoliday() {
     this.holiday = null
 }
 
-private fun Comment.removeReferenceToHoliday() {
+private fun CommentEntity.removeReferenceToHoliday() {
     this.holiday = null
 }

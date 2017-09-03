@@ -2,9 +2,9 @@ package org.mboyz.holidayplanner.holiday
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import org.mboyz.holidayplanner.holiday.HolidayService
 import org.junit.Before
 import org.junit.Test
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.web.TokenAuthentication
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
@@ -39,7 +39,7 @@ class HolidayActionsControllerTest {
                 .sign(Algorithm.HMAC256("someSecret"))
         val tokenAuth = TokenAuthentication(JWT.decode(token))
 
-        given(holidayService.registerParticipation(1L, "someFbId")).willReturn(Holiday())
+        given(holidayService.registerParticipation(1L, "someFbId")).willReturn(HolidayEntity())
 
         mockMvc.perform(get("/holiday/1/participate").principal(tokenAuth))
                 .andExpect(view().name("redirect:/holiday/1"))

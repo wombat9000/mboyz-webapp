@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.mboyz.holidayplanner.any
-import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.web.Auth0Client
 import org.mboyz.holidayplanner.web.Auth0Wrapper
@@ -40,7 +40,7 @@ class UserApi(val webDriver: WebDriver,
         return this
     }
 
-    fun createsHoliday(holiday: Holiday): UserApi {
+    fun createsHoliday(holiday: HolidayEntity): UserApi {
         webDriver.findElement(By.name("name")).sendKeys(holiday.name)
         webDriver.findElement(By.name("location")).sendKeys(holiday.location)
         webDriver.findElement(By.name("startDate")).sendKeys(holiday.startDate!!.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"))).toString()

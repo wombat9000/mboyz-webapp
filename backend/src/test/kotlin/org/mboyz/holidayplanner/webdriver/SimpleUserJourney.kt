@@ -1,26 +1,26 @@
 package org.mboyz.holidayplanner.webdriver
 
 import org.junit.Test
-import org.mboyz.holidayplanner.holiday.Holiday
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import java.time.LocalDate
 
 class SimpleUserJourney : AbstractWebdriverTest(){
 
     companion object {
-        val SURF_HOLIDAY = Holiday(
+        val SURF_HOLIDAY = HolidayEntity(
                 name = "Surfurlaub",
                 location = "Frankreich",
                 startDate = LocalDate.parse("2017-05-28"),
                 endDate = LocalDate.parse("2017-05-30"))
 
-        val SKI_HOLIDAY = Holiday(
+        val SKI_HOLIDAY = HolidayEntity(
                 name = "Skiurlaub",
                 location = "Portes du Soleil",
                 startDate = LocalDate.parse("2017-03-28"),
                 endDate = LocalDate.parse("2017-04-05"))
 
-        val HOLIDAY_WITH_INVALID_DATE = Holiday(
+        val HOLIDAY_WITH_INVALID_DATE = HolidayEntity(
                 name = "Some Name",
                 location = "Some Location",
                 startDate = LocalDate.parse("2017-04-05"),

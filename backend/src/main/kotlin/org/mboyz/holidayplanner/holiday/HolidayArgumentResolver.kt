@@ -1,5 +1,6 @@
 package org.mboyz.holidayplanner.holiday
 
+import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.MethodParameter
 import org.springframework.web.bind.support.WebDataBinderFactory
@@ -10,7 +11,7 @@ import java.time.LocalDate
 import javax.servlet.http.HttpServletRequest
 
 @Configuration
-open class HolidayArgumentResolver : HandlerMethodArgumentResolver {
+class HolidayArgumentResolver : HandlerMethodArgumentResolver {
     override fun resolveArgument(parameter: MethodParameter?, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest?, binderFactory: WebDataBinderFactory?): Any {
         val servletRequest: HttpServletRequest = webRequest!!.getNativeRequest(HttpServletRequest::class.java)
 
@@ -20,7 +21,7 @@ open class HolidayArgumentResolver : HandlerMethodArgumentResolver {
         val startDate = servletRequest.getParameter("startDate").toLocalDate()
         val endDate = servletRequest.getParameter("endDate").toLocalDate()
 
-        return Holiday(
+        return HolidayEntity(
                 name = name,
                 location = location,
                 startDate = startDate,
@@ -29,7 +30,7 @@ open class HolidayArgumentResolver : HandlerMethodArgumentResolver {
     }
 
     override fun supportsParameter(parameter: MethodParameter?): Boolean {
-        return parameter!!.parameterType == Holiday::class.java
+        return parameter!!.parameterType == HolidayEntity::class.java
     }
 }
 
