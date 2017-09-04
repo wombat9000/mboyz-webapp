@@ -39,7 +39,7 @@ class HolidayActionsControllerTest {
                 .sign(Algorithm.HMAC256("someSecret"))
         val tokenAuth = TokenAuthentication(JWT.decode(token))
 
-        given(holidayService.registerParticipation(1L, "someFbId")).willReturn(HolidayEntity())
+//        given(holidayService.registerParticipation(1L, "someFbId")).willReturn()
 
         mockMvc.perform(get("/holiday/1/participate").principal(tokenAuth))
                 .andExpect(view().name("redirect:/holiday/1"))

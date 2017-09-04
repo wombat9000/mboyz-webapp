@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 
 @Component
 @Transactional
-open class HolidayService
+class HolidayService
 @Autowired
 constructor(val holidayRepository: HolidayRepository, val userRepository: UserRepository) {
 
@@ -36,14 +36,13 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
         return holidayRepository.save(holiday)
     }
 
-    fun registerParticipation(holidayId: Long, fbId: String): HolidayEntity {
+    fun registerParticipation(holidayId: Long, fbId: String) {
         val holiday = this.findOne(holidayId)
         val user = userRepository.findByFbId(fbId)!!
 
         val participation = ParticipationEntity(holiday = holiday, user = user)
         holiday.addParticipation(participation)
         user.addParticipation(participation)
-        return holiday
     }
 
     fun removeParticipation(holidayId: Long, fbId: String) {

@@ -11,7 +11,6 @@ import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.springframework.beans.factory.annotation.Autowired
 
-
 class HolidayServiceIntegrationTest : AbstractSpringTest() {
 
     @Autowired
@@ -23,13 +22,13 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
         val fbId = "someFbId"
         val originalUser = userService.save(UserEntity(fbId = fbId))
 
-        val participation: ParticipationEntity = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
+        testee.registerParticipation(originalHoliday.id, fbId)
 
         val participatingUser = userService.findOne(originalUser.id)!!
         val participatedHoliday = testee.findOne(originalHoliday.id)
 
-        assertThat(participatingUser.participations, contains(participation))
-        assertThat(participatedHoliday.participations, contains(participation))
+        assertTrue(participatedHoliday.participations.any { it.user!!.id == originalUser.id })
+        assertTrue(participatingUser.participations.any { it.holiday!!.id == originalHoliday.id })
     }
 
     @Test
@@ -37,14 +36,14 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
         val originalHoliday = testee.save(HolidayEntity())!!
         val fbId = "someFbId"
         val originalUser = userService.save(UserEntity(fbId = fbId))
-        val participation: ParticipationEntity = testee.registerParticipation(originalHoliday.id, fbId).participations.first()
-        testee.registerParticipation(originalHoliday.id, fbId).participations.first()
+        testee.registerParticipation(originalHoliday.id, fbId)
+        testee.registerParticipation(originalHoliday.id, fbId)
 
         val participatingUser = userService.findOne(originalUser.id)!!
         val participatedHoliday = testee.findOne(originalHoliday.id)
 
-        assertThat(participatingUser.participations, contains(participation))
-        assertThat(participatedHoliday.participations, contains(participation))
+        assertThat(participatingUser.participations, hasSize(1))
+        assertThat(participatedHoliday.participations, hasSize(1))
     }
 
     @Test
@@ -52,8 +51,8 @@ class HolidayServiceIntegrationTest : AbstractSpringTest() {
         val originalHoliday = testee.save(HolidayEntity())!!
         val fbId = "someFbId"
         val originalUser = userService.save(UserEntity(fbId = fbId))
-        testee.registerParticipation(originalHoliday.id, fbId).participations.first()
 
+        testee.registerParticipation(originalHoliday.id, fbId)
         testee.removeParticipation(originalHoliday.id, fbId)
 
         val participatingUser = userService.findOne(originalUser.id)!!
