@@ -4,6 +4,7 @@ import org.mboyz.holidayplanner.holiday.persistence.CommentEntity
 import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
 import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
+import org.mboyz.holidayplanner.user.UserNotFoundException
 import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -38,7 +39,7 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
 
     fun registerParticipation(holidayId: Long, fbId: String) {
         val holiday = this.findOne(holidayId)
-        val user = userRepository.findByFbId(fbId)!!
+        val user = userRepository.findByFbId(fbId) ?: throw UserNotFoundException()
 
         val participation = ParticipationEntity(holiday = holiday, user = user)
         holiday.addParticipation(participation)
@@ -47,7 +48,7 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
 
     fun removeParticipation(holidayId: Long, fbId: String) {
         val holiday = this.findOne(holidayId)
-        val user = userRepository.findByFbId(fbId)!!
+        val user = userRepository.findByFbId(fbId) ?: throw UserNotFoundException()
 
         holiday.removeParticipation(user)
         user.removeParticipation(holiday)

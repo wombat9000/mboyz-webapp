@@ -4,10 +4,13 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
+import org.mboyz.holidayplanner.user.UserNotFoundException
 import org.mboyz.holidayplanner.user.persistence.UserRepository
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.verifyZeroInteractions
 import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations.initMocks
@@ -123,4 +126,23 @@ class HolidayServiceTest {
 
         verify(holidayRepository).save(holidayWithoutEndDate)
     }
+
+    @Test(expected = UserNotFoundException::class)
+    fun shouldThrowExceptionIfUserNotFoundDuringRegister() {
+        val someHoliday = HolidayEntity()
+        val someId: Long = 1
+        given(holidayRepository.findOne(someId)).willReturn(someHoliday)
+        given(userRepository.findByFbId(any())).willReturn(null)
+        testee.registerParticipation(someId, "someFbId")
+    }
+
+    @Test(expected = UserNotFoundException::class)
+    fun shouldThrowExceptionIfUserNotFoundDuringDeregister() {
+        val someHoliday = HolidayEntity()
+        val someId: Long = 1
+        given(holidayRepository.findOne(someId)).willReturn(someHoliday)
+        given(userRepository.findByFbId(any())).willReturn(null)
+        testee.removeParticipation(someId, "someFbId")
+    }
 }
+
