@@ -7,7 +7,7 @@
 
 <div class="container">
     <a href="/holiday">&#60; zurück zur Übersicht</a>
-    <!--/*@thymesVar id="holiday" type="Holiday"*/-->
+    <!--/*@thymesVar id="holiday" type="org.mboyz.holidayplanner.holiday.persistence.HolidayDetail"*/-->
     <h2 th:text="${holiday.name}"></h2>
     <div class="holiday_details">
         <ul>
@@ -18,9 +18,9 @@
 
         <h3>Teilnehmer:</h3>
         <ul>
-            <li th:each="participation : ${holiday.participations}" >
-                <img th:src="${participation.user.imageUrl}"/>
-                <a th:href="'/user/' + ${participation.user.id}" th:text="${participation.user.givenName}"></a>
+            <li th:each="participant : ${holiday.participants}" >
+                <img th:src="${participant.imageUrl}"/>
+                <a th:href="'/user/' + ${participant.id}" th:text="${participant.name}"></a>
             </li>
         </ul>
 
@@ -30,7 +30,7 @@
 
         <h4>Kommentare:</h4>
 
-        <p th:each="comment : ${holiday.comments}" th:text="'['+ ${comment.createdFormatted()} + '] ' + ${comment.user.givenName} + ': ' + ${comment.text}"></p>
+        <p th:each="comment : ${holiday.comments}" th:text="'['+ ${comment.created} + '] ' + ${comment.author} + ': ' + ${comment.text}"></p>
 
         <!--/*@thymesVar id="holiday" type="Holiday"*/-->
         <form action="#" th:action="'/holiday/' + ${holiday.id} + '/add-comment'" method="post">

@@ -61,7 +61,7 @@ class HolidayPagesControllerTest {
 
         mockMvc.perform(get("/holiday/1").principal(withTokenAuth))
                 .andExpect(view().name("holiday/detail"))
-                .andExpect(model().attribute("holiday", expectedHoliday))
+                .andExpect(model().attribute("holiday", expectedHoliday.asHolidayDetail()))
                 .andExpect(model().attribute("isParticipating", false))
                 .andExpect(status().isOk)
 
@@ -76,7 +76,7 @@ class HolidayPagesControllerTest {
 
         mockMvc.perform(get("/holiday/1").principal(withTokenAuth))
                 .andExpect(view().name("holiday/detail"))
-                .andExpect(model().attribute("holiday", expectedHoliday))
+                .andExpect(model().attribute("holiday", expectedHoliday.asHolidayDetail()))
                 .andExpect(model().attribute("isParticipating", true))
                 .andExpect(status().isOk)
 

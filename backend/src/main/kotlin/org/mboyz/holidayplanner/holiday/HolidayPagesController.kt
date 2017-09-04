@@ -31,7 +31,7 @@ constructor(val holidayService: HolidayService, val userService: UserService) {
 
     @RequestMapping(value = "/{id}", method = arrayOf(RequestMethod.GET))
     fun detail(@PathVariable id: Long, principal: Principal): ModelAndView {
-        val holiday = holidayService.findOne(id)
+        val holiday = holidayService.findOne(id).asHolidayDetail()
 
         val modelAndView = ModelAndView("holiday/detail", "holiday", holiday)
         modelAndView.addObject("isParticipating", isParticipating(principal, id))

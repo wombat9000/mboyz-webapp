@@ -53,4 +53,16 @@ constructor(
     fun addComment(comment: CommentEntity) {
         comments.add(comment)
     }
+
+    fun asHolidayDetail(): HolidayDetail {
+        val participants = participations.map { Participant(it.user!!.id, it.user!!.givenName, it.user!!.imageUrl) }.toSet()
+
+        val comments: List<Comment> = comments.map { Comment(it.createdFormatted(), it.text, it.user!!.givenName) }
+
+        return HolidayDetail(id, name, location, startDate, endDate, participants, comments)
+    }
 }
+
+data class HolidayDetail(val id: Long, val name: String, val location: String, val startDate: LocalDate?, val endDate: LocalDate?, val participants: Set<Participant>, val comments: List<Comment>)
+data class Participant(val id: Long, val name: String, val imageUrl: String)
+data class Comment(val created: String, val text: String, val author: String)

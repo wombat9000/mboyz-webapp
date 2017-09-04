@@ -19,7 +19,7 @@ constructor(
         var holiday: HolidayEntity? = HolidayEntity(),
         @ManyToOne @JoinColumn(name = "user_id")
         var user: UserEntity? = UserEntity(),
-        var text: String? = "",
+        var text: String = "",
         var created: LocalDateTime = LocalDateTime.now(ZoneId.of(EUROPEAN_CENTRAL_TIME))) {
     companion object {
         val EUROPEAN_CENTRAL_TIME = "Europe/Paris"
