@@ -25,7 +25,7 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
         return holidayRepository.findAll()
     }
 
-    fun save(holiday: HolidayEntity): HolidayEntity? {
+    fun save(holiday: HolidayEntity): HolidayEntity {
         val parsedStartDate: LocalDate? = holiday.startDate
         val parsedEndDate: LocalDate? = holiday.endDate
 
@@ -78,7 +78,9 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
     }
 
     private fun invalidTimeFrame(endDate: LocalDate?, startDate: LocalDate?): Boolean {
-        return startDate != null && endDate != null && startDate.isAfter(endDate)
+        return startDate != null &&
+                endDate != null &&
+                startDate > endDate
     }
 }
 

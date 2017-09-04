@@ -54,6 +54,6 @@ constructor(val holidayService: HolidayService, val userService: UserService) {
     @RequestMapping(value = "/create", method = arrayOf(RequestMethod.POST))
     fun save(holiday: HolidayEntity): String {
         val savedHoliday = holidayService.save(holiday)
-        return "redirect:/holiday/${savedHoliday!!.id}"
+        return "redirect:/holiday/${savedHoliday.id}"
     }
 }

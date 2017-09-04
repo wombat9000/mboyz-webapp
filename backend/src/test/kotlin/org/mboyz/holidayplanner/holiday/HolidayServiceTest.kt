@@ -9,6 +9,7 @@ import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
 import org.mboyz.holidayplanner.user.persistence.UserRepository
 import org.mockito.BDDMockito.*
 import org.mockito.Mock
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations.initMocks
 import java.time.LocalDate
 
@@ -50,14 +51,9 @@ class HolidayServiceTest {
     }
 
     @Test(expected = HolidayNotFoundException::class)
-    fun shouldThrowErrorIfHolidayNotFound() {
+    fun shouldThrowExceptionIfHolidayNotFound() {
         given(holidayRepository.findOne(any())).willReturn(null)
-
-        try {
-            testee.findOne(1L)
-        } catch (e: Exception) {
-            throw(e)
-        }
+        testee.findOne(1L)
     }
 
     @Test
@@ -86,55 +82,45 @@ class HolidayServiceTest {
         }
     }
 
-//    @Test
-//    fun shouldSignUpUserForHoliday() {
-//        val someUserId = 1337L
-//        val someUser: UserEntity = UserEntity(someUserId)
-//        val someHolidayId = 1L
-//        val someHoliday: HolidayEntity = HolidayEntity(someHolidayId)
-//
-//        given(holidayService.findOne(someHolidayId)).willReturn(someHoliday)
-//
-//        testee.signUserUpForHoliday(someHolidayId, someUser)
-//
-//        val holidayWithParticipant = someHoliday.copy(users = listOf(someUserId))
-//
-//        verify(holidayService).add(holidayWithParticipant)
-//    }
+    @Test
+    fun shouldCreateHolidayWithSameStartAndEndDate() {
+        val daytrip = HolidayEntity(
+                name = "someName",
+                location = "someLocation",
+                startDate = LocalDate.parse("1990-12-01"),
+                endDate = LocalDate.parse("1990-12-01"))
+        given(holidayRepository.save(daytrip)).willReturn(daytrip)
 
-//    @Test
-//    fun shouldSignUpUserForHolidayIfAnotherUserAlreadyOnList() {
-//        val signUpUserId = 1337L
-//        val someUser: UserEntity = UserEntity(signUpUserId)
-//        val someHolidayId = 1L
-//        val alreadySignedUpId = 2L
-//        val someHolidayWithOtherParticipant: HolidayEntity = HolidayEntity(
-//                id = someHolidayId,
-//                users = listOf(alreadySignedUpId))
-//
-//        given(holidayService.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
-//
-//        testee.signUserUpForHoliday(someHolidayId, someUser)
-//
-//        val holidayWithMultipleSignups = someHolidayWithOtherParticipant.copy(users = listOf(alreadySignedUpId, signUpUserId))
-//
-//        verify(holidayService).add(holidayWithMultipleSignups)
-//    }
-//
-//    @Test
-//    fun shouldNotSignUpUserForHolidayIfAlreadyOnList() {
-//        val signUpUserId = 1337L
-//        val someUser: UserEntity = UserEntity(signUpUserId)
-//        val someHolidayId = 1L
-//        val alreadySignedUpId = 1337L
-//        val someHolidayWithOtherParticipant: HolidayEntity = HolidayEntity(
-//                id = someHolidayId,
-//                users = listOf(alreadySignedUpId))
-//
-//        given(holidayService.findOne(someHolidayId)).willReturn(someHolidayWithOtherParticipant)
-//
-//        testee.signUserUpForHoliday(someHolidayId, someUser)
-//        verify(holidayService).findOne(someHolidayId)
-//        verifyNoMoreInteractions(holidayService)
-//    }
+        testee.save(daytrip)
+
+        verify(holidayRepository).save(daytrip)
+    }
+
+    @Test
+    fun shouldCreateHolidayWithoutStartDate() {
+        val holidayWithoutStartDate = HolidayEntity(
+                name = "someName",
+                location = "someLocation",
+                startDate = null,
+                endDate = LocalDate.parse("1990-12-01"))
+        given(holidayRepository.save(holidayWithoutStartDate)).willReturn(holidayWithoutStartDate)
+
+        testee.save(holidayWithoutStartDate)
+
+        verify(holidayRepository).save(holidayWithoutStartDate)
+    }
+
+    @Test
+    fun shouldCreateHolidayWithoutEndDate() {
+        val holidayWithoutEndDate = HolidayEntity(
+                name = "someName",
+                location = "someLocation",
+                startDate = LocalDate.parse("1990-12-01"),
+                endDate = null)
+        given(holidayRepository.save(holidayWithoutEndDate)).willReturn(holidayWithoutEndDate)
+
+        testee.save(holidayWithoutEndDate)
+
+        verify(holidayRepository).save(holidayWithoutEndDate)
+    }
 }
