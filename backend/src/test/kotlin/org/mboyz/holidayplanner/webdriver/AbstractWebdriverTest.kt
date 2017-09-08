@@ -16,7 +16,6 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.embedded.LocalServerPort
 import org.springframework.boot.test.mock.mockito.MockBean
 import java.net.InetAddress
@@ -38,15 +37,11 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
             val chromeOptions = ChromeOptions()
             chromeOptions.addArguments("--window-size=1920,1080")
             chromeOptions.addArguments("--headless")
-            System.setProperty("webdriver.chrome.driver", "../node_modules/chromedriver/bin/chromedriver")
+//            System.setProperty("webdriver.chrome.driver", "./node_modules/chromedriver/bin/chromedriver")
             return ChromeDriver(chromeOptions)
         }
     }
 
-    @Suppress("unused")
-    val secretFromEnv: String? = System.getenv("AUTH0_SECRET")
-    @Value("\${auth0.secret:secretFromEnv}")
-    lateinit var AUTH0_SECRET: String
     lateinit var screen: ScreenApi
     lateinit var user: UserApi
     lateinit var app: AppApi
@@ -63,7 +58,7 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
     @Before override fun setup() {
         super.setup()
-        user = UserApi(webDriver, auth0Client, auth0Mock, AUTH0_SECRET)
+        user = UserApi(webDriver, auth0Client, auth0Mock, "fakeSecret")
         screen = ScreenApi(webDriver)
     }
 

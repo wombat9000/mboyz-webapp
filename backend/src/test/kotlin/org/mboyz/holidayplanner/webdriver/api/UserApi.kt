@@ -15,10 +15,10 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import java.time.format.DateTimeFormatter
 
-class UserApi(val webDriver: WebDriver,
-              val auth0ClientMock: Auth0Client,
-              val auth0WrapperMock: Auth0Wrapper,
-              val auth0Secret: String) {
+class UserApi(private val webDriver: WebDriver,
+              private val auth0ClientMock: Auth0Client,
+              private val auth0WrapperMock: Auth0Wrapper,
+              private val auth0Secret: String) {
 
     fun visits(url: String): UserApi {
         webDriver.navigate().to(url)

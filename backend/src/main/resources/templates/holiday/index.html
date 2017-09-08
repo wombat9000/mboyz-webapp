@@ -13,7 +13,6 @@
         <!--/*@thymesVar id="allHolidays" type="java.util.List"*/-->
         <!--/*@thymesVar id="holiday" type="Holiday"*/-->
         <div class="card" th:each="holiday : ${allHolidays}">
-            <img class="card-img-top img-fluid" src="https://media.giphy.com/media/TBmbqLhbYPiKc/giphy.gif" />
             <div class="card-block">
                 <h4 class="card-title" th:text="${holiday.name}"></h4>
                 <table>
