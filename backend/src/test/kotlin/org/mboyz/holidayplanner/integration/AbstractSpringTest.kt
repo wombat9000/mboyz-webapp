@@ -30,21 +30,13 @@ abstract class AbstractSpringTest {
     @Autowired
     lateinit var participationRepository: ParticipationRepository
 
-    @PostConstruct
-    fun performMigrations() {
-        val flyway = Flyway()
-        flyway.dataSource = dataSource
-        flyway.clean()
-        flyway.migrate()
-    }
-
     @Before
-    open fun setup() {
+    fun setup() {
         cleanDB()
     }
 
     @After
-    open fun tearDown() {
+    fun tearDown() {
         cleanDB()
     }
 

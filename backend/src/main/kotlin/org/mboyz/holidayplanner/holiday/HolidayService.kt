@@ -87,7 +87,7 @@ constructor(val holidayRepository: HolidayRepository, val userRepository: UserRe
 
 private fun HolidayEntity.clearComments() {
     this.comments.forEach(CommentEntity::removeReferenceToHoliday)
-    this.comments.clear() //To change body of created functions use File | Settings | File Templates.
+    this.comments.clear()
 }
 
 private fun HolidayEntity.clearParticipations() {
