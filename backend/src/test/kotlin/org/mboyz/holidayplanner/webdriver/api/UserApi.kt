@@ -26,8 +26,7 @@ class UserApi(private val webDriver: WebDriver,
     }
 
     fun opensHolidayOverview(): UserApi {
-        webDriver.findElement(By.cssSelector("nav ul li a[href='/holiday']"))
-                .click()
+        webDriver.findElement(By.cssSelector("nav ul li a[href='/holiday']")).click()
         return this
     }
 

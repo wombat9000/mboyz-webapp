@@ -37,7 +37,6 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
             val chromeOptions = ChromeOptions()
             chromeOptions.addArguments("--window-size=1920,1080")
             chromeOptions.addArguments("--headless")
-//            System.setProperty("webdriver.chrome.driver", "./node_modules/chromedriver/bin/chromedriver")
             return ChromeDriver(chromeOptions)
         }
     }
@@ -68,5 +67,7 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
     }
 
     @LocalServerPort var port: Int? = null
-    var contextPath: String? = InetAddress.getLocalHost().hostAddress
+    val contextPath: String = InetAddress.getLocalHost().hostAddress
+    val BASE_URL: String by lazy { "http://$contextPath:$port" }
+    val HOME: String by lazy { BASE_URL }
 }
