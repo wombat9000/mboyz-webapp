@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = false, securedEnabled = true)
-open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     companion object {
         val HOME = "/"
@@ -47,14 +47,14 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     @Throws(UnsupportedEncodingException::class)
-    open fun auth0Controller(): AuthenticationController {
+    fun auth0Controller(): AuthenticationController {
         return AuthenticationController.newBuilder(domain, clientId, AUTH0_SECRET)
                 .withResponseType("code")
                 .build()
     }
 
     @Bean
-    open fun auth0Api(): AuthAPI {
+    fun auth0Api(): AuthAPI {
         return AuthAPI(domain, clientId, AUTH0_SECRET)
     }
 }

@@ -13,20 +13,20 @@ class UserPersistenceTest: AbstractSpringTest() {
 // TODO: figure out how to write meaningful persistence tests
 
     @Autowired
-    lateinit var userRepo: UserRepository
+    lateinit var userRepository: UserRepository
 
     @Test
     fun shouldFindByFbId() {
-        userRepo.save(UserEntity(fbId = "someFbID"))
+        userRepository.save(UserEntity(fbId = "someFbID"))
 
-        val result = userRepo.findByFbId("someFbID")!!
+        val result = userRepository.findByFbId("someFbID")!!
 
         assertThat(result.fbId, `is`("someFbID"))
     }
 
     @Test
     fun shouldReturnNullIfCantFindFbId() {
-        val result = userRepo.findByFbId("someFbID")
+        val result = userRepository.findByFbId("someFbID")
         assertThat(result, `is`(nullValue()))
     }
 }

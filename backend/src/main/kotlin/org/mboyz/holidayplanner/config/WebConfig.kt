@@ -8,9 +8,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 
-
 @Configuration
-open class WebConfig: WebMvcConfigurerAdapter() {
+class WebConfig: WebMvcConfigurerAdapter() {
     @Autowired
     lateinit var holidayArgumentResolver: HolidayArgumentResolver
 
@@ -20,7 +19,7 @@ open class WebConfig: WebMvcConfigurerAdapter() {
     }
 
     @Bean
-    open fun templateResolver(): ClassLoaderTemplateResolver {
+    fun templateResolver(): ClassLoaderTemplateResolver {
         val templateResolver = ClassLoaderTemplateResolver()
         templateResolver.prefix = "templates/"
         templateResolver.suffix = ".html"
