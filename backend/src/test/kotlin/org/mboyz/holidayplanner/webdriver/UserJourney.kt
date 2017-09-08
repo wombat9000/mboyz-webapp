@@ -56,63 +56,63 @@ class UserJourney : AbstractWebdriverTest(){
     }
 
     private fun init() {
-        app.deleteAllHolidays()
+        app     .deleteAllHolidays()
                 .deleteAllUsers()
     }
 
     private fun preLogin() {
-        user.visits(HOME)
+        user    .visits(HOME)
                 .isLoggedOut()
-        screen.showsHome()
+        screen  .showsHome()
 
-        user.opensHolidayOverview()
-        screen.showsUnauthNotice()
+        user    .opensHolidayOverview()
+        screen  .showsUnauthNotice()
     }
 
     private fun createNewHoliday() {
-        user.navigatesToHolidaysCreation()
+        user    .navigatesToHolidaysCreation()
                 .createsHoliday(SURF_HOLIDAY)
-        screen.showsPageForHoliday(SURF_HOLIDAY)
+        screen  .showsPageForHoliday(SURF_HOLIDAY)
 
-        user.opensHolidayOverview()
-        screen.showsHolidays(SKI_HOLIDAY, SURF_HOLIDAY)
+        user    .opensHolidayOverview()
+        screen  .showsHolidays(SKI_HOLIDAY, SURF_HOLIDAY)
     }
 
     private fun createInvalidHoliday() {
-        user.navigatesToHolidaysCreation()
+        user    .navigatesToHolidaysCreation()
                 .createsHoliday(HOLIDAY_WITH_INVALID_DATE)
                 .opensHolidayOverview()
-        screen.doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)
+        screen  .doesNotShowHoliday(HOLIDAY_WITH_INVALID_DATE)
     }
 
     private fun singleUserOverview() {
-        user.opensUserOverview()
-        screen.showsUsers(BASTIAN)
+        user    .opensUserOverview()
+        screen  .showsUsers(BASTIAN)
     }
 
     private fun singleHolidayOverview() {
-        app.createHoliday(SKI_HOLIDAY)
+        app     .createHoliday(SKI_HOLIDAY)
 
-        user.visits(HOME)
+        user    .visits(HOME)
                 .opensHolidayOverview()
-        screen.showsHolidays(SKI_HOLIDAY)
+        screen  .showsHolidays(SKI_HOLIDAY)
     }
 
     private fun emptyHolidayOverview() {
-        user.opensHolidayOverview()
-        screen.showsHolidayOverview()
+        user    .opensHolidayOverview()
+        screen  .showsHolidayOverview()
                 .showsNoHolidays()
     }
 
     private fun login() {
-        user.visits(HOME)
+        user    .visits(HOME)
                 .loginAs(BASTIAN)
                 .isLoggedIn()
     }
 
     private fun logout() {
-        user.clicksLogout()
+        user    .clicksLogout()
                 .isLoggedOut()
-        screen.showsHome()
+        screen  .showsHome()
     }
 }
