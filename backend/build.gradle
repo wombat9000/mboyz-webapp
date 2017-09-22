@@ -50,7 +50,6 @@ dependencies {
     runtime 'org.postgresql:postgresql'
 
     testCompile 'org.seleniumhq.selenium:selenium-java:3.4.0'
-    testCompile 'com.github.detro:ghostdriver:2.1.0'
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.194'
     testCompile 'org.mockito:mockito-core:2.7.21'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
