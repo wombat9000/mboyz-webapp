@@ -52,7 +52,14 @@ class UserJourney : AbstractWebdriverTest(){
 
         createInvalidHoliday()
 
+        participation()
+
         logout()
+    }
+
+    private fun participation() {
+        user    .opensHolidayOverview()
+                .visitsHoliday(SURF_HOLIDAY)
     }
 
     private fun init() {

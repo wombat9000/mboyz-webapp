@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 class AuthController
 @Autowired
-constructor(val auth0: Auth0Wrapper, val userService: UserService) {
+constructor(val auth0: IAuth0Wrapper, val userService: UserService) {
 
     companion object {
         const private val HOME: String = "/"
@@ -36,15 +36,15 @@ constructor(val auth0: Auth0Wrapper, val userService: UserService) {
             val tokenAuth = TokenAuthentication(JWT.decode(tokens.idToken))
             SecurityContextHolder.getContext().authentication = tokenAuth
             userService.createOrUpdate(tokenAuth.name, tokens.accessToken)
-            "redirect:${HOME}"
+            "redirect:$HOME"
         } catch (e: AuthenticationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            "redirect:${LOGIN}"
+            "redirect:$LOGIN"
         } catch (e: IdentityVerificationException) {
             e.printStackTrace()
             SecurityContextHolder.clearContext()
-            "redirect:${LOGIN}"
+            "redirect:$LOGIN"
         }
     }
 

@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.user.persistence.UserRepository
-import org.mboyz.holidayplanner.web.Auth0Client
+import org.mboyz.holidayplanner.web.Auth0Wrapper
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
 import org.mockito.Mock
@@ -20,12 +20,12 @@ class UserServiceTest {
     @Mock
     lateinit var userRepositoryMock: UserRepository
     @Mock
-    lateinit var auth0ClientMock: Auth0Client
+    lateinit var auth0WrapperMock: Auth0Wrapper
 
     @Before
     fun setUp() {
     	initMocks(this)
-    	testee = UserService(userRepositoryMock, auth0ClientMock)
+    	testee = UserService(userRepositoryMock, auth0WrapperMock)
     }
 
     @Test
@@ -52,7 +52,7 @@ class UserServiceTest {
         userInfo.put("family_name", "Stein")
         userInfo.put("picture", "someImgUrl")
 
-        given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(userInfo)
+        given(auth0WrapperMock.getUserInfo("someAccessToken")).willReturn(userInfo)
         given(userRepositoryMock.findByFbId(fbId)).willReturn(null)
         given(userRepositoryMock.save(userToCreate)).willReturn(persistedUser)
 

@@ -3,7 +3,7 @@ package org.mboyz.holidayplanner.user
 import org.mboyz.holidayplanner.holiday.persistence.ParticipationEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.user.persistence.UserRepository
-import org.mboyz.holidayplanner.web.Auth0Client
+import org.mboyz.holidayplanner.web.IAuth0Wrapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class UserService
 @Autowired
-constructor(val userRepository: UserRepository, val auth0Client: Auth0Client) {
+constructor(val userRepository: UserRepository, val auth0Wrapper: IAuth0Wrapper) {
 
     fun createOrUpdate(fbId: String, accessToken: String): UserEntity? {
         return userRepository.findByFbId(fbId) ?: createNewUserWithFieldsFromAuth0(fbId, accessToken)
     }
 
     private fun createNewUserWithFieldsFromAuth0(fbId: String, accessToken: String): UserEntity? {
-        val userInfo = auth0Client.getUserInfo(accessToken)
+        val userInfo = auth0Wrapper.getUserInfo(accessToken)
         val userToCreate = UserEntity(
                 fbId = fbId,
                 givenName = userInfo["given_name"] as String,

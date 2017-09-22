@@ -8,7 +8,6 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
-import org.mboyz.holidayplanner.web.Auth0Client
 import org.mboyz.holidayplanner.web.Auth0Wrapper
 import org.mockito.BDDMockito.given
 import org.openqa.selenium.By
@@ -16,7 +15,6 @@ import org.openqa.selenium.WebDriver
 import java.time.format.DateTimeFormatter
 
 class UserApi(private val webDriver: WebDriver,
-              private val auth0ClientMock: Auth0Client,
               private val auth0WrapperMock: Auth0Wrapper,
               private val auth0Secret: String) {
 
@@ -33,7 +31,7 @@ class UserApi(private val webDriver: WebDriver,
     fun loginAs(user: UserEntity): UserApi {
         given(auth0WrapperMock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
         given(auth0WrapperMock.handle(any())).willReturn(Tokens("someAccessToken", user.provideSignedToken(),"", "bearer", 9000))
-        given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
+        given(auth0WrapperMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
 
         webDriver.findElement(By.cssSelector("ul.navbar-nav.navbar-right li.nav-item a.nav-link")).click()
         return this
@@ -78,6 +76,10 @@ class UserApi(private val webDriver: WebDriver,
         return this
     }
 
+    fun visitsHoliday(holiday: HolidayEntity): UserApi {
+        return this
+    }
+
     private fun UserEntity.getUserInfo(): MutableMap<String, Any> {
         val userInfo = mutableMapOf<String, Any>()
         userInfo.put("given_name", this.givenName)
@@ -92,7 +94,6 @@ class UserApi(private val webDriver: WebDriver,
                 .withAudience("someAudience")
                 .withIssuer("https://wombat9000.eu.auth0.com/")
                 .sign(Algorithm.HMAC256(auth0Secret))
-
     }
 }
 

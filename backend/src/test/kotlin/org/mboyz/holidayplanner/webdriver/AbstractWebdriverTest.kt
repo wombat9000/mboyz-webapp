@@ -7,7 +7,6 @@ import org.junit.BeforeClass
 import org.mboyz.holidayplanner.holiday.persistence.HolidayRepository
 import org.mboyz.holidayplanner.integration.AbstractSpringTest
 import org.mboyz.holidayplanner.user.persistence.UserRepository
-import org.mboyz.holidayplanner.web.Auth0Client
 import org.mboyz.holidayplanner.web.Auth0Wrapper
 import org.mboyz.holidayplanner.webdriver.api.AppApi
 import org.mboyz.holidayplanner.webdriver.api.ScreenApi
@@ -52,12 +51,10 @@ abstract class AbstractWebdriverTest : AbstractSpringTest() {
 
     @MockBean
     lateinit var auth0Mock: Auth0Wrapper
-    @MockBean
-    lateinit var auth0Client: Auth0Client
 
     @Before override fun setup() {
         super.setup()
-        user = UserApi(webDriver, auth0Client, auth0Mock, "fakeSecret")
+        user = UserApi(webDriver, auth0Mock, "fakeSecret")
         screen = ScreenApi(webDriver)
     }
 

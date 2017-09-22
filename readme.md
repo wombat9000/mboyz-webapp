@@ -50,7 +50,7 @@ I found Kotlin extension functions convenient for making tests more readable. In
 fun loginAs(user: User): UserApi {
     given(auth0WrapperMock.buildAuthorizeUrl(any(), any())).willReturn("/auth0Test")
     given(auth0WrapperMock.handle(any())).willReturn(Tokens("someAccessToken", user.provideSignedToken(),"", "bearer", 9000))
-    given(auth0ClientMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
+    given(auth0WrapperMock.getUserInfo("someAccessToken")).willReturn(user.getUserInfo())
 
     webDriver.findElement(By.cssSelector("ul.nav.navbar-nav.navbar-right li a")).click()
     return this
