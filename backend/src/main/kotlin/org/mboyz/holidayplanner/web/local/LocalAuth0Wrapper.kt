@@ -4,11 +4,13 @@ import com.auth0.Tokens
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.mboyz.holidayplanner.web.IAuth0Wrapper
+import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
 
 @Component
+@Primary
 @Profile("local")
 class LocalAuth0Wrapper : IAuth0Wrapper {
     override fun getUserInfo(accessToken: String): MutableMap<String, Any> {

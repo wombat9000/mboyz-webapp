@@ -76,7 +76,10 @@ class UserApi(private val webDriver: WebDriver,
         return this
     }
 
-    fun visitsHoliday(holiday: HolidayEntity): UserApi {
+    fun opensDetailPageOf(holiday: HolidayEntity): UserApi {
+        val cards = webDriver.findElements(By.cssSelector("div.card-block"))
+        val holidayCard = cards.first { it.findElement(By.tagName("h4")).text == holiday.name }
+        holidayCard.findElement(By.tagName("a")).click()
         return this
     }
 
@@ -94,6 +97,16 @@ class UserApi(private val webDriver: WebDriver,
                 .withAudience("someAudience")
                 .withIssuer("https://wombat9000.eu.auth0.com/")
                 .sign(Algorithm.HMAC256(auth0Secret))
+    }
+
+    fun clickParticipate(): UserApi {
+        webDriver.findElement(By.linkText("Ich nehme teil.")).click()
+        return this
+    }
+
+    fun visitParticipant(bastian: UserEntity) {
+        // TODO check if user data matches
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 

@@ -59,7 +59,16 @@ class UserJourney : AbstractWebdriverTest(){
 
     private fun participation() {
         user    .opensHolidayOverview()
-                .visitsHoliday(SURF_HOLIDAY)
+                .opensDetailPageOf(SURF_HOLIDAY)
+                .clickParticipate()
+
+        screen
+                .showsParticipation(BASTIAN)
+
+        user    .visitParticipant(BASTIAN)
+        // TODO:
+            // - visit own user page
+            // - sees holiday amongst participated holidays
     }
 
     private fun init() {
