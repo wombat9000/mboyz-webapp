@@ -13,7 +13,10 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import javax.sql.DataSource
 
+// TODO make test run on local profile
+
 @RunWith(SpringRunner::class)
+@ActiveProfiles("prod")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 abstract class AbstractSpringTest {

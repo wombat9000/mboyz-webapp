@@ -10,7 +10,6 @@ import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.web.Auth0Wrapper
 import org.mboyz.holidayplanner.webdriver.pages.HolidayOverviewPage
-import org.mboyz.holidayplanner.webdriver.pages.UserDetailPage
 import org.mockito.BDDMockito.given
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
