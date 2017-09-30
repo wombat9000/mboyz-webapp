@@ -12,7 +12,7 @@
     <img th:src="${user.imageUrl}" />
 
     <h3>Teilnahmen:</h3>
-    <ul>
+    <ul id="holidays">
         <li th:each="participation : ${user.participations}" th:if="${participation.holiday.notDeleted()}">
             <a th:href="'/holiday/' + ${participation.holiday.id}" th:text="${participation.holiday.name}"></a>
         </li>

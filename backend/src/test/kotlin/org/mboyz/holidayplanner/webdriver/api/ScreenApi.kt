@@ -68,11 +68,6 @@ class ScreenApi(val webDriver: WebDriver) {
         holiday assertIsNotIncludedIn cards
         return this
     }
-
-    fun showsParticipation(user: UserEntity): ScreenApi {
-        webDriver.findElement(By.linkText(user.givenName))
-        return this
-    }
 }
 
 private infix fun HolidayEntity.assertIsIncludedIn(cards: MutableList<WebElement>) {

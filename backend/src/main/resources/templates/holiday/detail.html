@@ -17,7 +17,7 @@
         </ul>
 
         <h3>Teilnehmer:</h3>
-        <ul>
+        <ul id="participants">
             <li th:each="participant : ${holiday.participants}" >
                 <img th:src="${participant.imageUrl}"/>
                 <a th:href="'/user/' + ${participant.id}" th:text="${participant.name}"></a>

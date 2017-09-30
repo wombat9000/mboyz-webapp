@@ -1,5 +1,9 @@
 package org.mboyz.holidayplanner.webdriver
 
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.collection.IsIterableContainingInOrder
+import org.hamcrest.collection.IsIterableContainingInOrder.*
+import org.hamcrest.core.Is.*
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
@@ -38,7 +42,13 @@ class UserJourney : AbstractWebdriverTest(){
     fun userJourney() {
         init()
 
-        preLogin()
+        user    .visits(HOME)
+                .isLoggedOut()
+        screen  .showsHome()
+
+        user    .opensHolidayOverview()
+
+        screen  .showsUnauthNotice()
 
         login()
 
@@ -52,35 +62,20 @@ class UserJourney : AbstractWebdriverTest(){
 
         createInvalidHoliday()
 
-        participation()
-
-        logout()
-    }
-
-    private fun participation() {
-        user    .opensHolidayOverview()
+        val holidayDetailPage = user.opensHolidayOverviewPO()
                 .opensDetailPageOf(SURF_HOLIDAY)
                 .clickParticipate()
+        assertThat(holidayDetailPage.getParticipants(), contains(BASTIAN.givenName))
 
-        screen  .showsParticipation(BASTIAN)
+        val userDetailPage = holidayDetailPage.visitParticipant(BASTIAN)
+        assertThat(userDetailPage.getParticipations(), contains(SURF_HOLIDAY.name))
 
-        val userDetailPage = user.visitParticipant(BASTIAN)
-
-        userDetailPage .showsParticipation(SURF_HOLIDAY)
+        logout()
     }
 
     private fun init() {
         app     .deleteAllHolidays()
                 .deleteAllUsers()
-    }
-
-    private fun preLogin() {
-        user    .visits(HOME)
-                .isLoggedOut()
-        screen  .showsHome()
-
-        user    .opensHolidayOverview()
-        screen  .showsUnauthNotice()
     }
 
     private fun createNewHoliday() {

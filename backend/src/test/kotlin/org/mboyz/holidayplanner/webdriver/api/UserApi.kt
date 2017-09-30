@@ -9,6 +9,7 @@ import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.web.Auth0Wrapper
+import org.mboyz.holidayplanner.webdriver.pages.HolidayOverviewPage
 import org.mboyz.holidayplanner.webdriver.pages.UserDetailPage
 import org.mockito.BDDMockito.given
 import org.openqa.selenium.By
@@ -27,6 +28,11 @@ class UserApi(private val webDriver: WebDriver,
     fun opensHolidayOverview(): UserApi {
         webDriver.findElement(By.cssSelector("nav ul li a[href='/holiday']")).click()
         return this
+    }
+
+    fun opensHolidayOverviewPO(): HolidayOverviewPage {
+        webDriver.findElement(By.cssSelector("nav ul li a[href='/holiday']")).click()
+        return HolidayOverviewPage(webDriver)
     }
 
     fun loginAs(user: UserEntity): UserApi {
@@ -77,13 +83,6 @@ class UserApi(private val webDriver: WebDriver,
         return this
     }
 
-    fun opensDetailPageOf(holiday: HolidayEntity): UserApi {
-        val cards = webDriver.findElements(By.cssSelector("div.card-block"))
-        val holidayCard = cards.first { it.findElement(By.tagName("h4")).text == holiday.name }
-        holidayCard.findElement(By.tagName("a")).click()
-        return this
-    }
-
     private fun UserEntity.getUserInfo(): MutableMap<String, Any> {
         val userInfo = mutableMapOf<String, Any>()
         userInfo.put("given_name", this.givenName)
@@ -98,16 +97,6 @@ class UserApi(private val webDriver: WebDriver,
                 .withAudience("someAudience")
                 .withIssuer("https://wombat9000.eu.auth0.com/")
                 .sign(Algorithm.HMAC256(auth0Secret))
-    }
-
-    fun clickParticipate(): UserApi {
-        webDriver.findElement(By.linkText("Ich nehme teil.")).click()
-        return this
-    }
-
-    fun visitParticipant(user: UserEntity): UserDetailPage {
-        webDriver.findElement(By.linkText(user.givenName)).click()
-        return UserDetailPage(webDriver)
     }
 }
 

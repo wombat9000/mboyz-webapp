@@ -1,13 +1,11 @@
 package org.mboyz.holidayplanner.webdriver.pages
 
-import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 
 class UserDetailPage(private val webDriver: WebDriver) {
-
-    fun showsParticipation(holiday: HolidayEntity): UserDetailPage {
-        webDriver.findElement(By.linkText(holiday.name))
-        return this
+    fun getParticipations(): List<String> {
+        val links = webDriver.findElement(By.id("holidays")).findElements(By.tagName("a"))
+        return links.map { it.text }
     }
 }
