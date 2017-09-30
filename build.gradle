@@ -5,7 +5,7 @@ allprojects {
 
 subprojects {
     buildscript {
-        ext.kotlinVersion = '1.1.50'
+        ext.kotlinVersion = '1.1.51'
 
         repositories {
             maven { url "http://dl.bintray.com/kotlin/kotlin-eap" }

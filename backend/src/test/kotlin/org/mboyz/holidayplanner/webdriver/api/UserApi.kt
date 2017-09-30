@@ -104,9 +104,8 @@ class UserApi(private val webDriver: WebDriver,
         return this
     }
 
-    fun visitParticipant(bastian: UserEntity) {
+    fun visitParticipant(user: UserEntity) {
         // TODO check if user data matches
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 
