@@ -62,13 +62,11 @@ class UserJourney : AbstractWebdriverTest(){
                 .opensDetailPageOf(SURF_HOLIDAY)
                 .clickParticipate()
 
-        screen
-                .showsParticipation(BASTIAN)
+        screen  .showsParticipation(BASTIAN)
 
-        user    .visitParticipant(BASTIAN)
-        // TODO:
-            // - visit own user page
-            // - sees holiday amongst participated holidays
+        val userDetailPage = user.visitParticipant(BASTIAN)
+
+        userDetailPage .showsParticipation(SURF_HOLIDAY)
     }
 
     private fun init() {

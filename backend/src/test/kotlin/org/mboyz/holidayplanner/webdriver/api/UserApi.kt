@@ -9,6 +9,7 @@ import org.mboyz.holidayplanner.any
 import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity
 import org.mboyz.holidayplanner.web.Auth0Wrapper
+import org.mboyz.holidayplanner.webdriver.pages.UserDetailPage
 import org.mockito.BDDMockito.given
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -104,8 +105,9 @@ class UserApi(private val webDriver: WebDriver,
         return this
     }
 
-    fun visitParticipant(user: UserEntity) {
-        // TODO check if user data matches
+    fun visitParticipant(user: UserEntity): UserDetailPage {
+        webDriver.findElement(By.linkText(user.givenName)).click()
+        return UserDetailPage(webDriver)
     }
 }
 
