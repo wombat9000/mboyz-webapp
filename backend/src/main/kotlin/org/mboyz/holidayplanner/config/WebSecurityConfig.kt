@@ -5,6 +5,7 @@ import com.auth0.client.auth.AuthAPI
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -14,7 +15,7 @@ import java.io.UnsupportedEncodingException
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = false, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     companion object {
@@ -46,6 +47,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
     @Bean
+    @Profile("prod")
     @Throws(UnsupportedEncodingException::class)
     fun auth0Controller(): AuthenticationController {
         return AuthenticationController.newBuilder(domain, clientId, AUTH0_SECRET)
@@ -54,6 +56,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
     @Bean
+    @Profile("prod")
     fun auth0Api(): AuthAPI {
         return AuthAPI(domain, clientId, AUTH0_SECRET)
     }

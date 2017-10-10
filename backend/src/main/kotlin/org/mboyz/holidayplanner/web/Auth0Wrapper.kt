@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
 
 @Component
+@Profile("prod")
 class Auth0Wrapper
 @Autowired
 constructor(val auth0: AuthenticationController, val authAPI: AuthAPI): IAuth0Wrapper {
