@@ -2,7 +2,6 @@ package org.mboyz.holidayplanner.web
 
 import org.junit.Before
 import org.junit.Test
-import org.mboyz.holidayplanner.web.PagesController
 import org.mockito.MockitoAnnotations.initMocks
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get

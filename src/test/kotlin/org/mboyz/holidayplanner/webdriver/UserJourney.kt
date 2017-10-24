@@ -1,9 +1,7 @@
 package org.mboyz.holidayplanner.webdriver
 
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.collection.IsIterableContainingInOrder
 import org.hamcrest.collection.IsIterableContainingInOrder.*
-import org.hamcrest.core.Is.*
 import org.junit.Test
 import org.mboyz.holidayplanner.holiday.persistence.HolidayEntity
 import org.mboyz.holidayplanner.user.persistence.UserEntity

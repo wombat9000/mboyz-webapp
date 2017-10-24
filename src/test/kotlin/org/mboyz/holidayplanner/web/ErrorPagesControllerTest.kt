@@ -1,6 +1,5 @@
 package org.mboyz.holidayplanner.web
 
-import org.mboyz.holidayplanner.web.ErrorPagesController
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
