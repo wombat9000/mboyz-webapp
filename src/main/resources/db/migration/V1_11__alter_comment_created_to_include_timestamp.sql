@@ -1,1 +1,0 @@
-ALTER TABLE comment ALTER COLUMN created TYPE TIMESTAMP with time zone;

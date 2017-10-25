@@ -1,2 +1,0 @@
-ALTER TABLE "user" ADD COLUMN fb_id VARCHAR(100);
-ALTER TABLE "user" DROP COLUMN email;

@@ -1,1 +1,0 @@
-ALTER TABLE holiday ADD COLUMN location VARCHAR(100);

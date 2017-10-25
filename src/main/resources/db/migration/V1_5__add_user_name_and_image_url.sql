@@ -1,3 +1,0 @@
-ALTER TABLE "user" ADD COLUMN given_name VARCHAR(64);
-ALTER TABLE "user" ADD COLUMN family_name VARCHAR(64);
-ALTER TABLE "user" ADD COLUMN image_url VARCHAR(256);

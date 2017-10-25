@@ -1,1 +1,0 @@
-DROP TABLE holiday_user;
